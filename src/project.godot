@@ -1,0 +1,33 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="ChefKnifeStudio.GrowYourDad"
+run/main_scene="res://Pages/Main.tscn"
+config/features=PackedStringArray("4.3", "C#", "Mobile")
+config/icon="res://icon.svg"
+
+[dotnet]
+
+project/assembly_name="ChefKnifeStudio.GrowYourDad"
+
+[file_customization]
+
+folder_colors={
+"res://Assets/": "red",
+"res://Core/": "blue",
+"res://ObjectLibrary/": "yellow",
+"res://Pages/": "green"
+}
+
+[rendering]
+
+renderer/rendering_method="mobile"

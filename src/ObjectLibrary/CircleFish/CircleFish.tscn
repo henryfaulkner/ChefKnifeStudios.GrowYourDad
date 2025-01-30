@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://d0osaprvdux47"]
+
+[ext_resource type="Script" path="res://ObjectLibrary/CircleFish/CircleFish.cs" id="1_i5e5b"]
+
+[sub_resource type="Curve2D" id="Curve2D_mt744"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_neqbu"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_hp70r"]
+radius = 8.0
+height = 16.0
+
+[node name="CircleFish" type="Path2D" node_paths=PackedStringArray("_pathFollow")]
+curve = SubResource("Curve2D_mt744")
+script = ExtResource("1_i5e5b")
+_pathFollow = NodePath("PathFollow2D")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="PathFollow2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/StaticBody2D"]
+shape = SubResource("CircleShape2D_neqbu")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="PathFollow2D/StaticBody2D"]
+mesh = SubResource("SphereMesh_hp70r")
