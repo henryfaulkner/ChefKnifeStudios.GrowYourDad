@@ -1,8 +1,30 @@
-[gd_scene load_steps=2 format=3 uid="uid://b0gi7xrpjig2o"]
+[gd_scene load_steps=7 format=3 uid="uid://b0gi7xrpjig2o"]
 
 [ext_resource type="PackedScene" uid="uid://d0osaprvdux47" path="res://ObjectLibrary/CircleFish/CircleFish.tscn" id="1_vdi88"]
+[ext_resource type="PackedScene" uid="uid://cg25j8fnd1th6" path="res://ObjectLibrary/LineFish/LineFish.tscn" id="2_xvk1s"]
+[ext_resource type="PackedScene" uid="uid://corraw2a7g40l" path="res://ObjectLibrary/PathFindingFish/PathFindingFish.tscn" id="3_bmf8y"]
+[ext_resource type="Script" path="res://Pages/CharacterBody2d.cs" id="4_khv6u"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_v2uod"]
+size = Vector3(20, 20, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jbpyi"]
 
 [node name="Main" type="Node2D"]
 
 [node name="CircleFish" parent="." instance=ExtResource("1_vdi88")]
 position = Vector2(512, 255)
+
+[node name="LineFish" parent="." instance=ExtResource("2_xvk1s")]
+
+[node name="PathFindingFish" parent="." instance=ExtResource("3_bmf8y")]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+position = Vector2(600, 150)
+script = ExtResource("4_khv6u")
+
+[node name="Sprite2D" type="MeshInstance2D" parent="CharacterBody2D"]
+mesh = SubResource("BoxMesh_v2uod")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("RectangleShape2D_jbpyi")

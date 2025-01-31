@@ -7,16 +7,20 @@ public partial class CircleFish : Path2D
 	[Export]
 	PathFollow2D _pathFollow;
 	
-	float _speed = 2.0f;
-	float _radius = 200.0f;
+	float _speed = 0.2f;
+	float _radius = 125.0f;
 	int _numPoints = 100;
+	
+	ILoggerService _logger;
 
 	public override void _Ready()
 	{
-		var circlePoints = GetCirclePoints(Position, _radius, _numPoints);
-
-		// Place CircleFish along the circle's rim at the top
-		TranslateListOfPoints(ref circlePoints, new Vector2(0, -_radius));
+		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
+		
+		var circlePoints = GetCirclePoints(GlobalPosition, _radius, _numPoints);
+		
+		// Center the points
+		TranslateListOfPoints(ref circlePoints, -GlobalPosition);
 
 		Curve = GetCurveAlongListOfPoints(circlePoints);
 	}
@@ -28,14 +32,12 @@ public partial class CircleFish : Path2D
 
 	public static List<Vector2> GetCirclePoints(Vector2 origin, float radius, int numPoints = 100)
 	{
-		List<Vector2> points = new List<Vector2>();
+		List<Vector2> points = new List<Vector2>(numPoints); // Pre-allocate list for performance
 
+		float angleStep = MathF.Tau / numPoints; // Tau is 2 * PI
 		for (int i = 0; i < numPoints; i++)
 		{
-			// Calculate the angle for this point
-			float angle = 2*MathF.PI * i / numPoints;
-
-			// Calculate the x and y coordinates for the point
+			float angle = i * angleStep;
 			float x = origin.X + radius * MathF.Cos(angle);
 			float y = origin.Y + radius * MathF.Sin(angle);
 
