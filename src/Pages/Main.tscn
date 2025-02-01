@@ -1,14 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://b0gi7xrpjig2o"]
+[gd_scene load_steps=6 format=3 uid="uid://b0gi7xrpjig2o"]
 
 [ext_resource type="PackedScene" uid="uid://d0osaprvdux47" path="res://ObjectLibrary/CircleFish/CircleFish.tscn" id="1_vdi88"]
 [ext_resource type="PackedScene" uid="uid://cg25j8fnd1th6" path="res://ObjectLibrary/LineFish/LineFish.tscn" id="2_xvk1s"]
 [ext_resource type="PackedScene" uid="uid://corraw2a7g40l" path="res://ObjectLibrary/PathFindingFish/PathFindingFish.tscn" id="3_bmf8y"]
-[ext_resource type="Script" path="res://Pages/CharacterBody2d.cs" id="4_khv6u"]
+[ext_resource type="PackedScene" uid="uid://b0gp17n3v2hac" path="res://ObjectLibrary/PC/PC.tscn" id="4_6bgco"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_v2uod"]
-size = Vector3(20, 20, 20)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_jbpyi"]
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_3jih6"]
+vertices = PackedVector2Array(1134.04, 14.9922, 1136.95, 635.992, 16.9297, 635, 13.0625, 14)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(3, 4, 7, 645, 1147, 646, 1144, 5)])
 
 [node name="Main" type="Node2D"]
 
@@ -18,13 +18,12 @@ position = Vector2(512, 255)
 [node name="LineFish" parent="." instance=ExtResource("2_xvk1s")]
 
 [node name="PathFindingFish" parent="." instance=ExtResource("3_bmf8y")]
+position = Vector2(300, 200)
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+[node name="PC" parent="." instance=ExtResource("4_6bgco")]
 position = Vector2(600, 150)
-script = ExtResource("4_khv6u")
 
-[node name="Sprite2D" type="MeshInstance2D" parent="CharacterBody2D"]
-mesh = SubResource("BoxMesh_v2uod")
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_3jih6")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
-shape = SubResource("RectangleShape2D_jbpyi")
+[node name="TileMapLayer" type="TileMapLayer" parent="NavigationRegion2D"]

@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://b0gp17n3v2hac"]
+
+[ext_resource type="Script" path="res://ObjectLibrary/PC/PC.cs" id="1_07frv"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_v2uod"]
+size = Vector3(20, 20, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jbpyi"]
+
+[node name="PC" type="CharacterBody2D"]
+script = ExtResource("1_07frv")
+
+[node name="Sprite2D" type="MeshInstance2D" parent="."]
+mesh = SubResource("BoxMesh_v2uod")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_jbpyi")

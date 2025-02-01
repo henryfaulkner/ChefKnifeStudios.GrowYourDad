@@ -18,7 +18,7 @@ public abstract partial class Agent : Node2D, IAgent
 		Controller.WithinOneCardinalBlockFromNavTarget += HandleNavTargetArrival;
 	}
 	
-	public void SetNavTarget(Node2D navTarget)
+	public void SetNavTarget(Node2D? navTarget)
 	{
 		Controller.SetNavTarget(navTarget);
 	}
