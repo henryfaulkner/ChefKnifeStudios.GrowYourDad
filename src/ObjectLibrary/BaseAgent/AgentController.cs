@@ -18,7 +18,9 @@ public partial class AgentController : CharacterBody2D
 	// Good NavigationAgent2D tutorial
 	// https://www.youtube.com/watch?v=Lt9YdQ6Ztm4&t=13s
 	[Export]
-	protected NavigationAgent2D NavAgent;
+	protected NavigationAgent2D NavAgent { get; set; }
+	[Export]
+	Timer NavTimer { get; set; }
 
 	[ExportGroup("Variables")]
 	[Export]
@@ -33,6 +35,7 @@ public partial class AgentController : CharacterBody2D
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 
 		NavAgent.VelocityComputed += HandleVelocityComputed;
+		NavTimer.Timeout += HandleNavTimeout;
 	}
 	
 	public override void _PhysicsProcess(double _delta)
@@ -54,16 +57,6 @@ public partial class AgentController : CharacterBody2D
 	public void SetNavTarget(Node2D? navTarget)
 	{
 		_navTarget = navTarget;
-
-		if (_navTarget != null)
-		{ 
-			NavAgent.SetTargetPosition(_navTarget.GlobalPosition);
-			_logger.LogInfo($"NavTarget.GlobalPosition {_navTarget.GlobalPosition}");
-		}
-		else
-		{
-			_logger.LogInfo("NavTarget is null");
-		}
 	}
 
 	void HandleVelocityComputed(Vector2 safeVelocity)
@@ -71,5 +64,18 @@ public partial class AgentController : CharacterBody2D
 		_logger.LogInfo("Call NavController HandleVelocityComputed");
 		Velocity = safeVelocity;
 		MoveAndSlide();
+	}
+	
+	void HandleNavTimeout()
+	{
+		if (_navTarget != null)
+		{ 
+			NavAgent.SetTargetPosition(_navTarget.GlobalPosition);
+			_logger.LogInfo($"NavTarget.GlobalPosition {_navTarget.GlobalPosition}");
+		}
+		else
+		{
+			//_logger.LogInfo("NavTarget is null");
+		}
 	}
 }

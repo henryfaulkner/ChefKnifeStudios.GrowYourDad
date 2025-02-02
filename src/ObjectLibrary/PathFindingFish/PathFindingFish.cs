@@ -7,6 +7,9 @@ public partial class PathFindingFish : Agent
 	// Use this for tilemapping stuff
 	// https://www.youtube.com/watch?v=qIqcp7xBGkw
 
+	[ExportGroup("Nodes")]
+	[Export]
+	Node2D _rayCastContainer { get; set; }
 
 	[ExportGroup("Variables")]
 	[Export]
@@ -46,29 +49,15 @@ public partial class PathFindingFish : Agent
 		_rayCastList = CreateRayCastList(castTargets);
 		foreach (var rayCast in _rayCastList)
 		{
-			AddChild(rayCast);
+			_rayCastContainer.AddChild(rayCast);
 		}
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		// Check if raycasts collided with PC
-		Node2D? tempTargetNav = null;
-		foreach (var rayCast in _rayCastList)
-		{
-			object? collider = rayCast.GetCollider();
-			if (collider != null) // Is colliding, if not null
-			{
-				if (collider.GetType() == typeof(PC))
-				{
-					_logger.LogDebug($"PC Detect by RayCast targeting {rayCast.TargetPosition.ToString()}");
-					tempTargetNav = (PC)collider;
-					break;
-				}
-			}
-		}
-
-		_navTarget = tempTargetNav;
+		SyncChildPositionsToController();
+		
+		_navTarget = DetectPlayerCharacter(_rayCastList);
 
 		if (_state == States.Searching && _navTarget != null)
 		{
@@ -89,6 +78,35 @@ public partial class PathFindingFish : Agent
 
 	public override void HandleNavTargetArrival()
 	{
+	}
+
+	void SyncChildPositionsToController()
+	{
+		Vector2 position = Controller.GlobalPosition;
+		_rayCastContainer.GlobalPosition = position;
+	}
+
+	static Node2D? DetectPlayerCharacter(List<RayCast2D> rayCastList)
+	{
+		// Check if raycasts collided with PC
+		Node2D? result = null;
+		foreach (var rayCast in rayCastList)
+		{
+			object? collider = rayCast.GetCollider();
+			if (collider != null) // Is colliding, if not null
+			{
+				if (collider.GetType().BaseType == typeof(CharacterBody2D))
+				{
+					var colliderParent = ((CharacterBody2D)collider).GetParent();
+					if (colliderParent.GetType() == typeof(PC))
+					{
+						result = (CharacterBody2D)collider;
+						break;
+					}
+				}
+			}
+		}
+		return result;
 	}
 
 	static List<RayCast2D> CreateRayCastList(List<Vector2> targetPoints)

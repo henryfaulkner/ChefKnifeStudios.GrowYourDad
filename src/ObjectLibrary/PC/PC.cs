@@ -1,32 +1,29 @@
 using Godot;
 using System;
 
-public partial class PC : CharacterBody2D
+public partial class PC : Node2D
 {
-	public const float Speed = 300.0f;
-	public const float JumpVelocity = -400.0f;
+	[ExportGroup("Nodes")]
+	[Export]
+	CharacterBody2D _controller { get; set; }
+	[Export]
+	Node2D _blastSpawner { get; set; }
+	
+	ILoggerService _logger;
+	
+	public override void _Ready()
+	{
+		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
+	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		Vector2 velocity = Velocity;
+		SyncChildPositionsToController();
+	}
 
-		// Get the input direction and handle the movement/deceleration.
-		// As good practice, you should replace UI actions with custom gameplay actions.
-		Vector2 direction = Input.GetVector("left", "right", "up", "down");
-		if (direction.X != 0)
-		{
-			velocity.X = direction.X * Speed;
-		}
-		if (direction.Y != 0)
-		{
-			velocity.Y = direction.Y * Speed;
-		}
-		if (direction == Vector2.Zero)
-		{
-			velocity = Vector2.Zero;
-		}
-
-		Velocity = velocity;
-		MoveAndSlide();
+	void SyncChildPositionsToController()
+	{
+		Vector2 position = _controller.GlobalPosition;
+		_blastSpawner.GlobalPosition = position;
 	}
 }

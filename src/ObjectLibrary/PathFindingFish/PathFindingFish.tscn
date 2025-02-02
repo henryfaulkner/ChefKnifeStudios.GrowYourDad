@@ -11,17 +11,19 @@ height = 16.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_k6caf"]
 
-[node name="PathFindingFish" type="Node2D" node_paths=PackedStringArray("Controller")]
+[node name="PathFindingFish" type="Node2D" node_paths=PackedStringArray("_rayCastContainer", "Controller")]
 script = ExtResource("1_jkpf0")
+_rayCastContainer = NodePath("RayCastContainer")
 Controller = NodePath("AgentController")
 
-[node name="AgentController" type="CharacterBody2D" parent="." node_paths=PackedStringArray("Area", "AreaCollision", "Collision", "NavAgent")]
+[node name="AgentController" type="CharacterBody2D" parent="." node_paths=PackedStringArray("Area", "AreaCollision", "Collision", "NavAgent", "NavTimer")]
 script = ExtResource("2_rjby4")
 Area = NodePath("Area2D")
 AreaCollision = NodePath("Area2D/CollisionShape2D")
 Collision = NodePath("CollisionShape2D")
 NavAgent = NodePath("NavigationAgent2D")
-_movementSpeed = 30.0
+NavTimer = NodePath("NavTimer")
+_movementSpeed = 50.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AgentController"]
 shape = SubResource("CircleShape2D_51y17")
@@ -35,3 +37,9 @@ mesh = SubResource("SphereMesh_8frm8")
 shape = SubResource("CircleShape2D_k6caf")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="AgentController"]
+
+[node name="NavTimer" type="Timer" parent="AgentController"]
+wait_time = 0.1
+autostart = true
+
+[node name="RayCastContainer" type="Node2D" parent="."]

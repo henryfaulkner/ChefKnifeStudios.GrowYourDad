@@ -1,0 +1,72 @@
+[gd_scene load_steps=9 format=4 uid="uid://b0gi7xrpjig2o"]
+
+[ext_resource type="Texture2D" uid="uid://cpht04onpitp7" path="res://Assets/Images/TileMap.png" id="1_g5frl"]
+[ext_resource type="PackedScene" uid="uid://d0osaprvdux47" path="res://ObjectLibrary/CircleFish/CircleFish.tscn" id="2_v0k5s"]
+[ext_resource type="PackedScene" uid="uid://cg25j8fnd1th6" path="res://ObjectLibrary/LineFish/LineFish.tscn" id="3_bf875"]
+[ext_resource type="PackedScene" uid="uid://corraw2a7g40l" path="res://ObjectLibrary/PathFindingFish/PathFindingFish.tscn" id="4_q03q7"]
+[ext_resource type="PackedScene" uid="uid://b0gp17n3v2hac" path="res://ObjectLibrary/PC/PC.tscn" id="5_hujuu"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_3jih6"]
+vertices = PackedVector2Array(1134.04, 14.9922, 1136.95, 635.992, 16.9297, 635, 13.0625, 14)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(3, 4, 7, 645, 1147, 646, 1144, 5)])
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_26123"]
+texture = ExtResource("1_g5frl")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+3:6/0 = 0
+0:7/0 = 0
+1:7/0 = 0
+2:7/0 = 0
+3:7/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_2mnbi"]
+tile_size = Vector2i(32, 32)
+sources/0 = SubResource("TileSetAtlasSource_26123")
+
+[node name="TestEnv" type="Node2D"]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_3jih6")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="NavigationRegion2D"]
+tile_map_data = PackedByteArray("AAAjAAAAAAAAAAIAAAAjAAEAAAAAAAIAAAAjAAIAAAAAAAIAAAAjAAMAAAAAAAIAAAAjAAQAAAAAAAIAAAAjAAUAAAAAAAIAAAAjAAYAAAAAAAIAAAAjAAcAAAAAAAIAAAAjAAgAAAAAAAIAAAAjAAkAAAAAAAIAAAAiAAAAAAAAAAIAAAAiAAEAAAAAAAIAAAAiAAIAAAAAAAIAAAAiAAMAAAAAAAIAAAAiAAQAAAAAAAIAAAAiAAUAAAAAAAIAAAAiAAYAAAAAAAIAAAAiAAcAAAAAAAIAAAAiAAgAAAAAAAIAAAAiAAkAAAAAAAIAAAAiAAoAAAAAAAIAAAAiAAsAAAAAAAIAAAAiAAwAAAAAAAIAAAAiAA0AAAAAAAIAAAAiAA4AAAAAAAIAAAAiAA8AAAAAAAIAAAAiABAAAAAAAAIAAAAiABEAAAAAAAIAAAAiABIAAAAAAAIAAAAjAAoAAAAAAAIAAAAjAAsAAAAAAAIAAAAjAAwAAAAAAAIAAAAjAA0AAAAAAAIAAAAjAA4AAAAAAAIAAAAjAA8AAAAAAAIAAAAjABAAAAAAAAIAAAAjABEAAAAAAAIAAAAjABIAAAAAAAIAAAAiABMAAAAAAAIAAAAjABMAAAAAAAIAAAAAAAAAAAAAAAIAAAAAAAEAAAAAAAIAAAAAAAIAAAAAAAIAAAAAAAMAAAAAAAIAAAAAAAQAAAAAAAIAAAAAAAUAAAAAAAIAAAAAAAYAAAAAAAIAAAAAAAcAAAAAAAIAAAAAAAgAAAAAAAIAAAAAAAkAAAAAAAIAAAAAAAoAAAAAAAIAAAAAAAsAAAAAAAIAAAAAAAwAAAAAAAIAAAAAAA0AAAAAAAIAAAAAAA4AAAAAAAIAAAAAAA8AAAAAAAIAAAAAABAAAAAAAAIAAAAAABEAAAAAAAIAAAAAABIAAAAAAAIAAAAAABMAAAAAAAIAAAABAAAAAAAAAAIAAAABAAEAAAAAAAIAAAABAAIAAAAAAAIAAAABAAMAAAAAAAIAAAABAAQAAAAAAAIAAAABAAUAAAAAAAIAAAABAAYAAAAAAAIAAAABAAcAAAAAAAIAAAABAAgAAAAAAAIAAAABAAkAAAAAAAIAAAABAAoAAAAAAAIAAAABAAsAAAAAAAIAAAABAAwAAAAAAAIAAAABAA0AAAAAAAIAAAABAA4AAAAAAAIAAAABAA8AAAAAAAIAAAABABAAAAAAAAIAAAABABEAAAAAAAIAAAABABIAAAAAAAIAAAABABMAAAAAAAIAAAA=")
+tile_set = SubResource("TileSet_2mnbi")
+
+[node name="CircleFish" parent="." instance=ExtResource("2_v0k5s")]
+position = Vector2(512, 255)
+
+[node name="LineFish" parent="." instance=ExtResource("3_bf875")]
+
+[node name="PathFindingFish" parent="." instance=ExtResource("4_q03q7")]
+position = Vector2(300, 200)
+
+[node name="PC" parent="." instance=ExtResource("5_hujuu")]
+position = Vector2(600, 150)
