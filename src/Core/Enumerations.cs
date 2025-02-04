@@ -11,4 +11,10 @@ public partial class Enumerations
 		[Description("Error")]
 		Error = 2,
 	}
+
+	public enum BlasterTypes
+	{
+		[Description("Single-Shot Blaster")]
+		SingleShotBlaster = 1,
+	}
 }

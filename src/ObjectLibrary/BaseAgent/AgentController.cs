@@ -45,9 +45,6 @@ public partial class AgentController : CharacterBody2D
 
 		Vector2 nextPathPosition = NavAgent.GetNextPathPosition();
 		Vector2 newVelocity = GlobalPosition.DirectionTo(nextPathPosition) * _movementSpeed;
-		_logger.LogInfo($"nextPathPosition {nextPathPosition}");
-		_logger.LogInfo($"GlobalPosition {GlobalPosition}");
-		_logger.LogInfo($"newVelocity {newVelocity.ToString()}");
 		if (NavAgent.AvoidanceEnabled)
 			NavAgent.SetVelocity(newVelocity);
 		else
@@ -61,7 +58,7 @@ public partial class AgentController : CharacterBody2D
 
 	void HandleVelocityComputed(Vector2 safeVelocity)
 	{
-		_logger.LogInfo("Call NavController HandleVelocityComputed");
+		_logger.LogDebug("Call NavController HandleVelocityComputed");
 		Velocity = safeVelocity;
 		MoveAndSlide();
 	}
@@ -71,7 +68,7 @@ public partial class AgentController : CharacterBody2D
 		if (_navTarget != null)
 		{ 
 			NavAgent.SetTargetPosition(_navTarget.GlobalPosition);
-			_logger.LogInfo($"NavTarget.GlobalPosition {_navTarget.GlobalPosition}");
+			_logger.LogDebug($"NavTarget.GlobalPosition {_navTarget.GlobalPosition}");
 		}
 		else
 		{

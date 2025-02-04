@@ -1,20 +1,19 @@
 [gd_scene load_steps=5 format=3 uid="uid://b0gp17n3v2hac"]
 
 [ext_resource type="Script" path="res://ObjectLibrary/PC/PC.cs" id="1_07frv"]
-[ext_resource type="Script" path="res://ObjectLibrary/PC/ArrowController.cs" id="2_ov0rx"]
+[ext_resource type="Script" path="res://ObjectLibrary/PC/Controllers/ArrowController.cs" id="2_7gkbg"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_v2uod"]
 size = Vector3(20, 20, 20)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jbpyi"]
 
-[node name="PC" type="Node2D" node_paths=PackedStringArray("_controller", "_blastSpawner")]
+[node name="PC_Arrows" type="Node2D" node_paths=PackedStringArray("_controller")]
 script = ExtResource("1_07frv")
 _controller = NodePath("ArrowController")
-_blastSpawner = NodePath("BlastSpawner")
 
 [node name="ArrowController" type="CharacterBody2D" parent="."]
-script = ExtResource("2_ov0rx")
+script = ExtResource("2_7gkbg")
 JumpVelocity = 0.0
 
 [node name="Sprite2D" type="MeshInstance2D" parent="ArrowController"]
@@ -22,5 +21,3 @@ mesh = SubResource("BoxMesh_v2uod")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ArrowController"]
 shape = SubResource("RectangleShape2D_jbpyi")
-
-[node name="BlastSpawner" type="Node2D" parent="."]
