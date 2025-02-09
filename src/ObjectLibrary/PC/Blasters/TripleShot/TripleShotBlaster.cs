@@ -1,8 +1,7 @@
 using Godot;
 using System;
-using System.Collections.Generic;
 
-public partial class SingleShotBlaster : BaseBlaster
+public partial class TripleShotBlaster : BaseBlaster
 {
 	IBlastFactory _blastFactory;
 
@@ -13,7 +12,9 @@ public partial class SingleShotBlaster : BaseBlaster
 
 	public override void Shoot()
 	{
-		GD.Print("Single Shot");
+		GD.Print("Triple Shot");
+		_blastFactory.SpawnBlast(GetTree().GetRoot(), GlobalPosition, new Vector2(-0.5f, 0.5f), 20f);
 		_blastFactory.SpawnBlast(GetTree().GetRoot(), GlobalPosition, new Vector2(0.0f, 1.0f), 20f);
+		_blastFactory.SpawnBlast(GetTree().GetRoot(), GlobalPosition, new Vector2(0.5f, 0.5f), 20f);
 	}
 }

@@ -16,5 +16,7 @@ public partial class Enumerations
 	{
 		[Description("Single-Shot Blaster")]
 		SingleShotBlaster = 1,
+		[Description("Triple-Shot Blaster")]
+		TripleShotBlaster = 2,
 	}
 }

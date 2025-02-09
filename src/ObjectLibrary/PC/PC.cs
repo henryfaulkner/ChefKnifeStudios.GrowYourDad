@@ -18,7 +18,7 @@ public partial class PC : Node2D
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 		_blasterFactory = GetNode<IBlasterFactory>(Constants.SingletonNodes.BlasterFactory);
 
-		_blaster = CreateBlaster(_blasterFactory, DecideBlasterType());
+		_blaster = CreateBlaster(_blasterFactory, Enumerations.BlasterTypes.SingleShotBlaster);
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -31,6 +31,23 @@ public partial class PC : Node2D
 		}
 	}
 
+	public override void _Input(InputEvent @event)
+	{
+		if (Input.IsActionJustPressed("single-shot"))
+		{
+			_blaster.QueueFree();
+			_blaster = null;
+			_blaster = CreateBlaster(_blasterFactory, Enumerations.BlasterTypes.SingleShotBlaster);
+		}
+
+		if (Input.IsActionJustPressed("triple-shot"))
+		{
+			_blaster.QueueFree();
+			_blaster = null;
+			_blaster = CreateBlaster(_blasterFactory, Enumerations.BlasterTypes.TripleShotBlaster);
+		}
+	}
+
 	void SyncChildPositionsToController()
 	{
 		Vector2 position = _controller.GlobalPosition;
@@ -39,17 +56,14 @@ public partial class PC : Node2D
 			_blaster.GlobalPosition = position;
 	}
 
-	public Enumerations.BlasterTypes DecideBlasterType()
-	{
-		return Enumerations.BlasterTypes.SingleShotBlaster;
-	} 
-
 	public BaseBlaster CreateBlaster(IBlasterFactory blasterFactory, Enumerations.BlasterTypes blasterType)
 	{
 		switch (blasterType)
 		{
 			case Enumerations.BlasterTypes.SingleShotBlaster:
 				return _blasterFactory.SpawnSingleShotBlaster(GetNode("."), GlobalPosition);
+			case Enumerations.BlasterTypes.TripleShotBlaster:
+				return _blasterFactory.SpawnTripleShotBlaster(GetNode("."), GlobalPosition);
 			default:
 				throw new Exception("BlasterType not found. Can not map BlasterType.");
 		}

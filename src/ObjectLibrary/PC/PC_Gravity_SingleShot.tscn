@@ -10,13 +10,13 @@ size = Vector3(20, 20, 20)
 
 [node name="PC_Gravity_SingleShot" type="Node2D" node_paths=PackedStringArray("_controller")]
 script = ExtResource("1_ewaqx")
-_controller = NodePath("SingleShotController")
+_controller = NodePath("GravityController")
 
-[node name="SingleShotController" type="CharacterBody2D" parent="."]
+[node name="GravityController" type="CharacterBody2D" parent="."]
 script = ExtResource("2_usead")
 
-[node name="Sprite2D" type="MeshInstance2D" parent="SingleShotController"]
+[node name="Sprite2D" type="MeshInstance2D" parent="GravityController"]
 mesh = SubResource("BoxMesh_cm2lw")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SingleShotController"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GravityController"]
 shape = SubResource("RectangleShape2D_0hpcm")

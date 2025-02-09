@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://b5t40qvodmj2w"]
+
+[ext_resource type="Script" path="res://ObjectLibrary/PC/Blasters/Blast.cs" id="1_wacyb"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_2dpbk"]
+radius = 10.0
+height = 20.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ohq6f"]
+
+[node name="Blast" type="RigidBody2D"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_wacyb")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+mesh = SubResource("SphereMesh_2dpbk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ohq6f")
