@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class CircleFish : Path2D
+public partial class CircleFish : Path2D, IBlasterTarget
 {
 	[ExportGroup("Nodes")]
 	[Export]
@@ -33,6 +33,11 @@ public partial class CircleFish : Path2D
 	public override void _PhysicsProcess(double delta)
 	{
 		ProcessPathFollow(_pathFollow, _speed, delta);
+	}
+	
+	public void ReactToBlastHit()
+	{
+		_logger.LogInfo("CircleFish ReactToBlastHit");
 	}
 
 	static Curve2D CreateCurve(List<Vector2> points)

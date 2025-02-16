@@ -23,10 +23,15 @@ boot_splash/minimum_display_time=300
 LoggerService="*res://Core/Logging/LoggerService.cs"
 BlasterFactory="*res://ObjectLibrary/PC/Blasters/BlasterFactory.cs"
 BlastFactory="*res://ObjectLibrary/PC/Blasters/BlastFactory.cs"
+PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
 
 [dotnet]
 
 project/assembly_name="ChefKnifeStudio.GrowYourDad"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/phantom_camera/plugin.cfg")
 
 [file_customization]
 

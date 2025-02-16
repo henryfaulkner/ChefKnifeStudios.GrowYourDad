@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class PathFindingFish : Agent
+public partial class PathFindingFish : Agent, IBlasterTarget
 {
 	// Use this for tilemapping stuff
 	// https://www.youtube.com/watch?v=qIqcp7xBGkw
@@ -65,7 +65,7 @@ public partial class PathFindingFish : Agent
 			_logger.LogInfo("target PC with NavAgent and set state to Approaching");
 			SetNavTarget(_navTarget);
 			_state = States.Approaching;
-		}
+		} 
 
 		if (_state == States.Approaching && _navTarget == null)
 		{
@@ -78,6 +78,11 @@ public partial class PathFindingFish : Agent
 
 	public override void HandleNavTargetArrival()
 	{
+	}
+	
+	public void ReactToBlastHit()
+	{
+		_logger.LogInfo("PathFindingFish ReactToBlastHit");
 	}
 
 	void SyncChildPositionsToController()

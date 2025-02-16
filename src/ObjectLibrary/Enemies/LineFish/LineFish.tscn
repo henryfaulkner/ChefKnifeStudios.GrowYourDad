@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cg25j8fnd1th6"]
 
-[ext_resource type="Script" path="res://ObjectLibrary/LineFish/LineFish.cs" id="1_w1shf"]
+[ext_resource type="Script" path="res://ObjectLibrary/Enemies/LineFish/LineFish.cs" id="1_w1shf"]
 
 [sub_resource type="Curve2D" id="Curve2D_ra2vn"]
 _data = {
@@ -24,6 +24,8 @@ position = Vector2(305, 35)
 rotation = -3.02734
 
 [node name="StaticBody2D" type="StaticBody2D" parent="PathFollow2D"]
+collision_layer = 3
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/StaticBody2D"]
 shape = SubResource("CircleShape2D_jdg6s")

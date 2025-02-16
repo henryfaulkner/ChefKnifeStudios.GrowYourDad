@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://corraw2a7g40l"]
 
-[ext_resource type="Script" path="res://ObjectLibrary/PathFindingFish/PathFindingFish.cs" id="1_jkpf0"]
+[ext_resource type="Script" path="res://ObjectLibrary/Enemies/PathFindingFish/PathFindingFish.cs" id="1_jkpf0"]
 [ext_resource type="Script" path="res://ObjectLibrary/BaseAgent/AgentController.cs" id="2_rjby4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_51y17"]
@@ -17,6 +17,8 @@ _rayCastContainer = NodePath("RayCastContainer")
 Controller = NodePath("AgentController")
 
 [node name="AgentController" type="CharacterBody2D" parent="." node_paths=PackedStringArray("Area", "AreaCollision", "Collision", "NavAgent", "NavTimer")]
+collision_layer = 3
+collision_mask = 3
 script = ExtResource("2_rjby4")
 Area = NodePath("Area2D")
 AreaCollision = NodePath("Area2D/CollisionShape2D")

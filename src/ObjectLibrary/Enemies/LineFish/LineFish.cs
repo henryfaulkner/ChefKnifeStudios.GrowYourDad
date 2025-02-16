@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class LineFish : Path2D
+public partial class LineFish : Path2D, IBlasterTarget
 {
 	[Export]
 	PathFollow2D _pathFollow;
@@ -19,6 +19,11 @@ public partial class LineFish : Path2D
 	public override void _Process(double delta)
 	{
 		ProcessPathFollow(_pathFollow, _speed, delta);
+	}
+	
+	public void ReactToBlastHit()
+	{
+		_logger.LogInfo("LineFish ReactToBlastHit");
 	}
 
 	bool ProcessPathFollow(PathFollow2D pathFollow, float speed, double delta)
