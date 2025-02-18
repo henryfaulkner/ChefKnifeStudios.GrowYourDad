@@ -2,7 +2,7 @@
 Imagine, you’re a kid and you do kid stuff. You think you’ve got it good. A pond in your backyard and a mom and dad who love you very much.  
 
 Until you look a little closer at your dad, and you recognize tragedy!!! Your dad is not jacked at all. He’s small as fuck. No bicep veins, no lat spread, no big ol’ bitties. From now on, you’ve a mission. To grow your dad…  
-*Grabs a diving suit from your closet*  
+*Grabs a fishing rod from your closet*  
 
 ---
 

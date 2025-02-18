@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://b0gi7xrpjig2o"]
+[gd_scene load_steps=11 format=3 uid="uid://b0gi7xrpjig2o"]
 
+[ext_resource type="Script" path="res://ObjectLibrary/PC/PC.cs" id="1_verpc"]
 [ext_resource type="PackedScene" uid="uid://d0osaprvdux47" path="res://ObjectLibrary/Enemies/CircleFish/CircleFish.tscn" id="2_v0k5s"]
 [ext_resource type="PackedScene" uid="uid://cg25j8fnd1th6" path="res://ObjectLibrary/Enemies/LineFish/LineFish.tscn" id="3_bf875"]
 [ext_resource type="PackedScene" uid="uid://corraw2a7g40l" path="res://ObjectLibrary/Enemies/PathFindingFish/PathFindingFish.tscn" id="4_q03q7"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="5_5c1dw"]
-[ext_resource type="PackedScene" uid="uid://cpwrvs0vtdn42" path="res://ObjectLibrary/PC/PC_Gravity_SingleShot.tscn" id="5_v47ad"]
+[ext_resource type="PackedScene" uid="uid://cpwrvs0vtdn42" path="res://ObjectLibrary/PC/Controllers/GravityController.tscn" id="5_v47ad"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="6_x4r3s"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="7_lfcvb"]
 
@@ -24,6 +25,13 @@ ease = 2
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_3jih6")
 
+[node name="PC" type="Node2D" parent="." node_paths=PackedStringArray("_controller")]
+position = Vector2(700, 125)
+script = ExtResource("1_verpc")
+_controller = NodePath("GravityController")
+
+[node name="GravityController" parent="PC" instance=ExtResource("5_v47ad")]
+
 [node name="CircleFish" parent="." instance=ExtResource("2_v0k5s")]
 position = Vector2(512, 255)
 
@@ -32,18 +40,21 @@ position = Vector2(512, 255)
 [node name="PathFindingFish" parent="." instance=ExtResource("4_q03q7")]
 position = Vector2(300, 200)
 
-[node name="PC_SingleShot" parent="." instance=ExtResource("5_v47ad")]
-position = Vector2(703, 127)
-
 [node name="Camera2D" type="Camera2D" parent="."]
-visible = false
+physics_interpolation_mode = 1
+position = Vector2(700, 125)
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D"]
 process_priority = 300
 process_physics_priority = 300
 script = ExtResource("5_5c1dw")
 
-[node name="PhantomCamera2D" type="Node2D" parent="."]
-visible = false
+[node name="PhantomCamera2D" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
+top_level = true
+position = Vector2(700, 125)
 script = ExtResource("6_x4r3s")
+follow_mode = 5
+follow_target = NodePath("../PC/GravityController")
 tween_resource = SubResource("Resource_63q4r")
+dead_zone_width = 0.35
+dead_zone_height = 0.25

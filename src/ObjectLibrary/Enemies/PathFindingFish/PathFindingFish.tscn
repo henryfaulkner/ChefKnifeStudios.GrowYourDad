@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://corraw2a7g40l"]
+[gd_scene load_steps=7 format=3 uid="uid://corraw2a7g40l"]
 
 [ext_resource type="Script" path="res://ObjectLibrary/Enemies/PathFindingFish/PathFindingFish.cs" id="1_jkpf0"]
 [ext_resource type="Script" path="res://ObjectLibrary/BaseAgent/AgentController.cs" id="2_rjby4"]
+[ext_resource type="Script" path="res://ObjectLibrary/PC/Blasters/BlasterTargetArea2D.cs" id="3_1eqnq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_51y17"]
+radius = 8.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_8frm8"]
 radius = 8.0
@@ -11,9 +13,10 @@ height = 16.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_k6caf"]
 
-[node name="PathFindingFish" type="Node2D" node_paths=PackedStringArray("_rayCastContainer", "Controller")]
+[node name="PathFindingFish" type="Node2D" node_paths=PackedStringArray("_rayCastContainer", "_hitBox", "Controller")]
 script = ExtResource("1_jkpf0")
 _rayCastContainer = NodePath("RayCastContainer")
+_hitBox = NodePath("AgentController/Area2D")
 Controller = NodePath("AgentController")
 
 [node name="AgentController" type="CharacterBody2D" parent="." node_paths=PackedStringArray("Area", "AreaCollision", "Collision", "NavAgent", "NavTimer")]
@@ -34,6 +37,7 @@ shape = SubResource("CircleShape2D_51y17")
 mesh = SubResource("SphereMesh_8frm8")
 
 [node name="Area2D" type="Area2D" parent="AgentController"]
+script = ExtResource("3_1eqnq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AgentController/Area2D"]
 shape = SubResource("CircleShape2D_k6caf")

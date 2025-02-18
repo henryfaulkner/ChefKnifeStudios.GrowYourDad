@@ -7,6 +7,8 @@ public partial class CircleFish : Path2D, IBlasterTarget
 	[ExportGroup("Nodes")]
 	[Export]
 	PathFollow2D _pathFollow;
+	[Export]
+	BlasterTargetArea2D _hitBox;
 	
 	[ExportGroup("Variables")]
 	[Export]
@@ -16,7 +18,16 @@ public partial class CircleFish : Path2D, IBlasterTarget
 	[Export]
 	int _numPoints = 100;
 	
+	[Export]
+	float _flashDuration = 1.0f; // Total duration of the flashing effect
+	[Export]
+	float _flashInterval = 0.2f; // Time between flashes
+
+	[Export]
+	int _hp = 1;
+
 	ILoggerService _logger;
+	bool _isFlashing = false;
 
 	public override void _Ready()
 	{
@@ -28,6 +39,8 @@ public partial class CircleFish : Path2D, IBlasterTarget
 		CircleHelper.TranslateListOfVectors(ref circlePoints, -GlobalPosition);
 
 		Curve = CreateCurve(circlePoints);
+
+		_hitBox.BlasterTargetHit += ReactToBlastHit;
 	}
 	
 	public override void _PhysicsProcess(double delta)
@@ -37,7 +50,36 @@ public partial class CircleFish : Path2D, IBlasterTarget
 	
 	public void ReactToBlastHit()
 	{
-		_logger.LogInfo("CircleFish ReactToBlastHit");
+		if (!_isFlashing) StartFlashing();
+		TakeDamage();
+	}
+
+	async void StartFlashing()
+	{
+		_isFlashing = true;
+		var originalColor = Modulate;
+
+		float elapsed = 0.0f;
+
+		while (elapsed < _flashDuration)
+		{
+			Modulate = (Modulate == originalColor) ? new Color(1.0f, 0.0f, 0.0f, 1.0f) : originalColor;
+			await ToSignal(GetTree().CreateTimer(_flashInterval), "timeout");
+			elapsed += _flashInterval;
+		}
+
+		// Ensure color is reset to the original after flashing
+		Modulate = originalColor;
+		_isFlashing = false;
+	}
+
+	void TakeDamage()
+	{
+		_hp -= 1;
+		if (_hp == 0)
+		{
+			QueueFree();
+		}
 	}
 
 	static Curve2D CreateCurve(List<Vector2> points)

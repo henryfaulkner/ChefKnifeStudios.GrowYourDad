@@ -1,19 +1,24 @@
-[gd_scene load_steps=5 format=3 uid="uid://d0osaprvdux47"]
+[gd_scene load_steps=7 format=3 uid="uid://d0osaprvdux47"]
 
 [ext_resource type="Script" path="res://ObjectLibrary/Enemies/CircleFish/CircleFish.cs" id="1_i5e5b"]
+[ext_resource type="Script" path="res://ObjectLibrary/PC/Blasters/BlasterTargetArea2D.cs" id="2_gecy1"]
 
 [sub_resource type="Curve2D" id="Curve2D_mt744"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_neqbu"]
+radius = 8.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_hp70r"]
 radius = 8.0
 height = 16.0
 
-[node name="CircleFish" type="Path2D" node_paths=PackedStringArray("_pathFollow")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_jocp6"]
+
+[node name="CircleFish" type="Path2D" node_paths=PackedStringArray("_pathFollow", "_hitBox")]
 curve = SubResource("Curve2D_mt744")
 script = ExtResource("1_i5e5b")
 _pathFollow = NodePath("PathFollow2D")
+_hitBox = NodePath("PathFollow2D/StaticBody2D/Area2D")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="."]
 
@@ -24,3 +29,9 @@ shape = SubResource("CircleShape2D_neqbu")
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="PathFollow2D/StaticBody2D"]
 mesh = SubResource("SphereMesh_hp70r")
+
+[node name="Area2D" type="Area2D" parent="PathFollow2D/StaticBody2D"]
+script = ExtResource("2_gecy1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/StaticBody2D/Area2D"]
+shape = SubResource("CircleShape2D_jocp6")

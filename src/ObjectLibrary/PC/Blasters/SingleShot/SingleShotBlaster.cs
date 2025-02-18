@@ -13,7 +13,6 @@ public partial class SingleShotBlaster : BaseBlaster
 
 	public override void Shoot()
 	{
-		GD.Print("Single Shot");
 		_blastFactory.SpawnBlast(GetTree().GetRoot(), GlobalPosition, new Vector2(0.0f, 1.0f), 20f);
 	}
 }

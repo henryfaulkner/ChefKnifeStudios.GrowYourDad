@@ -10,6 +10,8 @@ public partial class PathFindingFish : Agent, IBlasterTarget
 	[ExportGroup("Nodes")]
 	[Export]
 	Node2D _rayCastContainer { get; set; }
+	[Export]
+	BlasterTargetArea2D _hitBox;
 
 	[ExportGroup("Variables")]
 	[Export]
@@ -20,7 +22,16 @@ public partial class PathFindingFish : Agent, IBlasterTarget
 	List<RayCast2D> _rayCastList = new();
 	Node2D? _navTarget;
 
+	[Export]
+	float _flashDuration = 1.0f; // Total duration of the flashing effect
+	[Export]
+	float _flashInterval = 0.2f; // Time between flashes
+
+	[Export]
+	int _hp = 2;
+
 	ILoggerService _logger;
+	bool _isFlashing = false;
 
 	#region State Machine
 	States _state;
@@ -51,6 +62,8 @@ public partial class PathFindingFish : Agent, IBlasterTarget
 		{
 			_rayCastContainer.AddChild(rayCast);
 		}
+
+		_hitBox.BlasterTargetHit += ReactToBlastHit;
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -62,7 +75,6 @@ public partial class PathFindingFish : Agent, IBlasterTarget
 		if (_state == States.Searching && _navTarget != null)
 		{
 			// If raycasts detects PC, target PC with NavAgent and set state to Approaching
-			_logger.LogInfo("target PC with NavAgent and set state to Approaching");
 			SetNavTarget(_navTarget);
 			_state = States.Approaching;
 		} 
@@ -70,7 +82,6 @@ public partial class PathFindingFish : Agent, IBlasterTarget
 		if (_state == States.Approaching && _navTarget == null)
 		{
 			// If raycasts do not detect PC, remove target from NavAgent and set state to Searching
-			_logger.LogInfo("remove target from NavAgent and set state to Searching");
 			SetNavTarget(_navTarget);
 			_state = States.Searching;
 		}
@@ -82,7 +93,36 @@ public partial class PathFindingFish : Agent, IBlasterTarget
 	
 	public void ReactToBlastHit()
 	{
-		_logger.LogInfo("PathFindingFish ReactToBlastHit");
+		if (!_isFlashing) StartFlashing();
+		TakeDamage();
+	}
+
+	async void StartFlashing()
+	{
+		_isFlashing = true;
+		var originalColor = Modulate;
+
+		float elapsed = 0.0f;
+
+		while (elapsed < _flashDuration)
+		{
+			Modulate = (Modulate == originalColor) ? new Color(1.0f, 0.0f, 0.0f, 1.0f) : originalColor;
+			await ToSignal(GetTree().CreateTimer(_flashInterval), "timeout");
+			elapsed += _flashInterval;
+		}
+
+		// Ensure color is reset to the original after flashing
+		Modulate = originalColor;
+		_isFlashing = false;
+	}
+
+	void TakeDamage()
+	{
+		_hp -= 1;
+		if (_hp == 0)
+		{
+			QueueFree();
+		}
 	}
 
 	void SyncChildPositionsToController()

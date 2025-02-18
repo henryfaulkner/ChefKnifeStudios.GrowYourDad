@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cg25j8fnd1th6"]
+[gd_scene load_steps=7 format=3 uid="uid://cg25j8fnd1th6"]
 
 [ext_resource type="Script" path="res://ObjectLibrary/Enemies/LineFish/LineFish.cs" id="1_w1shf"]
+[ext_resource type="Script" path="res://ObjectLibrary/PC/Blasters/BlasterTargetArea2D.cs" id="2_cby2q"]
 
 [sub_resource type="Curve2D" id="Curve2D_ra2vn"]
 _data = {
@@ -9,15 +10,19 @@ _data = {
 point_count = 2
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jdg6s"]
+radius = 8.06224
 
 [sub_resource type="SphereMesh" id="SphereMesh_1u4xi"]
 radius = 8.0
 height = 16.0
 
-[node name="LineFish" type="Path2D" node_paths=PackedStringArray("_pathFollow")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_3xuhc"]
+
+[node name="LineFish" type="Path2D" node_paths=PackedStringArray("_pathFollow", "_hitBox")]
 curve = SubResource("Curve2D_ra2vn")
 script = ExtResource("1_w1shf")
 _pathFollow = NodePath("PathFollow2D")
+_hitBox = NodePath("PathFollow2D/StaticBody2D/Area2D")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="."]
 position = Vector2(305, 35)
@@ -32,3 +37,9 @@ shape = SubResource("CircleShape2D_jdg6s")
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="PathFollow2D/StaticBody2D"]
 mesh = SubResource("SphereMesh_1u4xi")
+
+[node name="Area2D" type="Area2D" parent="PathFollow2D/StaticBody2D"]
+script = ExtResource("2_cby2q")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/StaticBody2D/Area2D"]
+shape = SubResource("CircleShape2D_3xuhc")
