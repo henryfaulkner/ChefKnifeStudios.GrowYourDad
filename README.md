@@ -13,6 +13,7 @@ The game will work much like **Downwell**. The protagonist will descend down his
 
 # Art  
 - **Dad progress drawing** will be provided by Allison, in the style of the Vitruvian man.  
+- **Sprite pack and Tileset** was provided for free by nszym on through itch.io. [Link to the assets' webpage]((https://nszym.itch.io/spearfishing-assets-pack)), which complies with the assets' license agreement.
 - It would help if the muscles were vectorized and could continuously scale larger.  
 
 ### Enemies  
