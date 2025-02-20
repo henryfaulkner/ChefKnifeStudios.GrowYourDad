@@ -3,8 +3,8 @@ using System;
 
 public interface IBlasterFactory
 {
-	public SingleShotBlaster SpawnSingleShotBlaster(Node parent, Vector2 globalPosition); 
-	public TripleShotBlaster SpawnTripleShotBlaster(Node parent, Vector2 globalPosition);
+	SingleShotBlaster SpawnSingleShotBlaster(Node parent, Vector2 globalPosition); 
+	TripleShotBlaster SpawnTripleShotBlaster(Node parent, Vector2 globalPosition);
 }
 
 public partial class BlasterFactory : Node, IBlasterFactory

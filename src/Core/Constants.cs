@@ -10,5 +10,6 @@ public partial class Constants
 		public const string LoggerService = "/root/LoggerService";
 		public const string BlasterFactory = "/root/BlasterFactory";
 		public const string BlastFactory = "/root/BlastFactory";
+		public const string EnemyFactory = "/root/EnemyFactory";
 	}
 }

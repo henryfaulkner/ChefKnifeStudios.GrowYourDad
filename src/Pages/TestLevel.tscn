@@ -1,0 +1,46 @@
+[gd_scene load_steps=10 format=3 uid="uid://crcpx513j57hx"]
+
+[ext_resource type="Script" path="res://ObjectLibrary/PC/PC.cs" id="1_7j6ln"]
+[ext_resource type="Script" path="res://Pages/LevelGenerator.cs" id="1_vm1a8"]
+[ext_resource type="PackedScene" uid="uid://cpwrvs0vtdn42" path="res://ObjectLibrary/PC/Controllers/GravityController.tscn" id="2_8jas8"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="3_ked4j"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="4_fling"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="5_nk2bu"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_2gbak"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_r22d7"]
+noise = SubResource("FastNoiseLite_2gbak")
+
+[sub_resource type="Resource" id="Resource_8nvxf"]
+script = ExtResource("5_nk2bu")
+duration = 1.0
+transition = 0
+ease = 2
+
+[node name="TestLevel" type="Node2D"]
+script = ExtResource("1_vm1a8")
+_noiseHeightText = SubResource("NoiseTexture2D_r22d7")
+
+[node name="PC" type="Node2D" parent="." node_paths=PackedStringArray("_controller")]
+script = ExtResource("1_7j6ln")
+_controller = NodePath("GravityController")
+
+[node name="GravityController" parent="PC" instance=ExtResource("2_8jas8")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+physics_interpolation_mode = 1
+
+[node name="PhantomCameraHost" type="Node" parent="Camera2D"]
+process_priority = 300
+process_physics_priority = 300
+script = ExtResource("3_ked4j")
+
+[node name="PhantomCamera2D" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
+top_level = true
+script = ExtResource("4_fling")
+follow_mode = 5
+follow_target = NodePath("../PC/GravityController")
+tween_resource = SubResource("Resource_8nvxf")
+dead_zone_width = 0.35
+dead_zone_height = 0.25

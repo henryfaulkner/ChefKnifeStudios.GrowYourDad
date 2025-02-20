@@ -5,11 +5,11 @@ public partial class GravityController : CharacterBody2D
 {
 	[ExportGroup("Variables")]
 	[Export]
-	float _airSpeed = 300.0f;
+	float _airSpeed = 400.0f;
 	[Export]
-	float _shotVelocity = -400.0f;
+	float _shotVelocity = -200.0f;
 	[Export]
-	float _gravityRatio = 0.25f;
+	float _gravityRatio = 1.00f;
 
 	public override void _PhysicsProcess(double delta)
 	{

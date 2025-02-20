@@ -6,9 +6,9 @@ public partial class PC : Node2D
 {
 	[ExportGroup("Nodes")]
 	[Export]
-	CharacterBody2D _controller { get; set; }
+	CharacterBody2D _controller = null!;
 	
-	BaseBlaster _blaster { get; set; }
+	BaseBlaster _blaster = null!;
 	
 	ILoggerService _logger;
 	IBlasterFactory _blasterFactory;

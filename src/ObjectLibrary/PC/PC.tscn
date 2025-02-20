@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bg8l4v4jd010p"]
+
+[ext_resource type="Script" path="res://ObjectLibrary/PC/PC.cs" id="1_4m30h"]
+
+[node name="PC" type="Node2D"]
+script = ExtResource("1_4m30h")
