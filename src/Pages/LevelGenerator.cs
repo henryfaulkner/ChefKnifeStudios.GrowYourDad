@@ -58,6 +58,7 @@ public partial class LevelGenerator : Node2D
                     || x > highestHeight - 3)
                 {
                     // Set Tile Cell
+                    // Good video for programmatic tile placement: https://www.youtube.com/watch?v=voNDqAdEO3Y
                 }
             }
         }
@@ -67,7 +68,7 @@ public partial class LevelGenerator : Node2D
 			for (int y = lowestHeight; y < highestHeight; y += 1)
 			{  
                 // Generate Platforms tiles
-                // Good video: https://www.youtube.com/watch?v=rlUzizExe2Q&t=356s
+                // Good video for procedural generation: https://www.youtube.com/watch?v=rlUzizExe2Q&t=356s and https://www.youtube.com/watch?v=dDihRqJZ_-M
                 
             }
         }
