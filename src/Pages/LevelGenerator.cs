@@ -53,7 +53,14 @@ public partial class LevelGenerator : Node2D
 		_logger.LogInfo($"Highest: {noiseValueList.Max()}");
 		_logger.LogInfo($"Lowest: {noiseValueList.Min()}");
 
+		GenerateWalls(lowestWidth, highestWidth, lowestHeight, highestHeight);
+		GeneratePlatforms(lowestWidth, highestWidth, lowestHeight, highestHeight);
+	}
+
+	void GenerateWalls(int lowestWidth, int highestWidth, int lowestHeight, int highestHeight)
+	{
 		var cliffTileCoords = new CliffTileSetCoords();
+
 		for (int x = lowestWidth; x < highestWidth; x += 1) 
 		{
 			for (int y = lowestHeight; y < highestHeight; y += 1)
@@ -138,17 +145,80 @@ public partial class LevelGenerator : Node2D
 				}
 			}
 		}
-				
+	}
+
+	// Algorithm pseudocode:
+	// Raster scan level
+	// Every n and not m layers decide which side of layer to spawn platforms on: Left, Right, Left & Right, Center, or None
+	// Use noise value to decide where to place tile on selected side
+	// ^(replace) TODO: use noise value to decide where to place tile tetris 
+	enum LayerSides 
+	{
+		Left, Right, LeftRight, Center, None,
+	}
+	LayerSides _layerSideState;
+
+	void GeneratePlatforms(int lowestWidth, int highestWidth, int lowestHeight, int highestHeight)
+	{
+		var cliffTileCoords = new CliffTileSetCoords();
+		int layerSideDecisionInterval = 5; // n layers
+		List<int> layerSideNonDecisionIntervals = new() { 7, 12 }; // not m layers
+		int widthDelta = highestWidth - lowestWidth;
+
+		for (int y = lowestHeight; y < highestHeight; y += 1)
+		{ 
+			if (y != lowestHeight 
+				&& y % layerSideDecisionInterval == 0
+				&& !layerSideNonDecisionIntervals.Where(x => y % x == 0).Any())
+			{
+				_layerSideState = default(LayerSides).Random();
+			}
+
+			switch (_layerSideState)
+			{
+				case LayerSides.Left:
+					GeneratePlatformLayer(y, cliffTileCoords, lowestWidth, lowestWidth + (widthDelta/3));
+					break;
+				case LayerSides.Right:
+					GeneratePlatformLayer(y, cliffTileCoords, highestWidth - (widthDelta/3), highestWidth);
+					break;
+				case LayerSides.LeftRight:
+					GeneratePlatformLayer(y, cliffTileCoords, lowestWidth, lowestWidth + (widthDelta/3));
+					GeneratePlatformLayer(y, cliffTileCoords, highestWidth - (widthDelta/3), highestWidth);
+					break;
+				case LayerSides.Center:
+					GeneratePlatformLayer(y, cliffTileCoords, lowestWidth + (widthDelta/3), highestWidth - (widthDelta/3));
+					break;
+				case LayerSides.None:
+					break;
+				default:
+					_logger.LogError("LevelGenerator GeneratePlatforms LayerSide did not map properly.");
+					break;
+			}
+
+			
+		}
+	}
+
+	void GeneratePlatformLayer(int y, CliffTileSetCoords cliffTileSetCoords, int lowestWidth, int highestWidth)
+	{
 		for (int x = lowestWidth; x < highestWidth; x += 1) 
-		{
-			for (int y = lowestHeight; y < highestHeight; y += 1)
-			{  
-				// Generate Platforms tiles
-				// Good video for procedural generation: https://www.youtube.com/watch?v=rlUzizExe2Q&t=356s and https://www.youtube.com/watch?v=dDihRqJZ_-M
-				
+		{	 
+			// Generate Platforms tiles
+			// Good video for procedural generation: https://www.youtube.com/watch?v=rlUzizExe2Q&t=356s and https://www.youtube.com/watch?v=dDihRqJZ_-M
+			var noiseVal = _noise.GetNoise2D(x, y);
+			
+			var cellData = TileMapLayer.GetCellTileData(new Vector2I(x, y));
+			if (cellData == null) // if cellData is NOT null, a cell already exists there
+			{
+				if (noiseVal > 0.20 || noiseVal < -0.15) 
+					TileMapLayer.SetCell(new Vector2I(x, y), CLIFF_TILE_SET_SOURCE_ID, cliffTileSetCoords.GetRandomPlatformCell());
 			}
 		}
-				
+	}
+
+	void GenerateEnemies(int lowestWidth, int highestWidth, int lowestHeight, int highestHeight)
+	{
 		for (int x = lowestWidth; x < highestWidth; x += 1) 
 		{
 			for (int y = lowestHeight; y < highestHeight; y += 1)

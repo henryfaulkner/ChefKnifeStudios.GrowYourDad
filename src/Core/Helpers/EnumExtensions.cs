@@ -1,6 +1,8 @@
 using System;
 using System.ComponentModel;
 using System.Reflection;
+using System.Collections.Generic;
+using System.Linq;
 
 public static class EnumExtensions
 {
@@ -31,4 +33,11 @@ public static class EnumExtensions
 	{
 		return Enum.GetNames(typeof(T)).Length;
 	} 
+
+	public static T Random<T>(this T _) where T : Enum
+    {
+        List<T> enums = Enum.GetValues(typeof(T)).Cast<T>().ToList();
+        Random random = new();
+        return enums[random.Next(0, enums.Count)];
+    }
 }

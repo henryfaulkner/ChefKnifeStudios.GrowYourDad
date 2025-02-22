@@ -28,7 +28,6 @@ public partial class BlastFactory : Node, IBlastFactory
 		double lifeTime = 1.0;
 		
 		var result = _blastScene.Instantiate<Blast>();
-		parent.AddChild(result);
 		result.GlobalPosition = new Vector2(
 			initGlobalPosition.X + dirVector.X * initialOffsetAmount, 
 			initGlobalPosition.Y + dirVector.Y * initialOffsetAmount
@@ -36,6 +35,7 @@ public partial class BlastFactory : Node, IBlastFactory
 		result.GravityScale = 0.0f;
 		result.ConstantForce = dirVector * speed;
 		result.ApplyImpulse(dirVector * speed * 10, Vector2.Zero);
+		parent.AddChild(result);
 		
 		// Create a Timer node to despawn the Blast
 		Timer despawnTimer = new Timer();
