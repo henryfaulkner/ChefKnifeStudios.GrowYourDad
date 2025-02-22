@@ -12,9 +12,9 @@ public partial class CircleFish : Path2D, IBlasterTarget
 	
 	[ExportGroup("Variables")]
 	[Export]
-	float _speed = 0.2f;
+	public float Speed { get; set; } = 0.2f;
 	[Export]
-	float _radius = 125.0f;
+	public float Radius { get; set; } = 125.0f;
 	[Export]
 	int _numPoints = 100;
 	
@@ -33,7 +33,7 @@ public partial class CircleFish : Path2D, IBlasterTarget
 	{
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 		
-		var circlePoints = CircleHelper.GetCirclePoints(GlobalPosition, _radius, _numPoints);
+		var circlePoints = CircleHelper.GetCirclePoints(GlobalPosition, Radius, _numPoints);
 		
 		// Center the points
 		CircleHelper.TranslateListOfVectors(ref circlePoints, -GlobalPosition);
@@ -45,7 +45,7 @@ public partial class CircleFish : Path2D, IBlasterTarget
 	
 	public override void _PhysicsProcess(double delta)
 	{
-		ProcessPathFollow(_pathFollow, _speed, delta);
+		ProcessPathFollow(_pathFollow, Speed, delta);
 	}
 	
 	public void ReactToBlastHit()

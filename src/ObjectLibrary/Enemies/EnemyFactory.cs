@@ -3,7 +3,7 @@ using Godot;
 
 public interface IEnemyFactory
 {
-    CircleFish SpawnCircleFish(Node parent, Vector2 globalPosition);
+    CircleFish SpawnCircleFish(Node parent, Vector2 globalPosition, float? speed = null, float? radius = null);
     LineFish SpawnLineFish(Node parent, Vector2 globalPosition);
     PathFindingFish SpawnPathFindingFish(Node parent, Vector2 globalPosition);
 }
@@ -26,11 +26,13 @@ public partial class EnemyFactory : Node, IEnemyFactory
         _pathFindingFishScene = (PackedScene)ResourceLoader.Load(PATH_FINDING_FISH_PATH);
     } 
 
-    public CircleFish SpawnCircleFish(Node parent, Vector2 globalPosition)
+    public CircleFish SpawnCircleFish(Node parent, Vector2 globalPosition, float? speed = null, float? radius = null)
 	{
 		var result = _circleFishScene.Instantiate<CircleFish>();
 		parent.AddChild(result);
 		result.GlobalPosition = globalPosition;
+        if (speed.HasValue) result.Speed = speed.Value;
+        if (radius.HasValue) result.Radius = radius.Value;
 		return result;
 	}
 

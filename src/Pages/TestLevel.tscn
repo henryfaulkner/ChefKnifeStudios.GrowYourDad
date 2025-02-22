@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://crcpx513j57hx"]
+[gd_scene load_steps=13 format=3 uid="uid://crcpx513j57hx"]
 
 [ext_resource type="Script" path="res://ObjectLibrary/PC/PC.cs" id="1_7j6ln"]
 [ext_resource type="Script" path="res://Pages/LevelGenerator.cs" id="1_vm1a8"]
@@ -8,10 +8,18 @@
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="5_nk2bu"]
 [ext_resource type="TileSet" uid="uid://2tk1djwsligw" path="res://Pages/TileSet.tres" id="7_ad0wk"]
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_2gbak"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_f37us"]
+noise_type = 3
+frequency = 0.08
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_r22d7"]
-noise = SubResource("FastNoiseLite_2gbak")
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_nruxt"]
+noise = SubResource("FastNoiseLite_f37us")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_y7vit"]
+seed = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_hyjks"]
+noise = SubResource("FastNoiseLite_y7vit")
 
 [sub_resource type="Resource" id="Resource_8nvxf"]
 script = ExtResource("5_nk2bu")
@@ -22,7 +30,8 @@ ease = 2
 [node name="TestLevel" type="Node2D" node_paths=PackedStringArray("TileMapLayer")]
 script = ExtResource("1_vm1a8")
 TileMapLayer = NodePath("TileMapLayer")
-_noiseHeightText = SubResource("NoiseTexture2D_r22d7")
+_noiseTexturePlatform = SubResource("NoiseTexture2D_nruxt")
+_noiseTextureEnemy = SubResource("NoiseTexture2D_hyjks")
 
 [node name="PC" type="Node2D" parent="." node_paths=PackedStringArray("_controller")]
 script = ExtResource("1_7j6ln")

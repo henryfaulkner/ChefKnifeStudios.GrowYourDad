@@ -1,4 +1,5 @@
 using Godot;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,13 @@ public partial class LevelGenerator : Node2D
 	[Export]
 	TileMapLayer TileMapLayer = null!;
 	[Export]
-	NoiseTexture2D _noiseHeightText = null!;
+	NoiseTexture2D _noiseTexturePlatform = null!;
+	[Export]
+	NoiseTexture2D _noiseTextureEnemy = null!;
 
-	const int WIDTH = 50;
+	const int WIDTH = 30;
 	const int HEIGHT = 200;
+	const int TILE_SQUARE_SIZE = 16;
 	const int CLIFF_TILE_SET_SOURCE_ID = 1;
 
 	IEnemyFactory _enemyFactory = null!;
@@ -20,14 +24,16 @@ public partial class LevelGenerator : Node2D
 
 	// List to store spawned obsticles
 	List<Node2D> _spawnedObsticles = new();
-	Noise _noise = null!;
+	Noise _noisePlatform = null!;
+	Noise _noiseEnemy = null!;
 
 	public override void _Ready()
 	{
 		_enemyFactory = GetNode<IEnemyFactory>(Constants.SingletonNodes.EnemyFactory);
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 
-		_noise = _noiseHeightText.Noise;
+		_noisePlatform = _noiseTexturePlatform.Noise;
+		_noiseEnemy = _noiseTextureEnemy.Noise;
 		GenerateLevel();
 	}
 
@@ -39,22 +45,27 @@ public partial class LevelGenerator : Node2D
 		var lowestHeight = 0;
 		var highestHeight = HEIGHT;
 
-		List<float> noiseValueList = new();
+		List<float> noiseValuePlatformList = new();
+		List<float> noiseValueEnemyList = new();
 
 		for (int x = lowestWidth; x < highestWidth; x += 1) 
 		{
 			for (int y = lowestHeight; y < highestHeight; y += 1)
 			{
-				var noiseVal = _noise.GetNoise2D(x, y);
-				noiseValueList.Add(noiseVal);
+				var noiseValPlatform = _noisePlatform.GetNoise2D(x, y);
+				noiseValuePlatformList.Add(noiseValPlatform);
+				noiseValueEnemyList.Add(_noiseEnemy.GetNoise2D(x, y));
 			}
 		}
 
-		_logger.LogInfo($"Highest: {noiseValueList.Max()}");
-		_logger.LogInfo($"Lowest: {noiseValueList.Min()}");
+		_logger.LogInfo($"Highest: {noiseValuePlatformList.Max()}");
+		_logger.LogInfo($"Lowest: {noiseValuePlatformList.Min()}");
+		_logger.LogInfo($"Highest: {noiseValueEnemyList.Max()}");
+		_logger.LogInfo($"Lowest: {noiseValueEnemyList.Min()}");
 
 		GenerateWalls(lowestWidth, highestWidth, lowestHeight, highestHeight);
 		GeneratePlatforms(lowestWidth, highestWidth, lowestHeight, highestHeight);
+		GenerateEnemies(lowestWidth, highestWidth, lowestHeight, highestHeight);
 	}
 
 	void GenerateWalls(int lowestWidth, int highestWidth, int lowestHeight, int highestHeight)
@@ -162,7 +173,7 @@ public partial class LevelGenerator : Node2D
 	{
 		var cliffTileCoords = new CliffTileSetCoords();
 		int layerSideDecisionInterval = 5; // n layers
-		List<int> layerSideNonDecisionIntervals = new() { 7, 12 }; // not m layers
+		List<int> layerSideNonDecisionIntervals = new() { 4, 6, 12 }; // not m layers
 		int widthDelta = highestWidth - lowestWidth;
 
 		for (int y = lowestHeight; y < highestHeight; y += 1)
@@ -203,28 +214,69 @@ public partial class LevelGenerator : Node2D
 	void GeneratePlatformLayer(int y, CliffTileSetCoords cliffTileSetCoords, int lowestWidth, int highestWidth)
 	{
 		for (int x = lowestWidth; x < highestWidth; x += 1) 
-		{	 
-			// Generate Platforms tiles
-			// Good video for procedural generation: https://www.youtube.com/watch?v=rlUzizExe2Q&t=356s and https://www.youtube.com/watch?v=dDihRqJZ_-M
-			var noiseVal = _noise.GetNoise2D(x, y);
-			
+		{
 			var cellData = TileMapLayer.GetCellTileData(new Vector2I(x, y));
 			if (cellData == null) // if cellData is NOT null, a cell already exists there
 			{
-				if (noiseVal > 0.20 || noiseVal < -0.15) 
+				// Good video for procedural generation: https://www.youtube.com/watch?v=rlUzizExe2Q&t=356s and https://www.youtube.com/watch?v=dDihRqJZ_-M
+				var noiseVal = _noisePlatform.GetNoise2D(x, y);
+				if (noiseVal > 0.2 || noiseVal < -0.2) 
 					TileMapLayer.SetCell(new Vector2I(x, y), CLIFF_TILE_SET_SOURCE_ID, cliffTileSetCoords.GetRandomPlatformCell());
 			}
 		}
 	}
 
+	enum Enemies 
+	{
+		CircleFish,
+		//LineFish, uncomment when line draw logic is ready
+		PathFindingFish,
+	}
+
 	void GenerateEnemies(int lowestWidth, int highestWidth, int lowestHeight, int highestHeight)
 	{
-		for (int x = lowestWidth; x < highestWidth; x += 1) 
-		{
-			for (int y = lowestHeight; y < highestHeight; y += 1)
-			{  
-				// Generate Enemies nodes
+		Random rand = new();
 
+		float cfMinSpeed = 0.3f;
+		float cfMaxSpeed = 1.2f;
+		float cfMinRadius = 1.5f;
+		float cfMaxRadius = 3.5f;
+
+		_logger.LogInfo($"lowestHeight {lowestHeight}");
+		_logger.LogInfo($"highestHeight {highestHeight}");
+		_logger.LogInfo($"lowestWidth {lowestWidth}");
+		_logger.LogInfo($"highestWidth {highestWidth}");
+
+		for (int y = lowestHeight; y < highestHeight; y += 1)
+		{ 
+			for (int x = lowestWidth; x < highestWidth; x += 1) 
+			{ 
+				var cellData = TileMapLayer.GetCellTileData(new Vector2I(x, y));
+				if (cellData == null) // if cellData is NOT null, a cell already exists there
+				{
+					double spawnChance = 0.002;
+					//plus check for num enemies in area. Restrict to 3 max.
+					if (spawnChance > rand.NextDouble())
+					{
+						Vector2 spawnPos = new Vector2(x*TILE_SQUARE_SIZE, y*TILE_SQUARE_SIZE);
+						_logger.LogInfo($"spawnPos {spawnPos.ToString()}");
+						var enemyType = default(Enemies).Random();
+						switch (enemyType)
+						{
+							case Enemies.CircleFish:
+								var speed = (float)rand.NextDouble() * (cfMaxSpeed - cfMinSpeed) + cfMinSpeed;
+								var radius = (float)rand.NextDouble() * (cfMaxRadius - cfMinRadius) + cfMinRadius;
+								_ = _enemyFactory.SpawnCircleFish(this, spawnPos, speed, radius);
+								break;
+							case Enemies.PathFindingFish:
+								_ = _enemyFactory.SpawnPathFindingFish(this, spawnPos);
+								break;
+							default:
+								_logger.LogError("LevelGenerator GenerateEnemies Enemies did not map properly.");
+								break;
+						}
+					}
+				}
 			}
 		}
 	}
@@ -235,7 +287,7 @@ public partial class LevelGenerator : Node2D
 		foreach (Node2D obsticle in _spawnedObsticles)
 		{
 			// Get the size of the existing tile
-			Vector2 existingTileSize = GetObsticleSize(obsticle); // Define this to retrieve size of existing tiles
+			Vector2 existingTileSize = new Vector2(TILE_SQUARE_SIZE, TILE_SQUARE_SIZE); // Define this to retrieve size of existing tiles
 
 			if (CheckOverlap(position, size, obsticle.Position, existingTileSize))
 			{
@@ -254,14 +306,5 @@ public partial class LevelGenerator : Node2D
 		Rect2 rect1 = new Rect2(pos1, size1);
 		Rect2 rect2 = new Rect2(pos2, size2);
 		return rect1.Intersects(rect2);
-	}
-
-	// Helper to get tile size; customize this for your game
-	static Vector2 GetObsticleSize(Node2D tile)
-	{
-		// Example: Assume tile has a CollisionShape2D with a RectangleShape2D
-		CollisionShape2D collisionShape = tile.GetNode<CollisionShape2D>("CollisionShape2D");
-		RectangleShape2D rectShape = (RectangleShape2D)collisionShape.Shape;
-		return rectShape.Size; 
 	}
 }

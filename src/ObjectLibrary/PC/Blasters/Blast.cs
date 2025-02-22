@@ -13,6 +13,7 @@ public partial class Blast : RigidBody2D
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 
 		HitBox.AreaEntered += HandleBlastHit;
+		HitBox.BodyEntered += HandleTileHit;
 	}
 
 	void HandleBlastHit(Area2D target)
@@ -22,5 +23,13 @@ public partial class Blast : RigidBody2D
 			blasterTargetArea2D.EmitSignalBlasterTargetHit();
 			QueueFree();
 		} 
+	}
+
+	void HandleTileHit(Node2D target)
+	{
+		if (target is TileMapLayer tileMapLayer)
+		{
+			QueueFree();
+		}
 	}
 }
