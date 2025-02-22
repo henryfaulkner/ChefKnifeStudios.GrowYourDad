@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://crcpx513j57hx"]
+[gd_scene load_steps=11 format=3 uid="uid://crcpx513j57hx"]
 
 [ext_resource type="Script" path="res://ObjectLibrary/PC/PC.cs" id="1_7j6ln"]
 [ext_resource type="Script" path="res://Pages/LevelGenerator.cs" id="1_vm1a8"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="3_ked4j"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="4_fling"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="5_nk2bu"]
+[ext_resource type="TileSet" uid="uid://2tk1djwsligw" path="res://Pages/TileSet.tres" id="7_ad0wk"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_2gbak"]
 
@@ -18,8 +19,9 @@ duration = 1.0
 transition = 0
 ease = 2
 
-[node name="TestLevel" type="Node2D"]
+[node name="TestLevel" type="Node2D" node_paths=PackedStringArray("TileMapLayer")]
 script = ExtResource("1_vm1a8")
+TileMapLayer = NodePath("TileMapLayer")
 _noiseHeightText = SubResource("NoiseTexture2D_r22d7")
 
 [node name="PC" type="Node2D" parent="." node_paths=PackedStringArray("_controller")]
@@ -44,3 +46,6 @@ follow_target = NodePath("../PC/GravityController")
 tween_resource = SubResource("Resource_8nvxf")
 dead_zone_width = 0.35
 dead_zone_height = 0.25
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_set = ExtResource("7_ad0wk")

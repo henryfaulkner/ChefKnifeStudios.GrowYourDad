@@ -85,6 +85,10 @@ triple-shot={
 ]
 }
 
+[physics]
+
+common/physics_interpolation=true
+
 [rendering]
 
 renderer/rendering_method="mobile"
