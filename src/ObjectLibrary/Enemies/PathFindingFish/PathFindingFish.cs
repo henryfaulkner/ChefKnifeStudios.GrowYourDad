@@ -11,7 +11,7 @@ public partial class PathFindingFish : Agent, IBlasterTarget
 	[Export]
 	Node2D _rayCastContainer { get; set; }
 	[Export]
-	BlasterTargetArea2D _hitBox;
+	TargetArea2D _hitBox;
 
 	[ExportGroup("Variables")]
 	[Export]
@@ -63,7 +63,7 @@ public partial class PathFindingFish : Agent, IBlasterTarget
 			_rayCastContainer.AddChild(rayCast);
 		}
 
-		_hitBox.BlasterTargetHit += ReactToBlastHit;
+		_hitBox.TargetHit += HandleHit;
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -91,10 +91,31 @@ public partial class PathFindingFish : Agent, IBlasterTarget
 	{
 	}
 	
+	public void HandleHit(int hitType)
+	{
+		switch ((Enumerations.HitTypes)hitType)
+		{
+			case Enumerations.HitTypes.Blast:
+				ReactToBlastHit();
+				break;
+			case Enumerations.HitTypes.Boots:
+				ReactToBootsHit();
+				break;
+			default:
+				_logger.LogError("CircleFish HandleHit did not map properly.");
+				break;
+		}
+	}
+	
 	public void ReactToBlastHit()
 	{
 		if (!_isFlashing) StartFlashing();
 		TakeDamage();
+	}
+
+	public void ReactToBootsHit()
+	{
+		QueueFree();
 	}
 
 	async void StartFlashing()

@@ -6,7 +6,7 @@ public partial class LineFish : Path2D, IBlasterTarget
 	[Export]
 	PathFollow2D _pathFollow;
 	[Export]
-	BlasterTargetArea2D _hitBox;
+	TargetArea2D _hitBox;
 
 	float _speed = 0.2f;
 	int _directionSign = 1;
@@ -27,7 +27,7 @@ public partial class LineFish : Path2D, IBlasterTarget
 	{
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 
-		_hitBox.BlasterTargetHit += ReactToBlastHit;
+		_hitBox.TargetHit += HandleHit;
 	}
 
 	public override void _Process(double delta)
@@ -35,10 +35,31 @@ public partial class LineFish : Path2D, IBlasterTarget
 		ProcessPathFollow(_pathFollow, _speed, delta);
 	}
 	
+	public void HandleHit(int hitType)
+	{
+		switch ((Enumerations.HitTypes)hitType)
+		{
+			case Enumerations.HitTypes.Blast:
+				ReactToBlastHit();
+				break;
+			case Enumerations.HitTypes.Boots:
+				ReactToBootsHit();
+				break;
+			default:
+				_logger.LogError("CircleFish HandleHit did not map properly.");
+				break;
+		}
+	}
+	
 	public void ReactToBlastHit()
 	{
 		if (!_isFlashing) StartFlashing();
 		TakeDamage();
+	}
+
+	public void ReactToBootsHit()
+	{
+		QueueFree();
 	}
 
 	async void StartFlashing()

@@ -11,6 +11,17 @@ public partial class GravityController : CharacterBody2D
 	[Export]
 	float _gravityRatio = 1.00f;
 
+	ILoggerService _logger;
+	Observables _observables;
+	
+	public override void _Ready() 
+	{
+		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
+		_observables = GetNode<Observables>(Constants.SingletonNodes.Observables);
+
+		_observables.BootsBounce += HandleBootsBounce;
+	}
+
 	public override void _PhysicsProcess(double delta)
 	{
 		Vector2 velocity = Velocity;
@@ -24,7 +35,7 @@ public partial class GravityController : CharacterBody2D
 		// Handle Jump.
 		if (Input.IsActionJustPressed("shoot"))
 		{
-			velocity.Y = (_shotVelocity * _gravityRatio);
+			velocity.Y = _shotVelocity * _gravityRatio;
 		}
 
 		// Get the input direction and handle the movement/deceleration.
@@ -40,5 +51,13 @@ public partial class GravityController : CharacterBody2D
 
 		Velocity = velocity;
 		MoveAndSlide();
+	}
+
+	void HandleBootsBounce()
+	{
+		_logger.LogInfo("GravityController HandleBootsBounce");
+		Vector2 velocity = Velocity;
+		velocity.Y = _shotVelocity * _gravityRatio;
+		Velocity = velocity;
 	}
 }

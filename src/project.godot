@@ -25,6 +25,7 @@ BlasterFactory="*res://ObjectLibrary/PC/Blasters/BlasterFactory.cs"
 BlastFactory="*res://ObjectLibrary/PC/Blasters/BlastFactory.cs"
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
 EnemyFactory="*res://ObjectLibrary/Enemies/EnemyFactory.cs"
+Observables="*res://Core/Observables.cs"
 
 [dotnet]
 

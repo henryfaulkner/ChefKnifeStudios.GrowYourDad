@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://cg25j8fnd1th6"]
 
 [ext_resource type="Script" path="res://ObjectLibrary/Enemies/LineFish/LineFish.cs" id="1_w1shf"]
-[ext_resource type="Script" path="res://ObjectLibrary/PC/Blasters/BlasterTargetArea2D.cs" id="2_cby2q"]
+[ext_resource type="Script" path="res://ObjectLibrary/Enemies/TargetArea2D.cs" id="2_cby2q"]
 
 [sub_resource type="Curve2D" id="Curve2D_ra2vn"]
 _data = {

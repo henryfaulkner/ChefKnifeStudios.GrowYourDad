@@ -19,4 +19,10 @@ public partial class Enumerations
 		[Description("Triple-Shot Blaster")]
 		TripleShotBlaster = 2,
 	}
+	
+	public enum HitTypes
+	{
+		Blast,
+		Boots,
+	}
 }

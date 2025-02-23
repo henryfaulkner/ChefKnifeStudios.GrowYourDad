@@ -8,7 +8,7 @@ public partial class CircleFish : Path2D, IBlasterTarget
 	[Export]
 	PathFollow2D _pathFollow;
 	[Export]
-	BlasterTargetArea2D _hitBox;
+	TargetArea2D _hitBox;
 	
 	[ExportGroup("Variables")]
 	[Export]
@@ -40,18 +40,39 @@ public partial class CircleFish : Path2D, IBlasterTarget
 
 		Curve = CreateCurve(circlePoints);
 
-		_hitBox.BlasterTargetHit += ReactToBlastHit;
+		_hitBox.TargetHit += HandleHit;
 	}
 	
 	public override void _PhysicsProcess(double delta)
 	{
 		ProcessPathFollow(_pathFollow, Speed, delta);
 	}
+
+	public void HandleHit(int hitType)
+	{
+		switch ((Enumerations.HitTypes)hitType)
+		{
+			case Enumerations.HitTypes.Blast:
+				ReactToBlastHit();
+				break;
+			case Enumerations.HitTypes.Boots:
+				ReactToBootsHit();
+				break;
+			default:
+				_logger.LogError("CircleFish HandleHit did not map properly.");
+				break;
+		}
+	}
 	
 	public void ReactToBlastHit()
 	{
 		if (!_isFlashing) StartFlashing();
 		TakeDamage();
+	}
+
+	public void ReactToBootsHit()
+	{
+		QueueFree();
 	}
 
 	async void StartFlashing()
