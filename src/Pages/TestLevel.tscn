@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://crcpx513j57hx"]
+[gd_scene load_steps=18 format=3 uid="uid://crcpx513j57hx"]
 
 [ext_resource type="Script" path="res://ObjectLibrary/PC/PC.cs" id="1_7j6ln"]
 [ext_resource type="Script" path="res://Pages/LevelGenerator.cs" id="1_vm1a8"]
@@ -7,7 +7,11 @@
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="4_fling"]
 [ext_resource type="PackedScene" uid="uid://bnqi7if3qsvbu" path="res://ObjectLibrary/PC/Boots/Boots.tscn" id="4_uiaou"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="5_nk2bu"]
+[ext_resource type="Script" path="res://ObjectLibrary/HUD.cs" id="6_i0uts"]
+[ext_resource type="PackedScene" uid="uid://v5sccupxhj7q" path="res://ObjectLibrary/Meter/Meter.tscn" id="6_v4xox"]
 [ext_resource type="TileSet" uid="uid://2tk1djwsligw" path="res://Pages/TileSet.tres" id="7_ad0wk"]
+[ext_resource type="Texture2D" uid="uid://ctmmi8iho7gu4" path="res://Assets/Images/Icons/HeartMeterIcon.png" id="7_g4q0p"]
+[ext_resource type="Texture2D" uid="uid://dw5fvi3uh70tn" path="res://Assets/Images/Icons/StatsIconFA.png" id="8_qos51"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_f37us"]
 noise_type = 3
@@ -28,11 +32,12 @@ duration = 1.0
 transition = 0
 ease = 2
 
-[node name="TestLevel" type="Node2D" node_paths=PackedStringArray("TileMapLayer")]
+[node name="TestLevel" type="Node2D" node_paths=PackedStringArray("TileMapLayer", "_navRegion")]
 script = ExtResource("1_vm1a8")
-TileMapLayer = NodePath("TileMapLayer")
+TileMapLayer = NodePath("NavigationRegion2D/TileMapLayer")
 _noiseTexturePlatform = SubResource("NoiseTexture2D_nruxt")
 _noiseTextureEnemy = SubResource("NoiseTexture2D_hyjks")
+_navRegion = NodePath("NavigationRegion2D")
 
 [node name="PC" type="Node2D" parent="." node_paths=PackedStringArray("_controller")]
 script = ExtResource("1_7j6ln")
@@ -53,6 +58,42 @@ process_priority = 300
 process_physics_priority = 300
 script = ExtResource("3_ked4j")
 
+[node name="HUD" type="CanvasLayer" parent="Camera2D"]
+script = ExtResource("6_i0uts")
+
+[node name="MarginContainer" type="MarginContainer" parent="Camera2D/HUD"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera2D/HUD/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Camera2D/HUD/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Camera2D/HUD/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Meters" type="VBoxContainer" parent="Camera2D/HUD/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HpMeter" parent="Camera2D/HUD/MarginContainer/VBoxContainer/HBoxContainer/Meters" instance=ExtResource("6_v4xox")]
+layout_mode = 2
+IconTexture = ExtResource("7_g4q0p")
+
+[node name="SpMeter" parent="Camera2D/HUD/MarginContainer/VBoxContainer/HBoxContainer/Meters" instance=ExtResource("6_v4xox")]
+layout_mode = 2
+IconTexture = ExtResource("8_qos51")
+
+[node name="Control2" type="Control" parent="Camera2D/HUD/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
 [node name="PhantomCamera2D" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
 top_level = true
 script = ExtResource("4_fling")
@@ -62,5 +103,8 @@ tween_resource = SubResource("Resource_8nvxf")
 dead_zone_width = 0.35
 dead_zone_height = 0.25
 
-[node name="TileMapLayer" type="TileMapLayer" parent="."]
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="NavigationRegion2D"]
 tile_set = ExtResource("7_ad0wk")
+navigation_enabled = false

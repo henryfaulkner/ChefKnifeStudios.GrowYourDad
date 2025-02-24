@@ -40,11 +40,23 @@ public partial class AgentController : CharacterBody2D
 	
 	public override void _PhysicsProcess(double _delta)
 	{
-		if (_navTarget == null) return;
-		if (NavAgent.IsNavigationFinished()) return;
+		if (_navTarget == null) 
+		{
+			//_logger.LogInfo("AgentController _navTarget == null");
+			return;
+		}
+		if (NavAgent.IsNavigationFinished()) 
+		{
+			//_logger.LogInfo("AgentController NavAgent.IsNavigationFinished()");
+			return;
+		}
 
 		Vector2 nextPathPosition = NavAgent.GetNextPathPosition();
 		Vector2 newVelocity = GlobalPosition.DirectionTo(nextPathPosition) * _movementSpeed;
+		
+		// _logger.LogInfo($"AgentController nextPathPosition {nextPathPosition.ToString()}");
+		// _logger.LogInfo($"AgentController newVelocity {newVelocity.ToString()}");
+		// _logger.LogInfo($"AgentController NavAgent.AvoidanceEnabled {NavAgent.AvoidanceEnabled}");
 		if (NavAgent.AvoidanceEnabled)
 			NavAgent.SetVelocity(newVelocity);
 		else

@@ -13,9 +13,11 @@ public partial class LevelGenerator : Node2D
 	NoiseTexture2D _noiseTexturePlatform = null!;
 	[Export]
 	NoiseTexture2D _noiseTextureEnemy = null!;
+	[Export]
+	NavigationRegion2D _navRegion = null!;
 
 	const int WIDTH = 30;
-	const int HEIGHT = 200;
+	const int HEIGHT = 1000;
 	const int TILE_SQUARE_SIZE = 16;
 	const int CLIFF_TILE_SET_SOURCE_ID = 1;
 
@@ -66,6 +68,7 @@ public partial class LevelGenerator : Node2D
 		GenerateWalls(lowestWidth, highestWidth, lowestHeight, highestHeight);
 		GeneratePlatforms(lowestWidth, highestWidth, lowestHeight, highestHeight);
 		GenerateEnemies(lowestWidth, highestWidth, lowestHeight, highestHeight);
+		GenerateNavigationRegion(lowestWidth, highestWidth, lowestHeight, highestHeight);
 	}
 
 	void GenerateWalls(int lowestWidth, int highestWidth, int lowestHeight, int highestHeight)
@@ -242,11 +245,6 @@ public partial class LevelGenerator : Node2D
 		float cfMinRadius = 1.5f;
 		float cfMaxRadius = 3.5f;
 
-		_logger.LogInfo($"lowestHeight {lowestHeight}");
-		_logger.LogInfo($"highestHeight {highestHeight}");
-		_logger.LogInfo($"lowestWidth {lowestWidth}");
-		_logger.LogInfo($"highestWidth {highestWidth}");
-
 		for (int y = lowestHeight; y < highestHeight; y += 1)
 		{ 
 			for (int x = lowestWidth; x < highestWidth; x += 1) 
@@ -259,7 +257,6 @@ public partial class LevelGenerator : Node2D
 					if (spawnChance > rand.NextDouble())
 					{
 						Vector2 spawnPos = new Vector2(x*TILE_SQUARE_SIZE, y*TILE_SQUARE_SIZE);
-						_logger.LogInfo($"spawnPos {spawnPos.ToString()}");
 						var enemyType = default(Enemies).Random();
 						switch (enemyType)
 						{
@@ -279,6 +276,30 @@ public partial class LevelGenerator : Node2D
 				}
 			}
 		}
+	}
+
+	
+
+	// Try redditor's comment's approach
+	// https://www.reddit.com/r/godot/comments/1bnoxou/i_tried_adding_navigation_regions_to_my/
+	void GenerateNavigationRegion(int lowestWidth, int highestWidth, int lowestHeight, int highestHeight)
+	{
+		// Create Nav Polygon with Vertices which surround the generated map
+		// Add Nav Polygon to Nav Region
+		// Bake the new nav poly with new vertices, into the nav region node
+		// Note: TileMapLayer should be child of the Nav Region node
+
+		var newNavigationMesh = new NavigationPolygon();
+		var boundingOutline = new Vector2[]
+		{
+			new Vector2(lowestWidth*TILE_SQUARE_SIZE, lowestHeight*TILE_SQUARE_SIZE),
+			new Vector2(lowestWidth*TILE_SQUARE_SIZE, highestHeight*TILE_SQUARE_SIZE),
+			new Vector2(highestWidth*TILE_SQUARE_SIZE, highestHeight*TILE_SQUARE_SIZE),
+			new Vector2(highestWidth*TILE_SQUARE_SIZE, lowestHeight*TILE_SQUARE_SIZE) 
+		};
+		newNavigationMesh.AddOutline(boundingOutline);
+		NavigationServer2D.BakeFromSourceGeometryData(newNavigationMesh, new NavigationMeshSourceGeometryData2D());
+		_navRegion.NavigationPolygon = newNavigationMesh;
 	}
 
 	// Recursive function to find a valid position for a tile of specific size

@@ -15,7 +15,7 @@ public partial class PathFindingFish : Agent, IBlasterTarget
 
 	[ExportGroup("Variables")]
 	[Export]
-	float _castRadius = 90.0f;
+	float _castRadius = 360.0f;
 	[Export]
 	int _numCasts = 25;
 
@@ -72,16 +72,23 @@ public partial class PathFindingFish : Agent, IBlasterTarget
 		
 		_navTarget = DetectPlayerCharacter(_rayCastList);
 
+		// if (_navTarget == null)
+		// 	_logger.LogInfo("raycasts DOES NOT detect PC");
+		// else 
+		// 	_logger.LogInfo("raycasts DOES detect PC");
+
 		if (_state == States.Searching && _navTarget != null)
 		{
 			// If raycasts detects PC, target PC with NavAgent and set state to Approaching
+			_logger.LogInfo("raycasts detects PC, target PC with NavAgent and set state to Approaching");
 			SetNavTarget(_navTarget);
 			_state = States.Approaching;
 		} 
 
 		if (_state == States.Approaching && _navTarget == null)
 		{
-			// If raycasts do not detect PC, remove target from NavAgent and set state to Searching
+			// If raycasts does not detect PC, remove target from NavAgent and set state to Searching
+			_logger.LogInfo("raycasts does not detect PC, remove target from NavAgent and set state to Searching");
 			SetNavTarget(_navTarget);
 			_state = States.Searching;
 		}

@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://v5sccupxhj7q"]
+
+[ext_resource type="Script" path="res://ObjectLibrary/Meter/Meter.cs" id="1_r3ic7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ksxls"]
+bg_color = Color(1, 0.347681, 0.232992, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vaiu7"]
+bg_color = Color(0.174171, 0.721662, 1.92523e-07, 1)
+
+[node name="Meter" type="MarginContainer" node_paths=PackedStringArray("Icon", "ProgressBar", "ValueLabel")]
+offset_right = 795.0
+offset_bottom = 25.0
+size_flags_vertical = 3
+script = ExtResource("1_r3ic7")
+Icon = NodePath("HBoxContainer/TextureRect")
+ProgressBar = NodePath("HBoxContainer/ProgressBar")
+ValueLabel = NodePath("HBoxContainer/Value")
+
+[node name="HBoxContainer" type="GridContainer" parent="."]
+layout_mode = 2
+columns = 3
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 4.87
+tooltip_text = "Love Level"
+expand_mode = 1
+stretch_mode = 4
+
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/background = SubResource("StyleBoxFlat_ksxls")
+theme_override_styles/fill = SubResource("StyleBoxFlat_vaiu7")
+max_value = 5.0
+value = 1.0
+
+[node name="Value" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "9/9"

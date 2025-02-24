@@ -55,7 +55,6 @@ public partial class GravityController : CharacterBody2D
 
 	void HandleBootsBounce()
 	{
-		_logger.LogInfo("GravityController HandleBootsBounce");
 		Vector2 velocity = Velocity;
 		velocity.Y = _shotVelocity * _gravityRatio;
 		Velocity = velocity;
