@@ -12,11 +12,13 @@ public partial class PC : Node2D
 	
 	ILoggerService _logger;
 	IBlasterFactory _blasterFactory;
+	Observables _observables;
 	
 	public override void _Ready()
 	{
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 		_blasterFactory = GetNode<IBlasterFactory>(Constants.SingletonNodes.BlasterFactory);
+		_observables = GetNode<Observables>(Constants.SingletonNodes.Observables);
 
 		_blaster = CreateBlaster(_blasterFactory, Enumerations.BlasterTypes.SingleShotBlaster);
 	}

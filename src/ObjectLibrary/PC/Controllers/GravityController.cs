@@ -13,11 +13,13 @@ public partial class GravityController : CharacterBody2D
 
 	ILoggerService _logger;
 	Observables _observables;
+	IGameStateService _gameStateService;
 	
 	public override void _Ready() 
 	{
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 		_observables = GetNode<Observables>(Constants.SingletonNodes.Observables);
+		_gameStateService = GetNode<GameStateService>(Constants.SingletonNodes.GameStateService);
 
 		_observables.BootsBounce += HandleBootsBounce;
 	}
@@ -33,7 +35,7 @@ public partial class GravityController : CharacterBody2D
 		}
 
 		// Handle Jump.
-		if (Input.IsActionJustPressed("shoot"))
+		if (Input.IsActionJustPressed("shoot") && _gameStateService.SpValue > 0)
 		{
 			velocity.Y = _shotVelocity * _gravityRatio;
 		}
@@ -51,6 +53,11 @@ public partial class GravityController : CharacterBody2D
 
 		Velocity = velocity;
 		MoveAndSlide();
+		
+		if (IsOnFloor())
+		{
+			_gameStateService.SpValue = _gameStateService.SpMax;
+		}
 	}
 
 	void HandleBootsBounce()
