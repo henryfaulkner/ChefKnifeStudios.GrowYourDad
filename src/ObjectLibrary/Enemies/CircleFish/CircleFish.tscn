@@ -14,11 +14,10 @@ height = 16.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jocp6"]
 
-[node name="CircleFish" type="Path2D" node_paths=PackedStringArray("_pathFollow", "_hitBox")]
+[node name="CircleFish" type="Path2D" node_paths=PackedStringArray("_pathFollow")]
 curve = SubResource("Curve2D_mt744")
 script = ExtResource("1_i5e5b")
 _pathFollow = NodePath("PathFollow2D")
-_hitBox = NodePath("PathFollow2D/StaticBody2D/HurtBox")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="."]
 
