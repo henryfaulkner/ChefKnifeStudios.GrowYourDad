@@ -8,7 +8,7 @@ public partial class CircleFish : Path2D, IBlasterTarget
 	[Export]
 	PathFollow2D _pathFollow;
 	[Export]
-	TargetArea2D _hitBox;
+	TargetArea2D _hurtBox;
 	
 	[ExportGroup("Variables")]
 	[Export]
@@ -40,7 +40,7 @@ public partial class CircleFish : Path2D, IBlasterTarget
 
 		Curve = CreateCurve(circlePoints);
 
-		_hitBox.TargetHit += HandleHit;
+		_hurtBox.TargetHit += HandleHit;
 	}
 	
 	public override void _PhysicsProcess(double delta)

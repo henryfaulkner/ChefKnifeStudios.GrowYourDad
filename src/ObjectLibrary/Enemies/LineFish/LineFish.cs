@@ -6,7 +6,7 @@ public partial class LineFish : Path2D, IBlasterTarget
 	[Export]
 	PathFollow2D _pathFollow;
 	[Export]
-	TargetArea2D _hitBox;
+	TargetArea2D _hurtBox;
 
 	float _speed = 0.2f;
 	int _directionSign = 1;
@@ -27,7 +27,7 @@ public partial class LineFish : Path2D, IBlasterTarget
 	{
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 
-		_hitBox.TargetHit += HandleHit;
+		_hurtBox.TargetHit += HandleHit;
 	}
 
 	public override void _Process(double delta)

@@ -24,6 +24,7 @@ public partial class GravityController : CharacterBody2D
 		_observables.BootsBounce += HandleBootsBounce;
 	}
 
+	bool recentSpZero = true;
 	public override void _PhysicsProcess(double delta)
 	{
 		Vector2 velocity = Velocity;
@@ -35,10 +36,12 @@ public partial class GravityController : CharacterBody2D
 		}
 
 		// Handle Jump.
-		if (Input.IsActionJustPressed("shoot") && _gameStateService.SpValue > 0)
+		if (Input.IsActionJustPressed("shoot") && (_gameStateService.SpValue > 0 || recentSpZero))
 		{
+			_logger.LogInfo($"Jump!!");
 			velocity.Y = _shotVelocity * _gravityRatio;
-		}
+			if (_gameStateService.SpValue <= 0) recentSpZero = false;
+		} 
 
 		// Get the input direction and handle the movement/deceleration.
 		Vector2 direction = Input.GetVector("left", "right", "up", "down");
@@ -51,12 +54,16 @@ public partial class GravityController : CharacterBody2D
 			velocity.X = Mathf.MoveToward(Velocity.X, 0, _airSpeed);
 		}
 
+		if (velocity.Y >= (GetGravity() * _gravityRatio).Y)
+			velocity.Y = (GetGravity() * _gravityRatio).Y;
+		
 		Velocity = velocity;
 		MoveAndSlide();
 		
 		if (IsOnFloor())
 		{
 			_gameStateService.SpValue = _gameStateService.SpMax;
+			recentSpZero = true;
 		}
 	}
 

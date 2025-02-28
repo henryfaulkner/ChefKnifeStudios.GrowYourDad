@@ -18,7 +18,7 @@ height = 16.0
 curve = SubResource("Curve2D_mt744")
 script = ExtResource("1_i5e5b")
 _pathFollow = NodePath("PathFollow2D")
-_hitBox = NodePath("PathFollow2D/StaticBody2D/Area2D")
+_hitBox = NodePath("PathFollow2D/StaticBody2D/HurtBox")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="."]
 
@@ -30,8 +30,8 @@ shape = SubResource("CircleShape2D_neqbu")
 [node name="MeshInstance2D" type="MeshInstance2D" parent="PathFollow2D/StaticBody2D"]
 mesh = SubResource("SphereMesh_hp70r")
 
-[node name="Area2D" type="Area2D" parent="PathFollow2D/StaticBody2D"]
+[node name="HurtBox" type="Area2D" parent="PathFollow2D/StaticBody2D"]
 script = ExtResource("2_gecy1")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/StaticBody2D/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/StaticBody2D/HurtBox"]
 shape = SubResource("CircleShape2D_jocp6")
