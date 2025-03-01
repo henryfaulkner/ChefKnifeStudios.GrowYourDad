@@ -18,11 +18,11 @@ height = 16.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3xuhc"]
 
-[node name="LineFish" type="Path2D" node_paths=PackedStringArray("_pathFollow", "_hitBox")]
+[node name="LineFish" type="Path2D" node_paths=PackedStringArray("_pathFollow", "_hurtBox")]
 curve = SubResource("Curve2D_ra2vn")
 script = ExtResource("1_w1shf")
 _pathFollow = NodePath("PathFollow2D")
-_hitBox = NodePath("PathFollow2D/StaticBody2D/Area2D")
+_hurtBox = NodePath("PathFollow2D/StaticBody2D/Area2D")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="."]
 position = Vector2(305, 35)

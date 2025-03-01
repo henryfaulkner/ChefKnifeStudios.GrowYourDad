@@ -38,7 +38,6 @@ public partial class GravityController : CharacterBody2D
 		// Handle Jump.
 		if (Input.IsActionJustPressed("shoot") && (_gameStateService.SpValue > 0 || recentSpZero))
 		{
-			_logger.LogInfo($"Jump!!");
 			velocity.Y = _shotVelocity * _gravityRatio;
 			if (_gameStateService.SpValue <= 0) recentSpZero = false;
 		} 

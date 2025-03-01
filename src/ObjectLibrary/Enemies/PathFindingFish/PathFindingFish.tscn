@@ -13,10 +13,10 @@ height = 16.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_k6caf"]
 
-[node name="PathFindingFish" type="Node2D" node_paths=PackedStringArray("_rayCastContainer", "_hitBox", "Controller")]
+[node name="PathFindingFish" type="Node2D" node_paths=PackedStringArray("_rayCastContainer", "_hurtBox", "Controller")]
 script = ExtResource("1_jkpf0")
 _rayCastContainer = NodePath("RayCastContainer")
-_hitBox = NodePath("AgentController/Area2D")
+_hurtBox = NodePath("AgentController/Area2D")
 Controller = NodePath("AgentController")
 
 [node name="AgentController" type="CharacterBody2D" parent="." node_paths=PackedStringArray("Area", "AreaCollision", "Collision", "NavAgent", "NavTimer")]

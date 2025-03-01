@@ -80,7 +80,7 @@ public partial class PathFindingFish : Agent, IBlasterTarget
 		if (_state == States.Searching && _navTarget != null)
 		{
 			// If raycasts detects PC, target PC with NavAgent and set state to Approaching
-			_logger.LogInfo("raycasts detects PC, target PC with NavAgent and set state to Approaching");
+			_logger.LogDebug("raycasts detects PC, target PC with NavAgent and set state to Approaching");
 			SetNavTarget(_navTarget);
 			_state = States.Approaching;
 		} 
@@ -88,7 +88,7 @@ public partial class PathFindingFish : Agent, IBlasterTarget
 		if (_state == States.Approaching && _navTarget == null)
 		{
 			// If raycasts does not detect PC, remove target from NavAgent and set state to Searching
-			_logger.LogInfo("raycasts does not detect PC, remove target from NavAgent and set state to Searching");
+			_logger.LogDebug("raycasts does not detect PC, remove target from NavAgent and set state to Searching");
 			SetNavTarget(_navTarget);
 			_state = States.Searching;
 		}
