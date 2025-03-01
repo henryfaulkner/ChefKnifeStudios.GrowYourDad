@@ -25,4 +25,12 @@ public partial class Enumerations
 		Blast,
 		Boots,
 	}
+
+	public enum PauseMenuPanels
+    {
+        Main,
+        AudioSettings,
+        GameplaySettings,
+        PlayerControls,
+    }
 }

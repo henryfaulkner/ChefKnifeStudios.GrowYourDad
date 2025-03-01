@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://crcpx513j57hx"]
+[gd_scene load_steps=20 format=3 uid="uid://crcpx513j57hx"]
 
 [ext_resource type="Script" path="res://ObjectLibrary/PC/PC.cs" id="1_7j6ln"]
 [ext_resource type="Script" path="res://Pages/ActionScene/ActionLevel.cs" id="1_spdap"]
@@ -13,6 +13,7 @@
 [ext_resource type="TileSet" uid="uid://2tk1djwsligw" path="res://Pages/TileSet.tres" id="7_ad0wk"]
 [ext_resource type="Texture2D" uid="uid://ctmmi8iho7gu4" path="res://Assets/Images/Icons/HeartMeterIcon.png" id="7_g4q0p"]
 [ext_resource type="Texture2D" uid="uid://dw5fvi3uh70tn" path="res://Assets/Images/Icons/StatsIconFA.png" id="8_qos51"]
+[ext_resource type="PackedScene" uid="uid://dwlmfdqio1b4g" path="res://ObjectLibrary/PauseMenu/PauseMenu.tscn" id="14_1jdno"]
 
 [sub_resource type="Resource" id="Resource_8nvxf"]
 script = ExtResource("5_nk2bu")
@@ -114,3 +115,5 @@ TileMapLayer = NodePath("../NavigationRegion2D/TileMapLayer")
 _noiseTexturePlatform = SubResource("NoiseTexture2D_nruxt")
 _noiseTextureEnemy = SubResource("NoiseTexture2D_hyjks")
 _navRegion = NodePath("../NavigationRegion2D")
+
+[node name="PauseMenu" parent="." instance=ExtResource("14_1jdno")]
