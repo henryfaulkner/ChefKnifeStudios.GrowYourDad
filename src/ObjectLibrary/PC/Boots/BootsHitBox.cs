@@ -17,9 +17,9 @@ public partial class BootsHitBox : Area2D
 
 	void HandleAreaEntered(Area2D target)
 	{
-		if (target is TargetArea2D targetArea2D)
+		if (target is EnemyHurtBoxArea targetArea2D)
 		{
-			targetArea2D.EmitSignalTargetHit(Enumerations.HitTypes.Boots);
+			targetArea2D.EmitSignalAreaHurt(Enumerations.PcAreas.Boots);
 			_observables.EmitBootsBounce();
 		}
 	}

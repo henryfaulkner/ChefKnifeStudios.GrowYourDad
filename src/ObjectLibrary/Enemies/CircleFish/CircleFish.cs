@@ -1,14 +1,17 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 
-public partial class CircleFish : Path2D, IBlasterTarget
+public partial class CircleFish : Path2D, IEnemy
 {
 	[ExportGroup("Nodes")]
 	[Export]
 	PathFollow2D _pathFollow;
 	[Export]
-	TargetArea2D _hurtBox;
+	EnemyHurtBoxArea _hurtBox;
+	[Export]
+	EnemyHitBoxArea _hitBox;
 	
 	[ExportGroup("Variables")]
 	[Export]
@@ -27,11 +30,14 @@ public partial class CircleFish : Path2D, IBlasterTarget
 	int _hp = 1;
 
 	ILoggerService _logger;
+	IGameStateService _gameStateService;
+
 	bool _isFlashing = false;
 
 	public override void _Ready()
 	{
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
+		_gameStateService = GetNode<IGameStateService>(Constants.SingletonNodes.GameStateService);
 		
 		var circlePoints = CircleHelper.GetCirclePoints(GlobalPosition, Radius, _numPoints);
 		
@@ -40,7 +46,8 @@ public partial class CircleFish : Path2D, IBlasterTarget
 
 		Curve = CreateCurve(circlePoints);
 
-		_hurtBox.TargetHit += HandleHit;
+		_hurtBox.AreaHurt += HandleHurt;
+		_hitBox.AreaHit += HandleHit;
 	}
 	
 	public override void _PhysicsProcess(double delta)
@@ -48,29 +55,54 @@ public partial class CircleFish : Path2D, IBlasterTarget
 		ProcessPathFollow(_pathFollow, Speed, delta);
 	}
 
-	public void HandleHit(int hitType)
+	public void HandleHit(int pcArea)
 	{
-		switch ((Enumerations.HitTypes)hitType)
+		switch ((Enumerations.PcAreas)pcArea)
 		{
-			case Enumerations.HitTypes.Blast:
-				ReactToBlastHit();
+			case Enumerations.PcAreas.Body:
+				ReactToPcHit();
 				break;
-			case Enumerations.HitTypes.Boots:
-				ReactToBootsHit();
+			case Enumerations.PcAreas.Blast:
+			case Enumerations.PcAreas.Boots:
 				break;
 			default:
 				_logger.LogError("CircleFish HandleHit did not map properly.");
 				break;
 		}
 	}
+
+	public void HandleHurt(int pcArea)
+	{
+		switch ((Enumerations.PcAreas)pcArea)
+		{
+			case Enumerations.PcAreas.Body:
+				break;
+			case Enumerations.PcAreas.Blast:
+				ReactToBlastHurt();
+				break;
+			case Enumerations.PcAreas.Boots:
+				ReactToBootsHurt();
+				break;
+			default:
+				_logger.LogError("CircleFish HandleHurt did not map properly.");
+				break;
+		}
+	}
+
+	void ReactToPcHit()
+	{
+		_logger.LogInfo("CircleFish deals damage");
+		int damageConstant = 1;
+		_gameStateService.HpValue -= damageConstant;
+	}
 	
-	public void ReactToBlastHit()
+	void ReactToBlastHurt()
 	{
 		if (!_isFlashing) StartFlashing();
 		TakeDamage();
 	}
 
-	public void ReactToBootsHit()
+	void ReactToBootsHurt()
 	{
 		QueueFree();
 	}

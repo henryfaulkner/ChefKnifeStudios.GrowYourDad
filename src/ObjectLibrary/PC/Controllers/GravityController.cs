@@ -1,8 +1,13 @@
 using Godot;
 using System;
+using System.Runtime;
 
 public partial class GravityController : CharacterBody2D
 {
+	[ExportGroup("Nodes")]
+	[Export]
+	public Area2D HurtBox { get; set; }
+	
 	[ExportGroup("Variables")]
 	[Export]
 	float _airSpeed = 400.0f;
@@ -22,6 +27,7 @@ public partial class GravityController : CharacterBody2D
 		_gameStateService = GetNode<GameStateService>(Constants.SingletonNodes.GameStateService);
 
 		_observables.BootsBounce += HandleBootsBounce;
+		HurtBox.AreaEntered += HandleHurtBoxEntered;
 	}
 
 	bool recentSpZero = true;
@@ -71,5 +77,15 @@ public partial class GravityController : CharacterBody2D
 		Vector2 velocity = Velocity;
 		velocity.Y = _shotVelocity * _gravityRatio;
 		Velocity = velocity;
+	}
+
+	void HandleHurtBoxEntered(Area2D target)
+	{
+		_logger.LogInfo("EnemyHurtBoxArea received");
+		if (target is EnemyHitBoxArea targetArea2D)
+		{
+			_logger.LogInfo("EnemyHurtBoxArea received by Controller area");
+			targetArea2D.EmitSignalAreaHit(Enumerations.PcAreas.Body);
+		}
 	}
 }

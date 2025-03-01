@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://corraw2a7g40l"]
+[gd_scene load_steps=9 format=3 uid="uid://corraw2a7g40l"]
 
 [ext_resource type="Script" path="res://ObjectLibrary/Enemies/PathFindingFish/PathFindingFish.cs" id="1_jkpf0"]
 [ext_resource type="Script" path="res://ObjectLibrary/BaseAgent/AgentController.cs" id="2_rjby4"]
-[ext_resource type="Script" path="res://ObjectLibrary/Enemies/TargetArea2D.cs" id="3_1eqnq"]
+[ext_resource type="Script" path="res://ObjectLibrary/Enemies/EnemyHurtBoxArea.cs" id="3_e5cig"]
+[ext_resource type="Script" path="res://ObjectLibrary/Enemies/EnemyHitBoxArea.cs" id="4_t6671"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_51y17"]
 radius = 8.0
@@ -13,18 +14,22 @@ height = 16.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_k6caf"]
 
-[node name="PathFindingFish" type="Node2D" node_paths=PackedStringArray("_rayCastContainer", "_hurtBox", "Controller")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_tdqqg"]
+radius = 16.0
+
+[node name="PathFindingFish" type="Node2D" node_paths=PackedStringArray("_rayCastContainer", "_hurtBox", "_hitBox", "Controller")]
 script = ExtResource("1_jkpf0")
 _rayCastContainer = NodePath("RayCastContainer")
-_hurtBox = NodePath("AgentController/Area2D")
+_hurtBox = NodePath("AgentController/HurtBox")
+_hitBox = NodePath("AgentController/HitBox")
 Controller = NodePath("AgentController")
 
 [node name="AgentController" type="CharacterBody2D" parent="." node_paths=PackedStringArray("Area", "AreaCollision", "Collision", "NavAgent", "NavTimer")]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("2_rjby4")
-Area = NodePath("Area2D")
-AreaCollision = NodePath("Area2D/CollisionShape2D")
+Area = NodePath("HurtBox")
+AreaCollision = NodePath("HurtBox/CollisionShape2D")
 Collision = NodePath("CollisionShape2D")
 NavAgent = NodePath("NavigationAgent2D")
 NavTimer = NodePath("NavTimer")
@@ -36,11 +41,18 @@ shape = SubResource("CircleShape2D_51y17")
 [node name="MeshInstance2D" type="MeshInstance2D" parent="AgentController"]
 mesh = SubResource("SphereMesh_8frm8")
 
-[node name="Area2D" type="Area2D" parent="AgentController"]
-script = ExtResource("3_1eqnq")
+[node name="HurtBox" type="Area2D" parent="AgentController"]
+script = ExtResource("3_e5cig")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AgentController/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AgentController/HurtBox"]
 shape = SubResource("CircleShape2D_k6caf")
+
+[node name="HitBox" type="Area2D" parent="AgentController"]
+script = ExtResource("4_t6671")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AgentController/HitBox"]
+shape = SubResource("CircleShape2D_tdqqg")
+debug_color = Color(0.701961, 0.6, 0.701961, 0.419608)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="AgentController"]
 

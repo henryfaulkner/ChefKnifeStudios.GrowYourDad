@@ -18,9 +18,9 @@ public partial class Blast : RigidBody2D
 
 	void HandleBlastHit(Area2D target)
 	{
-		if (target is TargetArea2D targetArea2D)
+		if (target is EnemyHurtBoxArea targetArea2D)
 		{
-			targetArea2D.EmitSignalTargetHit(Enumerations.HitTypes.Blast);
+			targetArea2D.EmitSignalAreaHurt(Enumerations.PcAreas.Blast);
 			QueueFree();
 		} 
 	}

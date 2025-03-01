@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class PathFindingFish : Agent, IBlasterTarget
+public partial class PathFindingFish : Agent, IEnemy
 {
 	// Use this for tilemapping stuff
 	// https://www.youtube.com/watch?v=qIqcp7xBGkw
@@ -11,7 +11,9 @@ public partial class PathFindingFish : Agent, IBlasterTarget
 	[Export]
 	Node2D _rayCastContainer { get; set; }
 	[Export]
-	TargetArea2D _hurtBox;
+	EnemyHurtBoxArea _hurtBox;
+	[Export]
+	EnemyHitBoxArea _hitBox;
 
 	[ExportGroup("Variables")]
 	[Export]
@@ -31,6 +33,8 @@ public partial class PathFindingFish : Agent, IBlasterTarget
 	int _hp = 2;
 
 	ILoggerService _logger;
+	IGameStateService _gameStateService;
+
 	bool _isFlashing = false;
 
 	#region State Machine
@@ -45,6 +49,7 @@ public partial class PathFindingFish : Agent, IBlasterTarget
 	public override void _Ready()
 	{
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
+		_gameStateService = GetNode<IGameStateService>(Constants.SingletonNodes.GameStateService);
 
 		ReadyAgent();
 
@@ -63,7 +68,8 @@ public partial class PathFindingFish : Agent, IBlasterTarget
 			_rayCastContainer.AddChild(rayCast);
 		}
 
-		_hurtBox.TargetHit += HandleHurt;
+		_hurtBox.AreaHurt += HandleHurt;
+		_hitBox.AreaHit += HandleHit;
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -98,29 +104,54 @@ public partial class PathFindingFish : Agent, IBlasterTarget
 	{
 	}
 	
-	public void HandleHurt(int hitType)
+	public void HandleHit(int pcArea)
 	{
-		switch ((Enumerations.HitTypes)hitType)
+		switch ((Enumerations.PcAreas)pcArea)
 		{
-			case Enumerations.HitTypes.Blast:
-				ReactToBlastHit();
+			case Enumerations.PcAreas.Body:
+				ReactToPcHit();
 				break;
-			case Enumerations.HitTypes.Boots:
-				ReactToBootsHit();
+			case Enumerations.PcAreas.Blast:
+			case Enumerations.PcAreas.Boots:
 				break;
 			default:
-				_logger.LogError("CircleFish HandleHurt did not map properly.");
+				_logger.LogError("PathFindingFish HandleHit did not map properly.");
 				break;
 		}
 	}
+
+	public void HandleHurt(int pcArea)
+	{
+		switch ((Enumerations.PcAreas)pcArea)
+		{
+			case Enumerations.PcAreas.Body:
+				break;
+			case Enumerations.PcAreas.Blast:
+				ReactToBlastHurt();
+				break;
+			case Enumerations.PcAreas.Boots:
+				ReactToBootsHurt();
+				break;
+			default:
+				_logger.LogError("PathFindingFish HandleHurt did not map properly.");
+				break;
+		}
+	}
+
+	void ReactToPcHit()
+	{
+		_logger.LogInfo("PathFindingFish deals damage");
+		int damageConstant = 1;
+		_gameStateService.HpValue -= damageConstant;
+	}
 	
-	public void ReactToBlastHit()
+	public void ReactToBlastHurt()
 	{
 		if (!_isFlashing) StartFlashing();
 		TakeDamage();
 	}
 
-	public void ReactToBootsHit()
+	public void ReactToBootsHurt()
 	{
 		QueueFree();
 	}

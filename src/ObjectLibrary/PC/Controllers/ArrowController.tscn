@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://b0gp17n3v2hac"]
+[gd_scene load_steps=5 format=3 uid="uid://b0gp17n3v2hac"]
 
 [ext_resource type="Script" path="res://ObjectLibrary/PC/Controllers/ArrowController.cs" id="1_tb367"]
 
@@ -7,8 +7,12 @@ size = Vector3(20, 20, 20)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jbpyi"]
 
-[node name="ArrowController" type="CharacterBody2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a81uf"]
+size = Vector2(23, 23)
+
+[node name="ArrowController" type="CharacterBody2D" node_paths=PackedStringArray("HurtBox")]
 script = ExtResource("1_tb367")
+HurtBox = NodePath("HurtBox")
 JumpVelocity = 0.0
 
 [node name="Sprite2D" type="MeshInstance2D" parent="."]
@@ -16,3 +20,9 @@ mesh = SubResource("BoxMesh_v2uod")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_jbpyi")
+
+[node name="HurtBox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+shape = SubResource("RectangleShape2D_a81uf")
+debug_color = Color(0, 0.701961, 0, 0.419608)

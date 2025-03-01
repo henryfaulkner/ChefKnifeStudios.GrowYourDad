@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://cg25j8fnd1th6"]
+[gd_scene load_steps=9 format=3 uid="uid://cg25j8fnd1th6"]
 
 [ext_resource type="Script" path="res://ObjectLibrary/Enemies/LineFish/LineFish.cs" id="1_w1shf"]
-[ext_resource type="Script" path="res://ObjectLibrary/Enemies/TargetArea2D.cs" id="2_cby2q"]
+[ext_resource type="Script" path="res://ObjectLibrary/Enemies/EnemyHurtBoxArea.cs" id="2_3uv40"]
+[ext_resource type="Script" path="res://ObjectLibrary/Enemies/EnemyHitBoxArea.cs" id="3_dhrf1"]
 
 [sub_resource type="Curve2D" id="Curve2D_ra2vn"]
 _data = {
@@ -18,11 +19,15 @@ height = 16.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3xuhc"]
 
-[node name="LineFish" type="Path2D" node_paths=PackedStringArray("_pathFollow", "_hurtBox")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_s0yui"]
+radius = 16.0
+
+[node name="LineFish" type="Path2D" node_paths=PackedStringArray("_pathFollow", "_hurtBox", "_hitBox")]
 curve = SubResource("Curve2D_ra2vn")
 script = ExtResource("1_w1shf")
 _pathFollow = NodePath("PathFollow2D")
-_hurtBox = NodePath("PathFollow2D/StaticBody2D/Area2D")
+_hurtBox = NodePath("PathFollow2D/StaticBody2D/HurtBox")
+_hitBox = NodePath("PathFollow2D/StaticBody2D/HitBox")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="."]
 position = Vector2(305, 35)
@@ -38,8 +43,15 @@ shape = SubResource("CircleShape2D_jdg6s")
 [node name="MeshInstance2D" type="MeshInstance2D" parent="PathFollow2D/StaticBody2D"]
 mesh = SubResource("SphereMesh_1u4xi")
 
-[node name="Area2D" type="Area2D" parent="PathFollow2D/StaticBody2D"]
-script = ExtResource("2_cby2q")
+[node name="HurtBox" type="Area2D" parent="PathFollow2D/StaticBody2D"]
+script = ExtResource("2_3uv40")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/StaticBody2D/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/StaticBody2D/HurtBox"]
 shape = SubResource("CircleShape2D_3xuhc")
+
+[node name="HitBox" type="Area2D" parent="PathFollow2D/StaticBody2D"]
+script = ExtResource("3_dhrf1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/StaticBody2D/HitBox"]
+shape = SubResource("CircleShape2D_s0yui")
+debug_color = Color(0.701961, 0.6, 0.701961, 0.419608)

@@ -3,6 +3,10 @@ using System;
 
 public partial class ArrowController : CharacterBody2D
 {
+	[ExportGroup("Nodes")]
+	[Export]
+	public Area2D HurtBox { get; set; }
+	
 	[ExportGroup("Variables")]
 	[Export]
 	float Speed = 300.0f;

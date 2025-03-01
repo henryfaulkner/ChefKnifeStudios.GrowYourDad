@@ -20,8 +20,9 @@ public partial class Enumerations
 		TripleShotBlaster = 2,
 	}
 	
-	public enum HitTypes
+	public enum PcAreas
 	{
+		Body,
 		Blast,
 		Boots,
 	}

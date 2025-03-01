@@ -17,7 +17,7 @@ public partial class LevelGenerator : Node2D
 	NavigationRegion2D _navRegion = null!;
 
 	const int WIDTH = 30;
-	const int HEIGHT = 1000;
+	const int HEIGHT = 200;
 	const int TILE_SQUARE_SIZE = 16;
 	const int CLIFF_TILE_SET_SOURCE_ID = 1;
 
