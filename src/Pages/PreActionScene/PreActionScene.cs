@@ -26,9 +26,23 @@ public partial class PreActionScene : Node2D
 		
 		DoorArea.AreaExited += HandleDoorAreaExited;
 	}
+	
+	public override void _ExitTree()
+	{
+		if (DoorArea != null)
+		{
+			DoorArea.AreaExited -= HandleDoorAreaExited;
+		}
+	}
 
 	void HandleDoorAreaExited(Area2D target)
 	{ 
+		// Use call_deferred to safely change the scene
+		CallDeferred(nameof(ChangeToActionLevel));
+	}
+
+	void ChangeToActionLevel()
+	{
 		GetTree().ChangeSceneToPacked(_actionLevelScene);
 	}
 }

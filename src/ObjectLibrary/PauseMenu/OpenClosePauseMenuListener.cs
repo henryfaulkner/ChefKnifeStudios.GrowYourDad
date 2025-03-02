@@ -34,6 +34,15 @@ public partial class OpenClosePauseMenuListener : Node2D
 		}
 	}
 
+	public override void _ExitTree()
+	{
+		if (_pauseMenuService != null)
+		{
+			_pauseMenuService.OpenMenu -= HandleOpenMenu;
+			_pauseMenuService.CloseMenu -= HandleCloseMenu;
+		}
+	}
+
 	void HandleOpenMenu()
 	{
 		GetTree().Paused = true;

@@ -23,4 +23,22 @@ public partial class HUD : CanvasLayer
 		_observables.UpdateSpMeterValue += SpMeter.UpdateValue;
 		_observables.UpdateSpMeterMax += SpMeter.UpdateMax;
 	}
+
+	public override void _ExitTree()
+	{
+		if (_observables != null)
+		{
+			if (HpMeter != null)
+			{
+				_observables.UpdateHpMeterValue -= HpMeter.UpdateValue;
+				_observables.UpdateHpMeterMax -= HpMeter.UpdateMax;
+			}
+
+			if (SpMeter != null)
+			{
+				_observables.UpdateSpMeterValue -= SpMeter.UpdateValue;
+				_observables.UpdateSpMeterMax -= SpMeter.UpdateMax;
+			}
+		}
+	}
 }

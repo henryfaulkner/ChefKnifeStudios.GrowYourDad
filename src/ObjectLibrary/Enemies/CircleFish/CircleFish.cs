@@ -55,6 +55,19 @@ public partial class CircleFish : Path2D, IEnemy
 		ProcessPathFollow(_pathFollow, Speed, delta);
 	}
 
+	public override void _ExitTree()
+	{
+		if (_hurtBox != null)
+		{
+			_hurtBox.AreaHurt -= HandleHurt;
+		}
+
+		if (_hitBox != null)
+		{
+			_hitBox.AreaHit -= HandleHit;
+		}
+	}
+
 	public void HandleHit(int pcArea)
 	{
 		switch ((Enumerations.PcAreas)pcArea)

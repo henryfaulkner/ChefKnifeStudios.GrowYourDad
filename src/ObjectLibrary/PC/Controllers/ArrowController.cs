@@ -1,11 +1,11 @@
 using Godot;
 using System;
 
-public partial class ArrowController : CharacterBody2D
+public partial class ArrowController : CharacterBody2D, IController
 {
 	[ExportGroup("Nodes")]
 	[Export]
-	public Area2D HurtBox { get; set; }
+	public PcHurtBoxArea HurtBox { get; set; }
 	
 	[ExportGroup("Variables")]
 	[Export]

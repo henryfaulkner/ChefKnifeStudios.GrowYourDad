@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dkjy2we3u0jan"]
+[gd_scene load_steps=6 format=3 uid="uid://dkjy2we3u0jan"]
 
 [ext_resource type="Script" path="res://ObjectLibrary/PC/Controllers/FreeFallController.cs" id="1_0rip1"]
+[ext_resource type="Script" path="res://ObjectLibrary/PC/PcHurtBoxArea.cs" id="2_arcrv"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_w7gas"]
 size = Vector3(20, 20, 20)
@@ -20,6 +21,7 @@ mesh = SubResource("BoxMesh_w7gas")
 shape = SubResource("RectangleShape2D_bfwko")
 
 [node name="HurtBox" type="Area2D" parent="."]
+script = ExtResource("2_arcrv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
 shape = SubResource("RectangleShape2D_sldfh")

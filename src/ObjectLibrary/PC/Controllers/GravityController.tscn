@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cpwrvs0vtdn42"]
+[gd_scene load_steps=6 format=3 uid="uid://cpwrvs0vtdn42"]
 
 [ext_resource type="Script" path="res://ObjectLibrary/PC/Controllers/GravityController.cs" id="2_usead"]
+[ext_resource type="Script" path="res://ObjectLibrary/PC/PcHurtBoxArea.cs" id="2_yjv73"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_cm2lw"]
 size = Vector3(20, 20, 20)
@@ -21,6 +22,7 @@ mesh = SubResource("BoxMesh_cm2lw")
 shape = SubResource("RectangleShape2D_0hpcm")
 
 [node name="HurtBox" type="Area2D" parent="."]
+script = ExtResource("2_yjv73")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
 shape = SubResource("RectangleShape2D_dg06c")

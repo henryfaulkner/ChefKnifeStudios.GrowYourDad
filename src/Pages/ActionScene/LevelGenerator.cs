@@ -21,6 +21,9 @@ public partial class LevelGenerator : Node2D
 	const int TILE_SQUARE_SIZE = 16;
 	const int CLIFF_TILE_SET_SOURCE_ID = 1;
 
+	static readonly StringName UPGRADE_LEVEL_PATH = new StringName("res://Pages/UpgradeScene/UpgradeScene.tscn");
+	readonly PackedScene _upgradeLevelScene;
+
 	IEnemyFactory _enemyFactory = null!;
 	ILoggerService _logger = null!;
 
@@ -28,6 +31,12 @@ public partial class LevelGenerator : Node2D
 	List<Node2D> _spawnedObsticles = new();
 	Noise _noisePlatform = null!;
 	Noise _noiseEnemy = null!;
+	Area2D _doorArea = null!;
+
+	public LevelGenerator()
+	{
+		_upgradeLevelScene = (PackedScene)ResourceLoader.Load(UPGRADE_LEVEL_PATH);
+	}
 
 	public override void _Ready()
 	{
@@ -37,6 +46,14 @@ public partial class LevelGenerator : Node2D
 		_noisePlatform = _noiseTexturePlatform.Noise;
 		_noiseEnemy = _noiseTextureEnemy.Noise;
 		GenerateLevel();
+	}
+
+	public override void _ExitTree()
+	{
+		if (_doorArea != null)
+		{
+			_doorArea.AreaExited -= HandleDoorAreaExited;
+		}
 	}
 
 	void GenerateLevel()
@@ -74,6 +91,7 @@ public partial class LevelGenerator : Node2D
 	void GenerateWalls(int lowestWidth, int highestWidth, int lowestHeight, int highestHeight)
 	{
 		var cliffTileCoords = new CliffTileSetCoords();
+		int widthDelta = highestWidth - lowestWidth;
 
 		for (int x = lowestWidth; x < highestWidth; x += 1) 
 		{
@@ -139,18 +157,28 @@ public partial class LevelGenerator : Node2D
 						atlasCoord = cliffTileCoords.CenterRight;
 					}
 				} 
-				else if (y == highestHeight - 3)
+				else if (y == highestHeight - 2 && x == lowestWidth + (widthDelta/2))
 				{
-					atlasCoord = cliffTileCoords.TopCenter;
+					GenerateUpgradeDoor(
+						new Vector2(x*TILE_SQUARE_SIZE, y*TILE_SQUARE_SIZE), 
+						new Vector2(widthDelta*TILE_SQUARE_SIZE, 3*TILE_SQUARE_SIZE)
+					);
 				}
-				else if (y == highestHeight - 2)
-				{
-					atlasCoord = cliffTileCoords.CenterCenter;
-				}
-				else if (y == highestHeight - 1)
-				{
-					atlasCoord = cliffTileCoords.BottomCenter;
-				}
+
+
+				// THIS CREATED THE FLOOR OF THE ROOM DURING EARLY DEVELOPMENT
+				// else if (y == highestHeight - 3)
+				// {
+				// 	atlasCoord = cliffTileCoords.TopCenter;
+				// }
+				// else if (y == highestHeight - 2)
+				// {
+				// 	atlasCoord = cliffTileCoords.CenterCenter;
+				// }
+				// else if (y == highestHeight - 1)
+				// {
+				// 	atlasCoord = cliffTileCoords.BottomCenter;
+				// }
 
 				if (atlasCoord.HasValue)
 				{
@@ -327,5 +355,35 @@ public partial class LevelGenerator : Node2D
 		Rect2 rect1 = new Rect2(pos1, size1);
 		Rect2 rect2 = new Rect2(pos2, size2);
 		return rect1.Intersects(rect2);
+	}
+
+	void GenerateUpgradeDoor(Vector2 position, Vector2 size)
+	{
+		_doorArea = new();
+		CollisionShape2D collisionShape = new();
+		RectangleShape2D shape = new();
+
+		shape.Size = size;
+		collisionShape.Shape = shape;
+		_doorArea.AddChild(collisionShape);
+		_doorArea.Position = position;
+		_doorArea.AreaExited += HandleDoorAreaExited;
+		this.AddChild(_doorArea);
+	}
+
+	void HandleDoorAreaExited(Area2D target)
+	{ 
+		_logger.LogInfo("Call HandleDoorAreaExited");
+		if (target is PcHurtBoxArea pcHurtBoxArea)
+		{
+			_logger.LogInfo("Call HandleDoorAreaExited IS PcHurtBoxArea");
+			// Use call_deferred to safely change the scene
+			CallDeferred(nameof(ChangeToUpgradeLevel));
+		}
+	}
+
+	void ChangeToUpgradeLevel()
+	{
+		GetTree().ChangeSceneToPacked(_upgradeLevelScene);
 	}
 }

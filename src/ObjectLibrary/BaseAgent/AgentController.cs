@@ -37,6 +37,19 @@ public partial class AgentController : CharacterBody2D
 		NavAgent.VelocityComputed += HandleVelocityComputed;
 		NavTimer.Timeout += HandleNavTimeout;
 	}
+
+	public override void _ExitTree()
+	{
+		if (NavAgent != null)
+		{
+			NavAgent.VelocityComputed -= HandleVelocityComputed;
+		}
+
+		if (NavTimer != null)
+		{
+			NavTimer.Timeout -= HandleNavTimeout;
+		}
+	}
 	
 	public override void _PhysicsProcess(double _delta)
 	{

@@ -51,16 +51,8 @@ public partial class PauseMenu : CanvasLayer
 		_pauseMenuService = GetNode<PauseMenuService>("/root/PauseMenuService");
 		_pauseMenuService.SetPanelList(GetPauseMenuPanels());
 
-		_pauseMenuService.OpenMenu += () => 
-		{
-			GD.Print("Open Menu");
-			Visible = true;
-		};
-		_pauseMenuService.CloseMenu += () => 
-		{
-			GD.Print("Close Menu");
-			Visible = false;
-		};
+		_pauseMenuService.OpenMenu += HandleOpenMenu;
+		_pauseMenuService.CloseMenu += HandleCloseMenu;
 		SubscribeToPanelEvents();
 	}
 
@@ -80,6 +72,15 @@ public partial class PauseMenu : CanvasLayer
 			{
 				x.MoveFocusForward(SwitchAudio);
 			});
+		}
+	}
+
+	public override void _ExitTree()
+	{
+		if (_pauseMenuService != null)
+		{
+			_pauseMenuService.OpenMenu -= HandleOpenMenu;
+			_pauseMenuService.CloseMenu -= HandleCloseMenu;
 		}
 	}
 
@@ -134,5 +135,17 @@ public partial class PauseMenu : CanvasLayer
 		{
 			x.Visible = false;
 		});
+	}
+	
+	void HandleOpenMenu()
+	{
+		GD.Print("Open Menu");
+		Visible = true;
+	}
+	
+	void HandleCloseMenu()
+	{
+		GD.Print("Close Menu");
+		Visible = false;
 	}
 }

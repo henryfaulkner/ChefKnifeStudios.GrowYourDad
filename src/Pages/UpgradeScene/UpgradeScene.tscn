@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://le4gk130r5ja"]
+[gd_scene load_steps=9 format=3 uid="uid://le4gk130r5ja"]
 
 [ext_resource type="Script" path="res://Pages/UpgradeScene/UpgradeScene.cs" id="1_4ubml"]
 [ext_resource type="Theme" uid="uid://dqm10m7yom243" path="res://Pages/UpgradeScene/FontTheme.tres" id="1_s3die"]
@@ -10,9 +10,18 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kw67s"]
 size = Vector2(77, 20)
 
-[node name="UpgradeScene" type="CanvasLayer" node_paths=PackedStringArray("FreezeArea")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i4jww"]
+
+[node name="UpgradeScene" type="CanvasLayer" node_paths=PackedStringArray("FreezeArea", "DoorArea")]
 script = ExtResource("1_4ubml")
-FreezeArea = NodePath("MarginContainer/VBoxContainer/Control/FreezeArea")
+FreezeArea = NodePath("MarginContainer/VBoxContainer/Freeze/FreezeArea")
+DoorArea = NodePath("MarginContainer/VBoxContainer/Door/DoorArea")
+
+[node name="PC" parent="." node_paths=PackedStringArray("_controller") instance=ExtResource("2_2so0w")]
+position = Vector2(576, -50)
+_controller = NodePath("FreeFallController")
+
+[node name="FreeFallController" parent="PC" instance=ExtResource("6_s0df4")]
 
 [node name="MarginContainer" type="MarginContainer" parent="." node_paths=PackedStringArray("UpgradeMenuOptions")]
 anchors_preset = 15
@@ -38,14 +47,14 @@ bbcode_enabled = true
 text = "[center]CHOOSE AN UPGRADE[/center]"
 fit_content = true
 
-[node name="Control" type="Control" parent="MarginContainer/VBoxContainer"]
+[node name="Freeze" type="Control" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 6
 
-[node name="FreezeArea" type="Area2D" parent="MarginContainer/VBoxContainer/Control"]
+[node name="FreezeArea" type="Area2D" parent="MarginContainer/VBoxContainer/Freeze"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MarginContainer/VBoxContainer/Control/FreezeArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MarginContainer/VBoxContainer/Freeze/FreezeArea"]
 position = Vector2(0, 16)
 shape = SubResource("RectangleShape2D_kw67s")
 
@@ -84,8 +93,13 @@ bbcode_enabled = true
 text = "[center]ITEM DESCRIPTION[/center]"
 fit_content = true
 
-[node name="PC" parent="." node_paths=PackedStringArray("_controller") instance=ExtResource("2_2so0w")]
-position = Vector2(576, -50)
-_controller = NodePath("FreeFallController")
+[node name="Door" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
-[node name="FreeFallController" parent="PC" instance=ExtResource("6_s0df4")]
+[node name="DoorArea" type="Area2D" parent="MarginContainer/VBoxContainer/Door"]
+position = Vector2(0, 150)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MarginContainer/VBoxContainer/Door/DoorArea"]
+shape = SubResource("RectangleShape2D_i4jww")

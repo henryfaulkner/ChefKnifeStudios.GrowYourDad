@@ -13,6 +13,14 @@ public abstract partial class Agent : Node2D, IAgent
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 	}
 
+	public override void _ExitTree()
+	{
+		if (Controller != null)
+		{
+			Controller.WithinOneCardinalBlockFromNavTarget -= HandleNavTargetArrival;
+		}
+	}
+
 	public void ReadyAgent()
 	{
 		Controller.WithinOneCardinalBlockFromNavTarget += HandleNavTargetArrival;

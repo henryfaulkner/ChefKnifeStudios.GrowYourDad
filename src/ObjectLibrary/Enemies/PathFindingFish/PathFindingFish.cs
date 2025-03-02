@@ -100,6 +100,19 @@ public partial class PathFindingFish : Agent, IEnemy
 		}
 	}
 
+	public override void _ExitTree()
+	{
+		if (_hurtBox != null)
+		{
+			_hurtBox.AreaHurt -= HandleHurt;
+		}
+
+		if (_hitBox != null)
+		{
+			_hitBox.AreaHit -= HandleHit;
+		}
+	}
+
 	public override void HandleNavTargetArrival()
 	{
 	}

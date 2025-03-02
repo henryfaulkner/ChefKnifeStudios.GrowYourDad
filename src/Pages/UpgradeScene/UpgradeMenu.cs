@@ -49,7 +49,7 @@ public partial class UpgradeMenu : MarginContainer
 
 		if (Input.IsActionJustPressed("shoot"))
 		{
-
+			GetTree().Paused = false;
 		}
 	}
 }
