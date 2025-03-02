@@ -27,7 +27,7 @@ public partial class PC : Node2D
 	{
 		SyncChildPositionsToController();
 		
-		if (Input.IsActionJustPressed("shoot"))
+		if (Input.IsActionJustPressed("shoot") && !_controller.IsOnFloor())
 		{
 			_blaster.Shoot();
 		}

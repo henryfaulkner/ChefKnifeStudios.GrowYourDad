@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://dkjy2we3u0jan"]
+
+[ext_resource type="Script" path="res://ObjectLibrary/PC/Controllers/FreeFallController.cs" id="1_0rip1"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_w7gas"]
+size = Vector3(20, 20, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bfwko"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sldfh"]
+size = Vector2(23, 23)
+
+[node name="FreeFallController" type="CharacterBody2D"]
+script = ExtResource("1_0rip1")
+
+[node name="Sprite2D" type="MeshInstance2D" parent="."]
+mesh = SubResource("BoxMesh_w7gas")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_bfwko")
+
+[node name="HurtBox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+shape = SubResource("RectangleShape2D_sldfh")
+debug_color = Color(0, 0.701961, 0, 0.419608)

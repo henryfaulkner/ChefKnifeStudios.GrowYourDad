@@ -1,0 +1,91 @@
+[gd_scene load_steps=8 format=3 uid="uid://le4gk130r5ja"]
+
+[ext_resource type="Script" path="res://Pages/UpgradeScene/UpgradeScene.cs" id="1_4ubml"]
+[ext_resource type="Theme" uid="uid://dqm10m7yom243" path="res://Pages/UpgradeScene/FontTheme.tres" id="1_s3die"]
+[ext_resource type="PackedScene" uid="uid://bg8l4v4jd010p" path="res://ObjectLibrary/PC/PC.tscn" id="2_2so0w"]
+[ext_resource type="Script" path="res://Pages/UpgradeScene/UpgradeMenu.cs" id="2_hc4tl"]
+[ext_resource type="PackedScene" uid="uid://wi8ise1buq1l" path="res://Pages/UpgradeScene/UpgradeMenuOption.tscn" id="4_ip5bv"]
+[ext_resource type="PackedScene" uid="uid://dkjy2we3u0jan" path="res://ObjectLibrary/PC/Controllers/FreeFallController.tscn" id="6_s0df4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kw67s"]
+size = Vector2(77, 20)
+
+[node name="UpgradeScene" type="CanvasLayer" node_paths=PackedStringArray("FreezeArea")]
+script = ExtResource("1_4ubml")
+FreezeArea = NodePath("MarginContainer/VBoxContainer/Control/FreezeArea")
+
+[node name="MarginContainer" type="MarginContainer" parent="." node_paths=PackedStringArray("UpgradeMenuOptions")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_bottom = 100
+script = ExtResource("2_hc4tl")
+UpgradeMenuOptions = [NodePath("VBoxContainer/MarginContainer/HBoxContainer/UpgradeMenuOption"), NodePath("VBoxContainer/MarginContainer/HBoxContainer/UpgradeMenuOption2"), NodePath("VBoxContainer/MarginContainer/HBoxContainer/UpgradeMenuOption3")]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_s3die")
+bbcode_enabled = true
+text = "[center]CHOOSE AN UPGRADE[/center]"
+fit_content = true
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+
+[node name="FreezeArea" type="Area2D" parent="MarginContainer/VBoxContainer/Control"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MarginContainer/VBoxContainer/Control/FreezeArea"]
+position = Vector2(0, 16)
+shape = SubResource("RectangleShape2D_kw67s")
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_s3die")
+bbcode_enabled = true
+text = "[center]ITEM NAME[/center]"
+fit_content = true
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 250
+theme_override_constants/margin_right = 250
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="UpgradeMenuOption" parent="MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("4_ip5bv")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="UpgradeMenuOption2" parent="MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("4_ip5bv")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="UpgradeMenuOption3" parent="MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("4_ip5bv")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_s3die")
+bbcode_enabled = true
+text = "[center]ITEM DESCRIPTION[/center]"
+fit_content = true
+
+[node name="PC" parent="." node_paths=PackedStringArray("_controller") instance=ExtResource("2_2so0w")]
+position = Vector2(576, -50)
+_controller = NodePath("FreeFallController")
+
+[node name="FreeFallController" parent="PC" instance=ExtResource("6_s0df4")]

@@ -12,6 +12,8 @@ public partial class GravityController : CharacterBody2D
 	[Export]
 	float _airSpeed = 400.0f;
 	[Export]
+	float _jumpVelocity = -300.0f;
+	[Export]
 	float _shotVelocity = -200.0f;
 	[Export]
 	float _gravityRatio = 1.00f;
@@ -41,11 +43,20 @@ public partial class GravityController : CharacterBody2D
 			velocity += (GetGravity() * _gravityRatio) * (float)delta;
 		}
 
-		// Handle Jump.
-		if (Input.IsActionJustPressed("shoot") && (_gameStateService.SpValue > 0 || recentSpZero))
+		
+		if (Input.IsActionJustPressed("shoot"))
 		{
-			velocity.Y = _shotVelocity * _gravityRatio;
-			if (_gameStateService.SpValue <= 0) recentSpZero = false;
+			if (IsOnFloor())
+			{
+				// Handle Jump.
+				velocity.Y = _jumpVelocity * _gravityRatio;
+			}
+			else if (_gameStateService.SpValue > 0 || recentSpZero)
+			{
+				// Handle Blast.
+				velocity.Y = _shotVelocity * _gravityRatio;
+				if (_gameStateService.SpValue <= 0) recentSpZero = false;
+			}
 		} 
 
 		// Get the input direction and handle the movement/deceleration.
