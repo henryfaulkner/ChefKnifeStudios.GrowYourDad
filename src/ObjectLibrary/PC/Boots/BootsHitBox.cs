@@ -15,6 +15,12 @@ public partial class BootsHitBox : Area2D
 		BodyEntered += HandleBodyEntered;
 	}
 
+	public override void _ExitTree()
+	{
+		AreaEntered -= HandleAreaEntered;
+		BodyEntered -= HandleBodyEntered;
+	}
+
 	void HandleAreaEntered(Area2D target)
 	{
 		if (target is EnemyHurtBoxArea targetArea2D)

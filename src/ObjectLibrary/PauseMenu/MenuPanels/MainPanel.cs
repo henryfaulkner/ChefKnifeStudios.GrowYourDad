@@ -32,6 +32,29 @@ public partial class MainPanel : BaseMenuPanel
 		_pauseMenuService = GetNode<PauseMenuService>(Constants.SingletonNodes.PauseMenuService);
 	}
 
+	public override void _ExitTree()
+	{
+		if (ResumeBtn != null)
+		{
+			ResumeBtn.Pressed -= HandleResume;
+		}
+
+		if (AudioSettingsBtn != null)
+		{
+			AudioSettingsBtn.Pressed -= HandleAudioSettings;
+		}
+
+		if (GameplaySettingsBtn != null)
+		{
+			GameplaySettingsBtn.Pressed -= HandleGameplaySettings;
+		}
+
+		if (MainMenuBtn != null)
+		{
+			MainMenuBtn.Pressed -= HandleMainMenu;
+		}
+	}
+
 	private void SubscribeToButtonEvents()
 	{
 		ResumeBtn.Pressed += HandleResume;

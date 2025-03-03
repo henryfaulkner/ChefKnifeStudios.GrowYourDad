@@ -44,6 +44,11 @@ public partial class PauseMenu : CanvasLayer
 	private PauseMenuService _pauseMenuService;
 	public List<BaseMenuPanel> PanelList { get; set; }
 
+	private BaseMenuPanel.OpenEventHandler MainPanelOpenHandler;
+	private BaseMenuPanel.OpenEventHandler AudioSettingsPanelOpenHandler;
+	private BaseMenuPanel.OpenEventHandler GameplaySettingsPanelOpenHandler;
+	private BaseMenuPanel.OpenEventHandler PlayerControlsPanelOpenHandler;
+
 	public override void _Ready()
 	{
 		ProcessMode = Node.ProcessModeEnum.WhenPaused;
@@ -82,6 +87,30 @@ public partial class PauseMenu : CanvasLayer
 			_pauseMenuService.OpenMenu -= HandleOpenMenu;
 			_pauseMenuService.CloseMenu -= HandleCloseMenu;
 		}
+
+		if (MainPanelOpenHandler != null)
+		{
+			MainPanel.Open -= MainPanelOpenHandler;
+			MainPanelOpenHandler = null;
+		}
+
+		if (AudioSettingsPanelOpenHandler != null)
+		{
+			AudioSettingsPanel.Open -= AudioSettingsPanelOpenHandler;
+			AudioSettingsPanelOpenHandler = null;
+		}
+
+		if (GameplaySettingsPanelOpenHandler != null)
+		{
+			GameplaySettingsPanel.Open -= GameplaySettingsPanelOpenHandler;
+			GameplaySettingsPanelOpenHandler = null;
+		}
+
+		if (PlayerControlsPanelOpenHandler != null)
+		{
+			PlayerControlsPanel.Open -= PlayerControlsPanelOpenHandler;
+			PlayerControlsPanelOpenHandler = null;
+		}
 	}
 
 	private List<BaseMenuPanel> GetPauseMenuPanels()
@@ -104,22 +133,26 @@ public partial class PauseMenu : CanvasLayer
 
 	private void SubscribeToMainPanelEvents()
 	{
-		MainPanel.Open += (int openPanelId) => OpenPanel(openPanelId);
+		MainPanelOpenHandler = OpenPanel;
+		MainPanel.Open += MainPanelOpenHandler;
 	}
 
 	private void SubscribeToAudioSettingsPanelEvents()
 	{
-		AudioSettingsPanel.Open += (int openPanelId) => OpenPanel(openPanelId);
+		AudioSettingsPanelOpenHandler = OpenPanel;
+		AudioSettingsPanel.Open += AudioSettingsPanelOpenHandler;
 	}
 
 	private void SubscribeToGameplaySettingsPanelEvents()
 	{
-		GameplaySettingsPanel.Open += (int openPanelId) => OpenPanel(openPanelId);
+		GameplaySettingsPanelOpenHandler = OpenPanel;
+		GameplaySettingsPanel.Open += GameplaySettingsPanelOpenHandler;
 	}
 
 	private void SubscribeToPlayerControlsPanelEvents()
 	{
-		PlayerControlsPanel.Open += (int openPanelId) => OpenPanel(openPanelId);
+		PlayerControlsPanelOpenHandler = OpenPanel;
+		PlayerControlsPanel.Open += PlayerControlsPanelOpenHandler;
 	}
 
 	public void OpenPanel(int openPanelId)

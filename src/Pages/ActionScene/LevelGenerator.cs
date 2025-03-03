@@ -373,10 +373,8 @@ public partial class LevelGenerator : Node2D
 
 	void HandleDoorAreaExited(Area2D target)
 	{ 
-		_logger.LogInfo("Call HandleDoorAreaExited");
 		if (target is PcHurtBoxArea pcHurtBoxArea)
 		{
-			_logger.LogInfo("Call HandleDoorAreaExited IS PcHurtBoxArea");
 			// Use call_deferred to safely change the scene
 			CallDeferred(nameof(ChangeToUpgradeLevel));
 		}

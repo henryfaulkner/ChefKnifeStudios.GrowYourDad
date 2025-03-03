@@ -38,7 +38,6 @@ public partial class UpgradeMenuOption : Control
 		if (NormalTexture != null) TextureBtn.TextureNormal = NormalTexture;
 		if (HoverTexture != null) TextureBtn.TextureHover = HoverTexture;
 		
-		if (TextureBtn == null) _logger.LogInfo("TextureButton is null");
 		TextureBtn.MouseEntered += HandleMouseEntered;
 		TextureBtn.MouseExited += HandleMouseExited;
 		TextureBtn.Pressed += HandlePressed;
@@ -46,7 +45,17 @@ public partial class UpgradeMenuOption : Control
 		_logger = GetNode<LoggerService>(Constants.SingletonNodes.LoggerService);
 	}
 
-	public void GrabFocus()
+    public override void _ExitTree()
+    {
+        if (TextureBtn != null)
+		{
+			TextureBtn.MouseEntered -= HandleMouseEntered;
+			TextureBtn.MouseExited -= HandleMouseExited;
+			TextureBtn.Pressed -= HandlePressed;
+		}
+    }
+
+    public void GrabFocus()
 	{
 		TextureBtn.GrabFocus();
 		ApplyActivePagePanelOption(Panel);

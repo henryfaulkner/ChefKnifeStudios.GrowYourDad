@@ -15,11 +15,22 @@ public partial class BlastFactory : Node, IBlastFactory
 
 	ILoggerService _logger;
 
+	Timer DespawnTimer;
+	Action DespawnTimeoutHandler;
+
 	public override void _Ready()
 	{
 		_blastScene = (PackedScene)ResourceLoader.Load(BLAST_SCENE_PATH);
 
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
+	}
+
+	public override void _ExitTree()
+	{
+		if (DespawnTimer != null && DespawnTimeoutHandler!= null)
+		{
+			DespawnTimer.Timeout -= DespawnTimeoutHandler;
+		}
 	}
 
 	public Blast SpawnBlast(Node parent, Vector2 initGlobalPosition, Vector2 dirVector, float speed)
@@ -38,12 +49,13 @@ public partial class BlastFactory : Node, IBlastFactory
 		parent.AddChild(result);
 		
 		// Create a Timer node to despawn the Blast
-		Timer despawnTimer = new Timer();
-		despawnTimer.WaitTime = lifeTime;
-		despawnTimer.OneShot = true;
-		despawnTimer.Timeout += () => { result.QueueFree(); }; // Connect timeout to QueueFree
-		result.AddChild(despawnTimer); // Add the Timer to the blast, so it will despawn as a result
-		despawnTimer.Start();
+		DespawnTimer = new Timer();
+		DespawnTimer.WaitTime = lifeTime;
+		DespawnTimer.OneShot = true;
+		DespawnTimeoutHandler = () => { result.QueueFree(); };
+		DespawnTimer.Timeout += DespawnTimeoutHandler; // Connect timeout to QueueFree
+		result.AddChild(DespawnTimer); // Add the Timer to the blast, so it will despawn as a result
+		DespawnTimer.Start();
 		
 		return result;
 	}

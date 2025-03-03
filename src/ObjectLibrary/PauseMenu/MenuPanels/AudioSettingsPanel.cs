@@ -23,6 +23,19 @@ public partial class AudioSettingsPanel : BaseMenuPanel
 		PauseMenuService = GetNode<PauseMenuService>("/root/PauseMenuService");
 	}
 
+	public override void _ExitTree()
+	{
+		if (FxSoundBtn != null)
+		{
+			FxSoundBtn.Pressed -= HandleFxSound;
+		}
+
+		if (BackBtn != null)
+		{
+			BackBtn.Pressed -= HandleBack;
+		}
+	}
+
 	private void SubscribeToButtonEvents()
 	{
 		FxSoundBtn.Pressed += HandleFxSound;

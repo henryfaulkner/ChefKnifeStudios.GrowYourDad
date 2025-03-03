@@ -23,6 +23,19 @@ public partial class GameplaySettingsPanel : BaseMenuPanel
 		PauseMenuService = GetNode<PauseMenuService>("/root/PauseMenuService");
 	}
 
+	public override void _ExitTree()
+	{
+		if (PlayerControlsBtn != null)
+		{
+			PlayerControlsBtn.Pressed -= HandlePlayerControls;
+		}
+
+		if (BackBtn != null)
+		{
+			BackBtn.Pressed -= HandleBack;
+		}
+	}
+
 	private void SubscribeToButtonEvents()
 	{
 		PlayerControlsBtn.Pressed += HandlePlayerControls;

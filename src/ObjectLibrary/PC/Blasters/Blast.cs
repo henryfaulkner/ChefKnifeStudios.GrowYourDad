@@ -16,6 +16,15 @@ public partial class Blast : RigidBody2D
 		HitBox.BodyEntered += HandleTileHit;
 	}
 
+	public override void _ExitTree()
+	{
+		if (HitBox != null)
+		{
+			HitBox.AreaEntered -= HandleBlastHit;
+			HitBox.BodyEntered -= HandleTileHit;
+		}
+	}
+
 	void HandleBlastHit(Area2D target)
 	{
 		if (target is EnemyHurtBoxArea targetArea2D)
