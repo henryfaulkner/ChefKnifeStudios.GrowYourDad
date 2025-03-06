@@ -22,7 +22,7 @@ public static class ItemHelper
 		string jsonContent = file.GetAsText();
 		var options = new JsonSerializerOptions
 		{
-            PropertyNameCaseInsensitive = true,  // Ensures case-insensitive matching
+			PropertyNameCaseInsensitive = true,  // Ensures case-insensitive matching
 			TypeInfoResolver = new DefaultJsonTypeInfoResolver(), // Required for polymorphic deserialization
 			WriteIndented = true
 		};

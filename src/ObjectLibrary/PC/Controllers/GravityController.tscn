@@ -9,7 +9,6 @@ size = Vector3(20, 20, 20)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0hpcm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dg06c"]
-size = Vector2(23, 23)
 
 [node name="GravityController" type="CharacterBody2D" node_paths=PackedStringArray("HurtBox")]
 script = ExtResource("2_usead")

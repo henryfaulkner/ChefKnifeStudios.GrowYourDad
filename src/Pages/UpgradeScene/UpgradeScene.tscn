@@ -13,13 +13,13 @@ size = Vector2(77, 20)
 
 [node name="UpgradeScene" type="CanvasLayer" node_paths=PackedStringArray("FreezeArea", "DoorArea")]
 script = ExtResource("1_4ubml")
-FreezeArea = NodePath("MarginContainer/VBoxContainer/Freeze/FreezeArea")
-DoorArea = NodePath("MarginContainer/VBoxContainer/Door/DoorArea")
+FreezeArea = NodePath("UpgradeMenu/VBoxContainer/Freeze/FreezeArea")
+DoorArea = NodePath("UpgradeMenu/VBoxContainer/Door/DoorArea")
 
 [node name="FreeFallController" parent="." instance=ExtResource("6_s0df4")]
 position = Vector2(576, -50)
 
-[node name="MarginContainer" type="MarginContainer" parent="." node_paths=PackedStringArray("UpgradeMenuOptions")]
+[node name="UpgradeMenu" type="MarginContainer" parent="." node_paths=PackedStringArray("UpgradeMenuOptions", "ItemNameLabel", "ItemDescriptionLabel")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -31,71 +31,73 @@ theme_override_constants/margin_top = 100
 theme_override_constants/margin_bottom = 100
 script = ExtResource("2_hc4tl")
 UpgradeMenuOptions = [NodePath("VBoxContainer/MarginContainer/HBoxContainer/UpgradeMenuOption"), NodePath("VBoxContainer/MarginContainer/HBoxContainer/UpgradeMenuOption2"), NodePath("VBoxContainer/MarginContainer/HBoxContainer/UpgradeMenuOption3")]
+ItemNameLabel = NodePath("VBoxContainer/ItemName")
+ItemDescriptionLabel = NodePath("VBoxContainer/ItemDescription")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UpgradeMenu"]
 layout_mode = 2
 alignment = 1
 
-[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
+[node name="Title" type="RichTextLabel" parent="UpgradeMenu/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_s3die")
 bbcode_enabled = true
 text = "[center]CHOOSE AN UPGRADE[/center]"
 fit_content = true
 
-[node name="Freeze" type="Control" parent="MarginContainer/VBoxContainer"]
+[node name="Freeze" type="Control" parent="UpgradeMenu/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 6
 
-[node name="FreezeArea" type="Area2D" parent="MarginContainer/VBoxContainer/Freeze"]
+[node name="FreezeArea" type="Area2D" parent="UpgradeMenu/VBoxContainer/Freeze"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MarginContainer/VBoxContainer/Freeze/FreezeArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UpgradeMenu/VBoxContainer/Freeze/FreezeArea"]
 position = Vector2(0, 16)
 shape = SubResource("RectangleShape2D_kw67s")
 
-[node name="RichTextLabel2" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
+[node name="ItemName" type="RichTextLabel" parent="UpgradeMenu/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_s3die")
 bbcode_enabled = true
 text = "[center]ITEM NAME[/center]"
 fit_content = true
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="UpgradeMenu/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 250
 theme_override_constants/margin_right = 250
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UpgradeMenu/VBoxContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="UpgradeMenuOption" parent="MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("4_ip5bv")]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="UpgradeMenuOption2" parent="MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("4_ip5bv")]
+[node name="UpgradeMenuOption" parent="UpgradeMenu/VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("4_ip5bv")]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="UpgradeMenuOption3" parent="MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("4_ip5bv")]
+[node name="UpgradeMenuOption2" parent="UpgradeMenu/VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("4_ip5bv")]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="RichTextLabel3" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
+[node name="UpgradeMenuOption3" parent="UpgradeMenu/VBoxContainer/MarginContainer/HBoxContainer" instance=ExtResource("4_ip5bv")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ItemDescription" type="RichTextLabel" parent="UpgradeMenu/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_s3die")
 bbcode_enabled = true
 text = "[center]ITEM DESCRIPTION[/center]"
 fit_content = true
 
-[node name="Door" type="Control" parent="MarginContainer/VBoxContainer"]
+[node name="Door" type="Control" parent="UpgradeMenu/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="DoorArea" type="Area2D" parent="MarginContainer/VBoxContainer/Door"]
+[node name="DoorArea" type="Area2D" parent="UpgradeMenu/VBoxContainer/Door"]
 position = Vector2(0, 150)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MarginContainer/VBoxContainer/Door/DoorArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UpgradeMenu/VBoxContainer/Door/DoorArea"]
 shape = SubResource("RectangleShape2D_i4jww")

@@ -20,7 +20,5 @@ public partial class ActionLevel : Node2D
 		_pcMeterService.SpMax = 3;
 
 		_pauseMenuService.EmitCloseMenu();
-
-		ItemHelper.UseAndLogResults();
 	}
 }

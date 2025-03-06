@@ -28,6 +28,7 @@ EnemyFactory="*res://ObjectLibrary/Enemies/EnemyFactory.cs"
 Observables="*res://Core/Observables.cs"
 PauseMenuService="*res://ObjectLibrary/PauseMenu/PauseMenuService.cs"
 PcMeterService="*res://Core/PC/PcMeterService.cs"
+PcInventoryService="*res://Core/PC/PcInventoryService.cs"
 
 [dotnet]
 

@@ -47,7 +47,7 @@
         "$type": "withHealingEffect",
         "id": "SALAD",
         "name": "Salad",
-        "description": "A protein-lacking meal. The kid will heal but he will not become stronger.",
+        "description": "A protein-lacking meal. Healing but not strengthening.",
         "price": 3,
         "oneTimeHpBenefit": 2
     },    
