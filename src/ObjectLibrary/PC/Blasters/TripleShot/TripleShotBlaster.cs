@@ -6,20 +6,20 @@ public partial class TripleShotBlaster : BaseBlaster
 	const float BLAST_SPEED = 150f;
 	
 	IBlastFactory _blastFactory;
-	IGameStateService _gameStateService;
+	IPcMeterService _pcMeterService;
 
 	public override void _Ready()
 	{
 		_blastFactory = GetNode<IBlastFactory>(Constants.SingletonNodes.BlastFactory);
-		_gameStateService = GetNode<IGameStateService>(Constants.SingletonNodes.GameStateService);
+		_pcMeterService = GetNode<IPcMeterService>(Constants.SingletonNodes.PcMeterService);
 	}
 
 	public override void Shoot()
 	{
-		if (_gameStateService.SpValue <= 0) return;
-		_blastFactory.SpawnBlast(GetTree().GetRoot(), GlobalPosition, new Vector2(-0.5f, 0.5f), BLAST_SPEED);
+		if (_pcMeterService.SpValue <= 0) return;
+		_blastFactory.SpawnBlast(GetTree().GetRoot(), GlobalPosition, new Vector2(-0.25f, 0.75f), BLAST_SPEED);
 		_blastFactory.SpawnBlast(GetTree().GetRoot(), GlobalPosition, new Vector2(0.0f, 1.0f), BLAST_SPEED);
-		_blastFactory.SpawnBlast(GetTree().GetRoot(), GlobalPosition, new Vector2(0.5f, 0.5f), BLAST_SPEED);
-		_gameStateService.SpValue -= 1;
+		_blastFactory.SpawnBlast(GetTree().GetRoot(), GlobalPosition, new Vector2(0.25f, 0.75f), BLAST_SPEED);
+		_pcMeterService.SpValue -= 1;
 	}
 }

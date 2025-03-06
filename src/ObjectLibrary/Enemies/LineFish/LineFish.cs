@@ -23,14 +23,14 @@ public partial class LineFish : Path2D, IEnemy
 	int _hp = 2;
 
 	ILoggerService _logger;
-	IGameStateService _gameStateService;
+	IPcMeterService _pcMeterService;
 
 	bool _isFlashing = false;
 
 	public override void _Ready()
 	{
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
-		_gameStateService = GetNode<IGameStateService>(Constants.SingletonNodes.GameStateService);
+		_pcMeterService = GetNode<IPcMeterService>(Constants.SingletonNodes.PcMeterService);
 		
 		_hurtBox.AreaHurt += HandleHurt;
 		_hitBox.AreaHit += HandleHit;
@@ -91,7 +91,7 @@ public partial class LineFish : Path2D, IEnemy
 	void ReactToPcHit()
 	{
 		int damageConstant = 1;
-		_gameStateService.HpValue -= damageConstant;
+		_pcMeterService.HpValue -= damageConstant;
 	}
 	
 	public void ReactToBlastHurt()

@@ -26,8 +26,8 @@ BlastFactory="*res://ObjectLibrary/PC/Blasters/BlastFactory.cs"
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
 EnemyFactory="*res://ObjectLibrary/Enemies/EnemyFactory.cs"
 Observables="*res://Core/Observables.cs"
-GameStateService="*res://Core/GameStateService.cs"
 PauseMenuService="*res://ObjectLibrary/PauseMenu/PauseMenuService.cs"
+PcMeterService="*res://Core/PC/PcMeterService.cs"
 
 [dotnet]
 

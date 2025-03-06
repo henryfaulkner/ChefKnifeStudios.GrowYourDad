@@ -20,13 +20,13 @@ public partial class GravityController : CharacterBody2D, IController
 
 	ILoggerService _logger;
 	Observables _observables;
-	IGameStateService _gameStateService;
+	IPcMeterService _pcMeterService;
 	
 	public override void _Ready() 
 	{
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 		_observables = GetNode<Observables>(Constants.SingletonNodes.Observables);
-		_gameStateService = GetNode<GameStateService>(Constants.SingletonNodes.GameStateService);
+		_pcMeterService = GetNode<PcMeterService>(Constants.SingletonNodes.PcMeterService);
 
 		_observables.BootsBounce += HandleBootsBounce;
 		HurtBox.AreaEntered += HandleHurtBoxEntered;
@@ -64,11 +64,11 @@ public partial class GravityController : CharacterBody2D, IController
 				// Handle Jump.
 				velocity.Y = _jumpVelocity * _gravityRatio;
 			}
-			else if (_gameStateService.SpValue > 0 || recentSpZero)
+			else if (_pcMeterService.SpValue > 0 || recentSpZero)
 			{
 				// Handle Blast.
 				velocity.Y = _shotVelocity * _gravityRatio;
-				if (_gameStateService.SpValue <= 0) recentSpZero = false;
+				if (_pcMeterService.SpValue <= 0) recentSpZero = false;
 			}
 		} 
 
@@ -91,7 +91,7 @@ public partial class GravityController : CharacterBody2D, IController
 		
 		if (IsOnFloor())
 		{
-			_gameStateService.SpValue = _gameStateService.SpMax;
+			_pcMeterService.SpValue = _pcMeterService.SpMax;
 			recentSpZero = true;
 		}
 	}

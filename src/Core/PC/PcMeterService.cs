@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public interface IGameStateService
+public interface IPcMeterService
 {
     int HpValue { get; set; }
     int HpMax { get; set; }
@@ -9,7 +9,7 @@ public interface IGameStateService
     int SpMax { get; set; }
 }
 
-public partial class GameStateService : Node, IGameStateService 
+public partial class PcMeterService : Node, IPcMeterService 
 {
     private int _hpValue;
     private int _hpMax;
@@ -65,22 +65,22 @@ public partial class GameStateService : Node, IGameStateService
 		_observables = GetNode<Observables>(Constants.SingletonNodes.Observables);
 	}
 
-    public void HandleHpValueChange(int hpValue)
+    void HandleHpValueChange(int hpValue)
     {
         _observables.EmitUpdateHpMeterValue(hpValue);
     }
 
-    public void HandleHpMaxChange(int hpMax)
+    void HandleHpMaxChange(int hpMax)
     {
         _observables.EmitUpdateHpMeterMax(hpMax);
     }
 
-    public void HandleSpValueChange(int spValue)
+    void HandleSpValueChange(int spValue)
     {
         _observables.EmitUpdateSpMeterValue(spValue);
     }
 
-    public void HandleSpMaxChange(int spMax)
+    void HandleSpMaxChange(int spMax)
     {
         _observables.EmitUpdateSpMeterMax(spMax);
     }

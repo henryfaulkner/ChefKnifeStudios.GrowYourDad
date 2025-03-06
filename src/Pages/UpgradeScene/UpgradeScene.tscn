@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://le4gk130r5ja"]
+[gd_scene load_steps=8 format=3 uid="uid://le4gk130r5ja"]
 
 [ext_resource type="Script" path="res://Pages/UpgradeScene/UpgradeScene.cs" id="1_4ubml"]
 [ext_resource type="Theme" uid="uid://dqm10m7yom243" path="res://Pages/UpgradeScene/FontTheme.tres" id="1_s3die"]
-[ext_resource type="PackedScene" uid="uid://bg8l4v4jd010p" path="res://ObjectLibrary/PC/PC.tscn" id="2_2so0w"]
 [ext_resource type="Script" path="res://Pages/UpgradeScene/UpgradeMenu.cs" id="2_hc4tl"]
 [ext_resource type="PackedScene" uid="uid://wi8ise1buq1l" path="res://Pages/UpgradeScene/UpgradeMenuOption.tscn" id="4_ip5bv"]
 [ext_resource type="PackedScene" uid="uid://dkjy2we3u0jan" path="res://ObjectLibrary/PC/Controllers/FreeFallController.tscn" id="6_s0df4"]
@@ -17,11 +16,8 @@ script = ExtResource("1_4ubml")
 FreezeArea = NodePath("MarginContainer/VBoxContainer/Freeze/FreezeArea")
 DoorArea = NodePath("MarginContainer/VBoxContainer/Door/DoorArea")
 
-[node name="PC" parent="." node_paths=PackedStringArray("_controller") instance=ExtResource("2_2so0w")]
+[node name="FreeFallController" parent="." instance=ExtResource("6_s0df4")]
 position = Vector2(576, -50)
-_controller = NodePath("FreeFallController")
-
-[node name="FreeFallController" parent="PC" instance=ExtResource("6_s0df4")]
 
 [node name="MarginContainer" type="MarginContainer" parent="." node_paths=PackedStringArray("UpgradeMenuOptions")]
 anchors_preset = 15

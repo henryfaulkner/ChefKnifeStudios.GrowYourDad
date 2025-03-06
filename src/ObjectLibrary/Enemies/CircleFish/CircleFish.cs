@@ -30,14 +30,14 @@ public partial class CircleFish : Path2D, IEnemy
 	int _hp = 1;
 
 	ILoggerService _logger;
-	IGameStateService _gameStateService;
+	IPcMeterService _pcMeterService;
 
 	bool _isFlashing = false;
 
 	public override void _Ready()
 	{
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
-		_gameStateService = GetNode<IGameStateService>(Constants.SingletonNodes.GameStateService);
+		_pcMeterService = GetNode<IPcMeterService>(Constants.SingletonNodes.PcMeterService);
 		
 		var circlePoints = CircleHelper.GetCirclePoints(GlobalPosition, Radius, _numPoints);
 		
@@ -106,7 +106,7 @@ public partial class CircleFish : Path2D, IEnemy
 	{
 		_logger.LogInfo("CircleFish deals damage");
 		int damageConstant = 1;
-		_gameStateService.HpValue -= damageConstant;
+		_pcMeterService.HpValue -= damageConstant;
 	}
 	
 	void ReactToBlastHurt()

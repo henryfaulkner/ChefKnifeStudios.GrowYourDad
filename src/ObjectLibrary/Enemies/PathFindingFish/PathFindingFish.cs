@@ -33,7 +33,7 @@ public partial class PathFindingFish : Agent, IEnemy
 	int _hp = 2;
 
 	ILoggerService _logger;
-	IGameStateService _gameStateService;
+	IPcMeterService _pcMeterService;
 
 	bool _isFlashing = false;
 
@@ -49,7 +49,7 @@ public partial class PathFindingFish : Agent, IEnemy
 	public override void _Ready()
 	{
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
-		_gameStateService = GetNode<IGameStateService>(Constants.SingletonNodes.GameStateService);
+		_pcMeterService = GetNode<IPcMeterService>(Constants.SingletonNodes.PcMeterService);
 
 		ReadyAgent();
 
@@ -155,7 +155,7 @@ public partial class PathFindingFish : Agent, IEnemy
 	{
 		_logger.LogInfo("PathFindingFish deals damage");
 		int damageConstant = 1;
-		_gameStateService.HpValue -= damageConstant;
+		_pcMeterService.HpValue -= damageConstant;
 	}
 	
 	public void ReactToBlastHurt()
