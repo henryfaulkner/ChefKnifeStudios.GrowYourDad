@@ -44,6 +44,7 @@ max_value = 5.0
 step = 1.0
 value = 1.0
 rounded = true
+show_percentage = false
 script = ExtResource("2_mmbln")
 
 [node name="Value" type="Label" parent="HBoxContainer"]

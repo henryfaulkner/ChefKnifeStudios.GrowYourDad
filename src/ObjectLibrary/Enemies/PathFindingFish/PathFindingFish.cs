@@ -34,6 +34,7 @@ public partial class PathFindingFish : Agent, IEnemy
 
 	ILoggerService _logger;
 	IPcMeterService _pcMeterService;
+	IPcInventoryService _pcInventoryService;
 
 	bool _isFlashing = false;
 
@@ -50,6 +51,7 @@ public partial class PathFindingFish : Agent, IEnemy
 	{
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 		_pcMeterService = GetNode<IPcMeterService>(Constants.SingletonNodes.PcMeterService);
+		_pcInventoryService = GetNode<IPcInventoryService>(Constants.SingletonNodes.PcInventoryService);
 
 		ReadyAgent();
 
@@ -190,7 +192,7 @@ public partial class PathFindingFish : Agent, IEnemy
 
 	void TakeDamage()
 	{
-		_hp -= 1;
+		_hp -= _pcInventoryService.GetPcDamage();
 		if (_hp == 0)
 		{
 			QueueFree();

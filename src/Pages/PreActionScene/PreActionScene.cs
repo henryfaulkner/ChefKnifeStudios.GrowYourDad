@@ -11,6 +11,8 @@ public partial class PreActionScene : Node2D
 
 	ILoggerService _logger;
 	PauseMenuService _pauseMenuService;
+	IPcMeterService _pcMeterService;
+	IPcInventoryService _pcInventoryService;
 
 	public PreActionScene()
 	{
@@ -21,6 +23,13 @@ public partial class PreActionScene : Node2D
 	{
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 		_pauseMenuService = GetNode<PauseMenuService>(Constants.SingletonNodes.PauseMenuService);
+		_pcMeterService = GetNode<IPcMeterService>(Constants.SingletonNodes.PcMeterService);
+		_pcInventoryService = GetNode<IPcInventoryService>(Constants.SingletonNodes.PcInventoryService);
+
+		_pcMeterService.HpValue = _pcInventoryService.GetPcHpMax();
+		_pcMeterService.HpMax = _pcInventoryService.GetPcHpMax();
+		_pcMeterService.SpValue = _pcInventoryService.GetPcHpMax();
+		_pcMeterService.SpMax = _pcInventoryService.GetPcSpMax();
 
 		_pauseMenuService.EmitCloseMenu();
 		

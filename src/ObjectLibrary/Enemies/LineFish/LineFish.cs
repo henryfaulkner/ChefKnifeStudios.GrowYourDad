@@ -24,6 +24,7 @@ public partial class LineFish : Path2D, IEnemy
 
 	ILoggerService _logger;
 	IPcMeterService _pcMeterService;
+	IPcInventoryService _pcInventoryService;
 
 	bool _isFlashing = false;
 
@@ -31,6 +32,7 @@ public partial class LineFish : Path2D, IEnemy
 	{
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 		_pcMeterService = GetNode<IPcMeterService>(Constants.SingletonNodes.PcMeterService);
+		_pcInventoryService = GetNode<IPcInventoryService>(Constants.SingletonNodes.PcInventoryService);
 		
 		_hurtBox.AreaHurt += HandleHurt;
 		_hitBox.AreaHit += HandleHit;
@@ -126,7 +128,7 @@ public partial class LineFish : Path2D, IEnemy
 
 	void TakeDamage()
 	{
-		_hp -= 1;
+		_hp -= _pcInventoryService.GetPcDamage();
 		if (_hp == 0)
 		{
 			QueueFree();

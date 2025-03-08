@@ -9,7 +9,6 @@ height = 20.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_ohq6f"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_be7h5"]
-radius = 11.1803
 
 [node name="Blast" type="RigidBody2D" node_paths=PackedStringArray("HitBox")]
 collision_layer = 2
