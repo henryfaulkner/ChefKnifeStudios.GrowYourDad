@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://7pcytyrc7d8q"]
+
+[ext_resource type="Script" path="res://ObjectLibrary/Protein/Protein.cs" id="1_1n2mw"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_35c4f"]
+size = Vector2(8, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_40imj"]
+size = Vector2(8, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7qpu8"]
+size = Vector2(8, 8)
+
+[node name="Protein" type="RigidBody2D" node_paths=PackedStringArray("HitBox")]
+rotation = 0.785398
+script = ExtResource("1_1n2mw")
+HitBox = NodePath("HitBox")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+mesh = SubResource("QuadMesh_35c4f")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_40imj")
+
+[node name="HitBox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("RectangleShape2D_7qpu8")

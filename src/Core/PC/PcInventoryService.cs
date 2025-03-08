@@ -19,10 +19,26 @@ public interface IPcInventoryService
 
 public partial class PcInventoryService : Node, IPcInventoryService
 {
+    IPcMeterService _pcMeterService;
+
     public List<ItemBase> ItemInventory { get; private set; } = new();
+
+    public override void _Ready()
+    {
+        _pcMeterService = GetNode<IPcMeterService>(Constants.SingletonNodes.PcMeterService);
+    }
 
     public void AddToInventory(ItemBase item)
     {
+        if (item is ItemWithHealingEffect itemWithHealingEffect)
+        {
+            if (_pcMeterService.HpValue + itemWithHealingEffect.OneTimeHpBenefit > _pcMeterService.HpMax)
+                _pcMeterService.HpValue = _pcMeterService.HpMax;
+            else 
+                _pcMeterService.HpValue += itemWithHealingEffect.OneTimeHpBenefit;
+            return; 
+        }
+
         ItemInventory.Add(item);
     }
 

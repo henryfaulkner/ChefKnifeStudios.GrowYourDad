@@ -25,6 +25,7 @@ public partial class LineFish : Path2D, IEnemy
 	ILoggerService _logger;
 	IPcMeterService _pcMeterService;
 	IPcInventoryService _pcInventoryService;
+	IProteinFactory _proteinFactory;
 
 	bool _isFlashing = false;
 
@@ -33,6 +34,7 @@ public partial class LineFish : Path2D, IEnemy
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 		_pcMeterService = GetNode<IPcMeterService>(Constants.SingletonNodes.PcMeterService);
 		_pcInventoryService = GetNode<IPcInventoryService>(Constants.SingletonNodes.PcInventoryService);
+		_proteinFactory = GetNode<IProteinFactory>(Constants.SingletonNodes.ProteinFactory);
 		
 		_hurtBox.AreaHurt += HandleHurt;
 		_hitBox.AreaHit += HandleHit;
@@ -104,7 +106,7 @@ public partial class LineFish : Path2D, IEnemy
 
 	public void ReactToBootsHurt()
 	{
-		QueueFree();
+		HandleDeath();
 	}
 
 	async void StartFlashing()
@@ -131,8 +133,14 @@ public partial class LineFish : Path2D, IEnemy
 		_hp -= _pcInventoryService.GetPcDamage();
 		if (_hp == 0)
 		{
-			QueueFree();
+			HandleDeath();
 		}
+	}
+
+	void HandleDeath()
+	{
+		_proteinFactory.SpawnMultiProtein(GetNode(".."), GlobalPosition);
+		QueueFree();
 	}
 
 	bool ProcessPathFollow(PathFollow2D pathFollow, float speed, double delta)

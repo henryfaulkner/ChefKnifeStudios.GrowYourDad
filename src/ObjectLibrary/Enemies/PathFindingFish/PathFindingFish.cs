@@ -35,6 +35,7 @@ public partial class PathFindingFish : Agent, IEnemy
 	ILoggerService _logger;
 	IPcMeterService _pcMeterService;
 	IPcInventoryService _pcInventoryService;
+	IProteinFactory _proteinFactory;
 
 	bool _isFlashing = false;
 
@@ -52,6 +53,7 @@ public partial class PathFindingFish : Agent, IEnemy
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 		_pcMeterService = GetNode<IPcMeterService>(Constants.SingletonNodes.PcMeterService);
 		_pcInventoryService = GetNode<IPcInventoryService>(Constants.SingletonNodes.PcInventoryService);
+		_proteinFactory = GetNode<IProteinFactory>(Constants.SingletonNodes.ProteinFactory);
 
 		ReadyAgent();
 
@@ -168,7 +170,7 @@ public partial class PathFindingFish : Agent, IEnemy
 
 	public void ReactToBootsHurt()
 	{
-		QueueFree();
+		HandleDeath();
 	}
 
 	async void StartFlashing()
@@ -195,8 +197,14 @@ public partial class PathFindingFish : Agent, IEnemy
 		_hp -= _pcInventoryService.GetPcDamage();
 		if (_hp == 0)
 		{
-			QueueFree();
+			HandleDeath();
 		}
+	}
+
+	void HandleDeath()
+	{
+		_proteinFactory.SpawnMultiProtein(GetNode(".."), GlobalPosition);
+		QueueFree();
 	}
 
 	void SyncChildPositionsToController()
