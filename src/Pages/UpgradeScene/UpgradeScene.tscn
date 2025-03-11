@@ -1,10 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://le4gk130r5ja"]
+[gd_scene load_steps=10 format=3 uid="uid://le4gk130r5ja"]
 
 [ext_resource type="Script" path="res://Pages/UpgradeScene/UpgradeScene.cs" id="1_4ubml"]
 [ext_resource type="Theme" uid="uid://dqm10m7yom243" path="res://Pages/UpgradeScene/FontTheme.tres" id="1_s3die"]
 [ext_resource type="Script" path="res://Pages/UpgradeScene/UpgradeMenu.cs" id="2_hc4tl"]
+[ext_resource type="Script" path="res://ObjectLibrary/PC/Areas/PcHurtBoxArea.cs" id="3_n684s"]
 [ext_resource type="PackedScene" uid="uid://wi8ise1buq1l" path="res://Pages/UpgradeScene/UpgradeMenuOption.tscn" id="4_ip5bv"]
 [ext_resource type="PackedScene" uid="uid://dkjy2we3u0jan" path="res://ObjectLibrary/PC/Controllers/FreeFallController.tscn" id="6_s0df4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7i5mu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kw67s"]
 size = Vector2(77, 20)
@@ -18,6 +21,13 @@ DoorArea = NodePath("UpgradeMenu/VBoxContainer/Door/DoorArea")
 
 [node name="FreeFallController" parent="." instance=ExtResource("6_s0df4")]
 position = Vector2(576, -50)
+
+[node name="HurtBox" type="Area2D" parent="FreeFallController"]
+script = ExtResource("3_n684s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FreeFallController/HurtBox"]
+shape = SubResource("RectangleShape2D_7i5mu")
+debug_color = Color(0, 0.701961, 0, 0.419608)
 
 [node name="UpgradeMenu" type="MarginContainer" parent="." node_paths=PackedStringArray("UpgradeMenuOptions", "ItemNameLabel", "ItemDescriptionLabel")]
 anchors_preset = 15

@@ -17,8 +17,9 @@ height = 16.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_tdqqg"]
 radius = 16.0
 
-[node name="PathFindingFish" type="Node2D" node_paths=PackedStringArray("_rayCastContainer", "_hurtBox", "_hitBox", "Controller")]
+[node name="PathFindingFish" type="Node2D" node_paths=PackedStringArray("_controller", "_rayCastContainer", "_hurtBox", "_hitBox", "Controller")]
 script = ExtResource("1_jkpf0")
+_controller = NodePath("AgentController")
 _rayCastContainer = NodePath("RayCastContainer")
 _hurtBox = NodePath("AgentController/HurtBox")
 _hitBox = NodePath("AgentController/HitBox")

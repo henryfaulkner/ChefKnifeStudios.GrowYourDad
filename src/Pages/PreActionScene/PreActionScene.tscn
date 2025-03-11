@@ -1,13 +1,16 @@
-[gd_scene load_steps=11 format=4 uid="uid://b352txws2d6q"]
+[gd_scene load_steps=13 format=4 uid="uid://b352txws2d6q"]
 
 [ext_resource type="Script" path="res://Pages/PreActionScene/PreActionScene.cs" id="1_bb6b4"]
 [ext_resource type="PackedScene" uid="uid://bg8l4v4jd010p" path="res://ObjectLibrary/PC/PC.tscn" id="1_ec0l0"]
 [ext_resource type="PackedScene" uid="uid://cpwrvs0vtdn42" path="res://ObjectLibrary/PC/Controllers/GravityController.tscn" id="2_sii2s"]
 [ext_resource type="PackedScene" uid="uid://dwlmfdqio1b4g" path="res://ObjectLibrary/PauseMenu/PauseMenu.tscn" id="3_l3csv"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_v3wyx"]
+[ext_resource type="Script" path="res://ObjectLibrary/PC/Areas/PcHurtBoxArea.cs" id="4_vu6po"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="5_pls7o"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="6_bj4e1"]
 [ext_resource type="TileSet" uid="uid://2tk1djwsligw" path="res://Pages/TileSet.tres" id="7_o580k"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bliku"]
 
 [sub_resource type="Resource" id="Resource_4ltar"]
 script = ExtResource("6_bj4e1")
@@ -25,7 +28,15 @@ DoorArea = NodePath("DoorArea")
 [node name="PC" parent="." node_paths=PackedStringArray("_controller") instance=ExtResource("1_ec0l0")]
 _controller = NodePath("GravityController")
 
-[node name="GravityController" parent="PC" instance=ExtResource("2_sii2s")]
+[node name="GravityController" parent="PC" node_paths=PackedStringArray("HurtBox") instance=ExtResource("2_sii2s")]
+HurtBox = NodePath("HurtBox")
+
+[node name="HurtBox" type="Area2D" parent="PC/GravityController"]
+script = ExtResource("4_vu6po")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PC/GravityController/HurtBox"]
+shape = SubResource("RectangleShape2D_bliku")
+debug_color = Color(0, 0.701961, 0, 0.419608)
 
 [node name="PauseMenu" parent="." instance=ExtResource("3_l3csv")]
 visible = false

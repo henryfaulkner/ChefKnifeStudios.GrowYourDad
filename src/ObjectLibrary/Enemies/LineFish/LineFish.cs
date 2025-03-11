@@ -139,7 +139,7 @@ public partial class LineFish : Path2D, IEnemy
 
 	void HandleDeath()
 	{
-		_proteinFactory.SpawnMultiProtein(GetNode(".."), GlobalPosition);
+		_proteinFactory.SpawnMultiProtein(GetNode(".."), _pathFollow.GlobalPosition);
 		QueueFree();
 	}
 

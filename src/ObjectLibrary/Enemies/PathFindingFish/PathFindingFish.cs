@@ -9,6 +9,8 @@ public partial class PathFindingFish : Agent, IEnemy
 
 	[ExportGroup("Nodes")]
 	[Export]
+	CharacterBody2D _controller;
+	[Export]
 	Node2D _rayCastContainer { get; set; }
 	[Export]
 	EnemyHurtBoxArea _hurtBox;
@@ -203,7 +205,7 @@ public partial class PathFindingFish : Agent, IEnemy
 
 	void HandleDeath()
 	{
-		_proteinFactory.SpawnMultiProtein(GetNode(".."), GlobalPosition);
+		_proteinFactory.SpawnMultiProtein(GetNode(".."), _controller.GlobalPosition);
 		QueueFree();
 	}
 

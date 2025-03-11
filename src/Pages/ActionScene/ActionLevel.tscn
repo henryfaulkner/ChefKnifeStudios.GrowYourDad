@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://crcpx513j57hx"]
+[gd_scene load_steps=25 format=3 uid="uid://crcpx513j57hx"]
 
 [ext_resource type="Script" path="res://ObjectLibrary/PC/PC.cs" id="1_7j6ln"]
 [ext_resource type="Script" path="res://Pages/ActionScene/ActionLevel.cs" id="1_spdap"]
@@ -7,13 +7,22 @@
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="3_ked4j"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="4_fling"]
 [ext_resource type="PackedScene" uid="uid://bnqi7if3qsvbu" path="res://ObjectLibrary/PC/Boots/Boots.tscn" id="4_uiaou"]
+[ext_resource type="Script" path="res://ObjectLibrary/PC/Areas/PcHurtBoxArea.cs" id="5_32222"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="5_nk2bu"]
+[ext_resource type="Script" path="res://ObjectLibrary/PC/Areas/PcGrabArea.cs" id="6_g4070"]
 [ext_resource type="Script" path="res://ObjectLibrary/HUD.cs" id="6_i0uts"]
 [ext_resource type="PackedScene" uid="uid://v5sccupxhj7q" path="res://ObjectLibrary/Meter/Meter.tscn" id="6_v4xox"]
 [ext_resource type="TileSet" uid="uid://2tk1djwsligw" path="res://Pages/TileSet.tres" id="7_ad0wk"]
 [ext_resource type="Texture2D" uid="uid://ctmmi8iho7gu4" path="res://Assets/Images/Icons/HeartMeterIcon.png" id="7_g4q0p"]
 [ext_resource type="Texture2D" uid="uid://dw5fvi3uh70tn" path="res://Assets/Images/Icons/StatsIconFA.png" id="8_qos51"]
 [ext_resource type="PackedScene" uid="uid://dwlmfdqio1b4g" path="res://ObjectLibrary/PauseMenu/PauseMenu.tscn" id="14_1jdno"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ae0j7"]
+size = Vector2(25, 25)
+
+[sub_resource type="Theme" id="Theme_phno0"]
+
+[sub_resource type="Theme" id="Theme_fqe4a"]
 
 [sub_resource type="Resource" id="Resource_8nvxf"]
 script = ExtResource("5_nk2bu")
@@ -41,16 +50,32 @@ script = ExtResource("1_spdap")
 script = ExtResource("1_7j6ln")
 _controller = NodePath("GravityController")
 
-[node name="GravityController" parent="PC" instance=ExtResource("2_8jas8")]
+[node name="GravityController" parent="PC" node_paths=PackedStringArray("HurtBox") instance=ExtResource("2_8jas8")]
+HurtBox = NodePath("HurtBox")
 
 [node name="Boots" parent="PC/GravityController" node_paths=PackedStringArray("HitBoxes") instance=ExtResource("4_uiaou")]
 position = Vector2(0, 20)
 HitBoxes = []
 
-[node name="HUD" type="CanvasLayer" parent="." node_paths=PackedStringArray("HpMeter", "SpMeter")]
+[node name="HurtBox" type="Area2D" parent="PC/GravityController"]
+script = ExtResource("5_32222")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PC/GravityController/HurtBox"]
+shape = SubResource("RectangleShape2D_ae0j7")
+debug_color = Color(0, 0.701961, 0, 0.419608)
+
+[node name="GrabArea" type="Area2D" parent="PC/GravityController"]
+script = ExtResource("6_g4070")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PC/GravityController/GrabArea"]
+shape = SubResource("RectangleShape2D_ae0j7")
+debug_color = Color(0, 0.701961, 0, 0.419608)
+
+[node name="HUD" type="CanvasLayer" parent="." node_paths=PackedStringArray("HpMeter", "SpMeter", "ProteinLabel")]
 script = ExtResource("6_i0uts")
 HpMeter = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Meters/HpMeter")
 SpMeter = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Meters/SpMeter")
+ProteinLabel = NodePath("MarginContainer/VBoxContainer/HBoxContainer/ProteinContainer/MarginContainer/ProteinLabel")
 
 [node name="MarginContainer" type="MarginContainer" parent="HUD"]
 anchors_preset = 15
@@ -61,6 +86,7 @@ grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HUD/MarginContainer"]
 layout_mode = 2
+theme = SubResource("Theme_phno0")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HUD/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -81,9 +107,24 @@ IconTexture = ExtResource("7_g4q0p")
 layout_mode = 2
 IconTexture = ExtResource("8_qos51")
 
-[node name="Control2" type="Control" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="ProteinContainer" type="HBoxContainer" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+alignment = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer/ProteinContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_right = 20
+
+[node name="ProteinLabel" type="RichTextLabel" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer/ProteinContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme = SubResource("Theme_fqe4a")
+bbcode_enabled = true
+text = "[font_size=24][right]#### proteins[/right][/font_size]"
+fit_content = true
 
 [node name="PhantomCamera2D" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
 top_level = true

@@ -3,14 +3,14 @@ using System;
 
 public partial class Observables : Node
 {
-    [Signal]
-    public delegate void BootsBounceEventHandler();
-    public void EmitBootsBounce()
-    {
-        EmitSignal(SignalName.BootsBounce);
-    }
+	[Signal]
+	public delegate void BootsBounceEventHandler();
+	public void EmitBootsBounce()
+	{
+		EmitSignal(SignalName.BootsBounce);
+	}
 
-    #region Meter Actions
+	#region Meter Actions
 	[Signal]
 	public delegate void UpdateHpMeterValueEventHandler(int value);
 	public void EmitUpdateHpMeterValue(int value)

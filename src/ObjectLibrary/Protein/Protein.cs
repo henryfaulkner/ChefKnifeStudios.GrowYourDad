@@ -29,9 +29,10 @@ public partial class Protein : RigidBody2D
 
 	void HandlePcHit(Area2D target)
 	{
-		if (target is PcHurtBoxArea targetArea2D)
+		if (target is PcGrabArea targetArea2D)
 		{
 			_pcWalletService.ProteinInWallet += 1;
+			_logger.LogInfo($"Protein hit PC. {_pcWalletService.ProteinInWallet}");
 			QueueFree();
 		} 
 	}
@@ -40,6 +41,7 @@ public partial class Protein : RigidBody2D
 	{
 		if (target is TileMapLayer tileMapLayer)
 		{
+			_logger.LogInfo("Protein hit Tile");
 			QueueFree();
 		}
 	}

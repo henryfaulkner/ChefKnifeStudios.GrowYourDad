@@ -26,12 +26,10 @@ public partial class ProteinFactory : Node, IProteinFactory
 
 	public Protein SpawnProtein(Node parent, Vector2 initGlobalPosition, Vector2 dirVector, float speed)
 	{
-		float initialOffsetAmount = 20.0f;
-		
 		var result = _proteinScene.Instantiate<Protein>();
 		result.GlobalPosition = new Vector2(
-			initGlobalPosition.X + dirVector.X * initialOffsetAmount, 
-			initGlobalPosition.Y + dirVector.Y * initialOffsetAmount
+			initGlobalPosition.X + dirVector.X, 
+			initGlobalPosition.Y + dirVector.Y
 		);
 		result.GravityScale = 0.0f;
 		result.ConstantForce = dirVector * speed;
@@ -51,7 +49,7 @@ public partial class ProteinFactory : Node, IProteinFactory
 
 		for (int i = 0; i < spawnNumber; i += 1)
 		{
-			int spawnSpeed = rand.Next(1, 4);
+			int spawnSpeed = rand.Next(7, 13);
 			int xBit = rand.Next(0, 2); // 0 or 1
 			int yBit = rand.Next(0, 2);
 

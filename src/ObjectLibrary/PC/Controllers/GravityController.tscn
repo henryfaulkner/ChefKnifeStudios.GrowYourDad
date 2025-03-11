@@ -1,28 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://cpwrvs0vtdn42"]
+[gd_scene load_steps=4 format=3 uid="uid://cpwrvs0vtdn42"]
 
 [ext_resource type="Script" path="res://ObjectLibrary/PC/Controllers/GravityController.cs" id="2_usead"]
-[ext_resource type="Script" path="res://ObjectLibrary/PC/PcHurtBoxArea.cs" id="2_yjv73"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_cm2lw"]
 size = Vector3(20, 20, 20)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0hpcm"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_dg06c"]
-
-[node name="GravityController" type="CharacterBody2D" node_paths=PackedStringArray("HurtBox")]
+[node name="GravityController" type="CharacterBody2D"]
 script = ExtResource("2_usead")
-HurtBox = NodePath("HurtBox")
 
 [node name="Sprite2D" type="MeshInstance2D" parent="."]
 mesh = SubResource("BoxMesh_cm2lw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_0hpcm")
-
-[node name="HurtBox" type="Area2D" parent="."]
-script = ExtResource("2_yjv73")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
-shape = SubResource("RectangleShape2D_dg06c")
-debug_color = Color(0, 0.701961, 0, 0.419608)
