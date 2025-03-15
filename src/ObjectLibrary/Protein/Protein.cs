@@ -8,13 +8,19 @@ public partial class Protein : RigidBody2D
 
 	ILoggerService _logger;
 	IPcWalletService _pcWalletService;
+	IPcPositionService _pcPositionService;
+
+	const float MAGNET_SPEED = 20.0f;
+	bool _isInPcMagnetArea = false; 
 
 	public override void _Ready() 
 	{
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 		_pcWalletService = GetNode<IPcWalletService>(Constants.SingletonNodes.PcWalletService);
+		_pcPositionService = GetNode<IPcPositionService>(Constants.SingletonNodes.PcPositionService);
 
-		HitBox.AreaEntered += HandlePcHit;
+		HitBox.AreaEntered += HandleAreaEntered;
+		HitBox.AreaExited += HandleAreaExited;
 		HitBox.BodyEntered += HandleTileHit;
 	}
 
@@ -22,19 +28,43 @@ public partial class Protein : RigidBody2D
 	{
 		if (HitBox != null)
 		{
-			HitBox.AreaEntered -= HandlePcHit;
+			HitBox.AreaEntered -= HandleAreaEntered;
+			HitBox.AreaExited -= HandleAreaExited;
 			HitBox.BodyEntered -= HandleTileHit;
 		}
 	}
 
-	void HandlePcHit(Area2D target)
+	public override void _PhysicsProcess(double delta)
 	{
-		if (target is PcGrabArea targetArea2D)
+		if (_isInPcMagnetArea) HandleMagnetMovement(delta);
+	}
+
+	void HandleAreaEntered(Area2D target)
+	{
+		switch (target)
 		{
-			_pcWalletService.ProteinInWallet += 1;
-			_logger.LogInfo($"Protein hit PC. {_pcWalletService.ProteinInWallet}");
-			QueueFree();
-		} 
+			case PcGrabArea grabArea:
+				_pcWalletService.ProteinInWallet += 1;
+				QueueFree();
+				break;
+			case PcMagnetArea magnetArea:
+				_isInPcMagnetArea = true;
+				break; 
+			default:
+				break;
+		}
+	}
+
+	void HandleAreaExited(Area2D target)
+	{
+		switch (target)
+		{
+			case PcMagnetArea magnetArea:
+				_isInPcMagnetArea = false;
+				break;
+			default:
+				break;
+		}
 	}
 
 	void HandleTileHit(Node2D target)
@@ -44,5 +74,13 @@ public partial class Protein : RigidBody2D
 			_logger.LogInfo("Protein hit Tile");
 			QueueFree();
 		}
+	}
+
+	void HandleMagnetMovement(double delta)
+	{
+		Vector2 normalProteinToPcDelta = (_pcPositionService.GlobalPosition-GlobalPosition).Normalized(); 
+		_logger.LogInfo($"Protein hit Magnet Area. {normalProteinToPcDelta.ToString()}");
+		ConstantForce = normalProteinToPcDelta * MAGNET_SPEED * 3;
+		ApplyImpulse(normalProteinToPcDelta * MAGNET_SPEED, Vector2.Zero);
 	}
 }

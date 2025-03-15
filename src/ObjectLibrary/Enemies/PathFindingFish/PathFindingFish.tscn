@@ -13,9 +13,10 @@ radius = 8.0
 height = 16.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_k6caf"]
+radius = 8.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tdqqg"]
-radius = 16.0
+radius = 8.0
 
 [node name="PathFindingFish" type="Node2D" node_paths=PackedStringArray("_controller", "_rayCastContainer", "_hurtBox", "_hitBox", "Controller")]
 script = ExtResource("1_jkpf0")
@@ -26,8 +27,8 @@ _hitBox = NodePath("AgentController/HitBox")
 Controller = NodePath("AgentController")
 
 [node name="AgentController" type="CharacterBody2D" parent="." node_paths=PackedStringArray("Area", "AreaCollision", "Collision", "NavAgent", "NavTimer")]
-collision_layer = 3
-collision_mask = 3
+collision_layer = 6
+collision_mask = 6
 script = ExtResource("2_rjby4")
 Area = NodePath("HurtBox")
 AreaCollision = NodePath("HurtBox/CollisionShape2D")

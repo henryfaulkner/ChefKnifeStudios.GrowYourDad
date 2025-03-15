@@ -10,7 +10,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7i5mu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kw67s"]
-size = Vector2(77, 20)
+size = Vector2(2048, 20)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i4jww"]
 

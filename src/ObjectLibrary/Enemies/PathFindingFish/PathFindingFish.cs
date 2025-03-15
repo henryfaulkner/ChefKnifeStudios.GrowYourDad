@@ -34,10 +34,10 @@ public partial class PathFindingFish : Agent, IEnemy
 	[Export]
 	int _hp = 2;
 
-	ILoggerService _logger;
-	IPcMeterService _pcMeterService;
-	IPcInventoryService _pcInventoryService;
-	IProteinFactory _proteinFactory;
+	ILoggerService _logger = null!;
+	IPcInventoryService _pcInventoryService = null!;
+	IProteinFactory _proteinFactory = null!;
+	Observables _observables = null!;
 
 	bool _isFlashing = false;
 
@@ -53,9 +53,9 @@ public partial class PathFindingFish : Agent, IEnemy
 	public override void _Ready()
 	{
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
-		_pcMeterService = GetNode<IPcMeterService>(Constants.SingletonNodes.PcMeterService);
 		_pcInventoryService = GetNode<IPcInventoryService>(Constants.SingletonNodes.PcInventoryService);
 		_proteinFactory = GetNode<IProteinFactory>(Constants.SingletonNodes.ProteinFactory);
+		_observables = GetNode<Observables>(Constants.SingletonNodes.Observables);
 
 		ReadyAgent();
 
@@ -159,9 +159,8 @@ public partial class PathFindingFish : Agent, IEnemy
 
 	void ReactToPcHit()
 	{
-		_logger.LogInfo("PathFindingFish deals damage");
 		int damageConstant = 1;
-		_pcMeterService.HpValue -= damageConstant;
+		_observables.EmitPcHit(damageConstant);
 	}
 	
 	public void ReactToBlastHurt()
@@ -179,12 +178,13 @@ public partial class PathFindingFish : Agent, IEnemy
 	{
 		_isFlashing = true;
 		var originalColor = Modulate;
+		var flashColor = new Color(1.0f, 0.0f, 0.0f, 1.0f); // solid red
 
 		float elapsed = 0.0f;
 
 		while (elapsed < _flashDuration)
 		{
-			Modulate = (Modulate == originalColor) ? new Color(1.0f, 0.0f, 0.0f, 1.0f) : originalColor;
+			Modulate = (Modulate == originalColor) ? flashColor : originalColor;
 			await ToSignal(GetTree().CreateTimer(_flashInterval), "timeout");
 			elapsed += _flashInterval;
 		}

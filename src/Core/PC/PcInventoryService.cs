@@ -30,18 +30,28 @@ public partial class PcInventoryService : Node, IPcInventoryService
 
 	public void AddToInventory(ItemBase item)
 	{
-		if (item is ItemWithHealingEffect itemWithHealingEffect)
+		switch (item)
 		{
-			if (_pcMeterService.HpValue + itemWithHealingEffect.OneTimeHpBenefit > _pcMeterService.HpMax)
-				_pcMeterService.HpValue = _pcMeterService.HpMax;
-			else 
-				_pcMeterService.HpValue += itemWithHealingEffect.OneTimeHpBenefit;
-			return; 
-		}
-
-		if (item is ItemWithBlastingEffect)
-		{
-			ItemInventory.RemoveAll(x => x is ItemWithBlastingEffect);
+			case ItemWithHealingEffect itemWithHealingEffect:
+				if (_pcMeterService.HpValue + itemWithHealingEffect.OneTimeHpBenefit > _pcMeterService.HpMax)
+				{
+					_pcMeterService.HpValue = _pcMeterService.HpMax;
+				}
+				else
+				{
+					_pcMeterService.HpValue += itemWithHealingEffect.OneTimeHpBenefit;
+				}
+				break;
+			case ItemWithBlastingEffect itemWithBlastingEffect:
+				ItemInventory.RemoveAll(x => x is ItemWithBlastingEffect);
+				break;
+			case ItemWithPassiveEffect itemWithPassiveEffect:
+				// when an item is added, which will improve the PC's base health, 
+				// their current health should benefit the same amount.
+				_pcMeterService.HpValue += itemWithPassiveEffect.BaseHpBenefit;
+				break;
+			default:
+				break;
 		}
 
 		ItemInventory.Add(item);

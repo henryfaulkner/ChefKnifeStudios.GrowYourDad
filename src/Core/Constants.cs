@@ -11,6 +11,7 @@ public partial class Constants
 		public const string PcMeterService = "/root/PcMeterService";
 		public const string PcWalletService = "/root/PcWalletService";
 		public const string PcInventoryService = "/root/PcInventoryService";
+		public const string PcPositionService = "/root/PcPositionService";
 		public const string Observables = "/root/Observables";
 		public const string BlasterFactory = "/root/BlasterFactory";
 		public const string BlastFactory = "/root/BlastFactory";

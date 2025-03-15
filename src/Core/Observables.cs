@@ -10,6 +10,13 @@ public partial class Observables : Node
 		EmitSignal(SignalName.BootsBounce);
 	}
 
+	[Signal]
+	public delegate void PcHitEventHandler(int damage);
+	public void EmitPcHit(int damage)
+	{
+		EmitSignal(SignalName.PcHit, damage);
+	}
+
 	#region Meter Actions
 	[Signal]
 	public delegate void UpdateHpMeterValueEventHandler(int value);

@@ -21,6 +21,9 @@ public partial class PcMeterService : Node, IPcMeterService
 		get => _hpValue;
 		set
 		{
+			if (_hpValue == value) return;
+			GD.Print($"HpValue {value}");
+			if (value < 0) value = 0;
 			_hpValue = value;
 			HandleHpValueChange(value);
 		}
@@ -31,6 +34,9 @@ public partial class PcMeterService : Node, IPcMeterService
 		get => _hpMax;
 		set
 		{
+			if (_hpMax == value) return;
+			GD.Print($"HpMax {value}");
+			if (value < 0) value = 0;
 			_hpMax = value;
 			HandleHpMaxChange(value);
 		}
@@ -41,6 +47,9 @@ public partial class PcMeterService : Node, IPcMeterService
 		get => _spValue;
 		set
 		{
+			if (_spValue == value) return;
+			GD.Print($"SpValue {value}");
+			if (value < 0) value = 0;
 			_spValue = value;
 			HandleSpValueChange(value);
 		}
@@ -51,6 +60,9 @@ public partial class PcMeterService : Node, IPcMeterService
 		get => _spMax;
 		set
 		{
+			if (_spMax == value) return;
+			GD.Print($"SpMax {value}");
+			if (value < 0) value = 0;
 			_spMax = value;
 			HandleSpMaxChange(_spMax);
 		}

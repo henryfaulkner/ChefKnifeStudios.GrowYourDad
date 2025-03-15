@@ -22,19 +22,19 @@ public partial class LineFish : Path2D, IEnemy
 	[Export]
 	int _hp = 2;
 
-	ILoggerService _logger;
-	IPcMeterService _pcMeterService;
-	IPcInventoryService _pcInventoryService;
-	IProteinFactory _proteinFactory;
+	ILoggerService _logger = null!;
+	IPcInventoryService _pcInventoryService = null!;
+	IProteinFactory _proteinFactory = null!;
+	Observables _observables = null!;
 
 	bool _isFlashing = false;
 
 	public override void _Ready()
 	{
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
-		_pcMeterService = GetNode<IPcMeterService>(Constants.SingletonNodes.PcMeterService);
 		_pcInventoryService = GetNode<IPcInventoryService>(Constants.SingletonNodes.PcInventoryService);
 		_proteinFactory = GetNode<IProteinFactory>(Constants.SingletonNodes.ProteinFactory);
+		_observables = GetNode<Observables>(Constants.SingletonNodes.Observables);
 		
 		_hurtBox.AreaHurt += HandleHurt;
 		_hitBox.AreaHit += HandleHit;
@@ -95,7 +95,7 @@ public partial class LineFish : Path2D, IEnemy
 	void ReactToPcHit()
 	{
 		int damageConstant = 1;
-		_pcMeterService.HpValue -= damageConstant;
+		_observables.EmitPcHit(damageConstant);
 	}
 	
 	public void ReactToBlastHurt()
