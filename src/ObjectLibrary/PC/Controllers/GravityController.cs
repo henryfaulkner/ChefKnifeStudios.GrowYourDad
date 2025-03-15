@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 using System.Runtime;
 
 public partial class GravityController : CharacterBody2D, IController
@@ -21,12 +22,14 @@ public partial class GravityController : CharacterBody2D, IController
 	ILoggerService _logger;
 	Observables _observables;
 	IPcMeterService _pcMeterService;
+	IPcInventoryService _pcInventoryService;
 	
 	public override void _Ready() 
 	{
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 		_observables = GetNode<Observables>(Constants.SingletonNodes.Observables);
 		_pcMeterService = GetNode<PcMeterService>(Constants.SingletonNodes.PcMeterService);
+		_pcInventoryService = GetNode<PcInventoryService>(Constants.SingletonNodes.PcInventoryService);
 
 		_observables.BootsBounce += HandleBootsBounce;
 		HurtBox.AreaEntered += HandleHurtBoxEntered;
@@ -55,7 +58,6 @@ public partial class GravityController : CharacterBody2D, IController
 		{
 			velocity += (GetGravity() * _gravityRatio) * (float)delta;
 		}
-
 		
 		if (Input.IsActionJustPressed("shoot"))
 		{
@@ -64,7 +66,7 @@ public partial class GravityController : CharacterBody2D, IController
 				// Handle Jump.
 				velocity.Y = _jumpVelocity * _gravityRatio;
 			}
-			else if (_pcMeterService.SpValue > 0 || recentSpZero)
+			else if ((_pcMeterService.SpValue > 0 || recentSpZero) && _pcInventoryService.GetInvItemsWithBlastingEffect().Any())
 			{
 				// Handle Blast.
 				velocity.Y = _shotVelocity * _gravityRatio;

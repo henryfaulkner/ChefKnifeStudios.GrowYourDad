@@ -19,7 +19,7 @@ public partial class ActionLevel : Node2D
 
 		_pcMeterService.HpValue = _pcMeterService.HpValue;
 		_pcMeterService.HpMax = _pcInventoryService.GetPcHpMax();
-		_pcMeterService.SpValue = _pcMeterService.SpValue;
+		_pcMeterService.SpValue = _pcInventoryService.GetPcSpMax();
 		_pcMeterService.SpMax = _pcInventoryService.GetPcSpMax();
 
 		_pauseMenuService.EmitCloseMenu();

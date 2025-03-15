@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 [JsonDerivedType(typeof(ItemBase), typeDiscriminator: "base")]
 [JsonDerivedType(typeof(ItemWithHealingEffect), typeDiscriminator: "withHealingEffect")]
-[JsonDerivedType(typeof(ItemWithDamagingEffect), typeDiscriminator: "withDamagingEffect")]
+[JsonDerivedType(typeof(ItemWithBlastingEffect), typeDiscriminator: "withBlastingEffect")]
 [JsonDerivedType(typeof(ItemWithPassiveEffect), typeDiscriminator: "withPassiveEffect")]
 public class ItemBase
 {
@@ -38,13 +38,16 @@ public class ItemWithHealingEffect : ItemBase
     }
 }
 
-public class ItemWithDamagingEffect : ItemBase
+public class ItemWithBlastingEffect : ItemBase
 {
     [JsonPropertyName("damageBase")]
     public int DamageBase { get; set; }
 
     [JsonPropertyName("ammoConsumed")]
     public int AmmoConsumed { get; set; }
+
+    [JsonPropertyName("blasterType")]
+    public Enumerations.BlasterTypes BlasterType { get; set; }
 
     public override string ToString()
     {

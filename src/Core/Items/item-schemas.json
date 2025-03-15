@@ -52,21 +52,23 @@
         "oneTimeHpBenefit": 2
     },    
     {
-        "$type": "withDamagingEffect",
+        "$type": "withBlastingEffect",
         "id": "SINGLE_SHOT_BLASTER",
         "name": "Single Shot Blaster",
         "description": "A blaster that fires one shot at a time.",
         "price": 1,
         "damageBase": 1,
-        "ammoConsumed": 1
+        "ammoConsumed": 1,
+        "blasterType": 1
     },
     {
-        "$type": "withDamagingEffect",
+        "$type": "withBlastingEffect",
         "id": "TRIPLE_SHOT_BLASTER",
         "name": "Triple Shot Blaster",
         "description": "A blaster that fires three shots at a time.",
         "price": 2,
         "damageBase": 1,
-        "ammoConsumed": 3
+        "ammoConsumed": 3,
+        "blasterType": 2
     }
 ]

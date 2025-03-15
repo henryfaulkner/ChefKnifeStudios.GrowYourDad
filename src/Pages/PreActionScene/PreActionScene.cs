@@ -46,6 +46,17 @@ public partial class PreActionScene : Node2D
 
 	void HandleDoorAreaExited(Area2D target)
 	{ 
+		_pcInventoryService.AddToInventory(new ItemWithBlastingEffect()
+		{
+			Id = "SINGLE_SHOT_BLASTER",
+			Name = "Single Shot Blaster",
+			Description = "A blaster that fires one shot at a time.",
+			Price = 1,
+			DamageBase = 1,
+			AmmoConsumed = 1,
+			BlasterType = Enumerations.BlasterTypes.SingleShotBlaster,
+		});
+
 		// Use call_deferred to safely change the scene
 		CallDeferred(nameof(ChangeToActionLevel));
 	}

@@ -1,6 +1,7 @@
 using Godot;
 using Microsoft.EntityFrameworkCore.Update;
 using System;
+using System.Linq;
 
 public partial class PC : Node2D
 {
@@ -13,21 +14,25 @@ public partial class PC : Node2D
 	ILoggerService _logger;
 	IBlasterFactory _blasterFactory;
 	Observables _observables;
+	IPcInventoryService _pcInventoryService;
 	
 	public override void _Ready()
 	{
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 		_blasterFactory = GetNode<IBlasterFactory>(Constants.SingletonNodes.BlasterFactory);
 		_observables = GetNode<Observables>(Constants.SingletonNodes.Observables);
+		_pcInventoryService = GetNode<IPcInventoryService>(Constants.SingletonNodes.PcInventoryService);
 
-		_blaster = CreateBlaster(_blasterFactory, Enumerations.BlasterTypes.SingleShotBlaster);
+		var blasterItem = _pcInventoryService.GetInvItemsWithBlastingEffect().FirstOrDefault();
+		if (blasterItem != null)
+			_blaster = CreateBlaster(_blasterFactory, blasterItem.BlasterType);
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
 		SyncChildPositionsToController();
 		
-		if (Input.IsActionJustPressed("shoot") && !_controller.IsOnFloor())
+		if (_blaster != null && Input.IsActionJustPressed("shoot") && !_controller.IsOnFloor())
 		{
 			_blaster.Shoot();
 		}

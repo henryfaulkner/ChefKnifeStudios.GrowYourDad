@@ -20,6 +20,6 @@ public partial class TripleShotBlaster : BaseBlaster
 		_blastFactory.SpawnBlast(GetTree().GetRoot(), GlobalPosition, new Vector2(-0.25f, 0.75f), BLAST_SPEED);
 		_blastFactory.SpawnBlast(GetTree().GetRoot(), GlobalPosition, new Vector2(0.0f, 1.0f), BLAST_SPEED);
 		_blastFactory.SpawnBlast(GetTree().GetRoot(), GlobalPosition, new Vector2(0.25f, 0.75f), BLAST_SPEED);
-		_pcMeterService.SpValue -= 1;
+		_pcMeterService.SpValue -= 3;
 	}
 }
