@@ -5,79 +5,37 @@ using System.Linq;
 
 public partial class PauseMenu : CanvasLayer
 {
-	private static readonly StringName _SCENE_MAIN_MENU = new StringName("res://Main.tscn");
+	static readonly StringName _SCENE_MAIN_MENU = new StringName("res://Main.tscn");
+	static readonly StringName _PAUSE_INPUT = new StringName("pause");
+	static readonly StringName _UP_INPUT = new StringName("up");
+	static readonly StringName _DOWN_INPUT = new StringName("down");
 
-	#region Input Constants
-
-	private static readonly StringName _PAUSE_INPUT = new StringName("pause");
-	private static readonly StringName _UP_INPUT = new StringName("up");
-	private static readonly StringName _DOWN_INPUT = new StringName("down");
-
-	#endregion
-
-	#region Panels
-
+	[ExportGroup("Nodes")]
 	[Export]
-	private MainPanel MainPanel;
-
+	MainPanel MainPanel;
 	[Export]
-	private AudioSettingsPanel AudioSettingsPanel;
+	ShopKeeperPanel ShopKeeperPanel;
 
-	[Export]
-	private GameplaySettingsPanel GameplaySettingsPanel;
+	PauseMenuService _pauseMenuService;
+	
+	List<BaseMenuPanel> _panelList { get; set; }
 
-	[Export]
-	private PlayerControlsPanel PlayerControlsPanel;
-
-	#endregion
-
-	#region Audio Exports
-
-	[Export]
-	private AudioStreamPlayer SelectAudio;
-
-	[Export]
-	private AudioStreamPlayer SwitchAudio;
-
-	#endregion
-
-	private PauseMenuService _pauseMenuService;
-	public List<BaseMenuPanel> PanelList { get; set; }
-
-	private BaseMenuPanel.OpenEventHandler MainPanelOpenHandler;
-	private BaseMenuPanel.OpenEventHandler AudioSettingsPanelOpenHandler;
-	private BaseMenuPanel.OpenEventHandler GameplaySettingsPanelOpenHandler;
-	private BaseMenuPanel.OpenEventHandler PlayerControlsPanelOpenHandler;
-
+	
 	public override void _Ready()
 	{
 		ProcessMode = Node.ProcessModeEnum.WhenPaused;
-		PanelList = GetPauseMenuPanels();
+		_panelList = GetPauseMenuPanels();
 		_pauseMenuService = GetNode<PauseMenuService>("/root/PauseMenuService");
 		_pauseMenuService.SetPanelList(GetPauseMenuPanels());
 
 		_pauseMenuService.OpenMenu += HandleOpenMenu;
 		_pauseMenuService.CloseMenu += HandleCloseMenu;
-		SubscribeToPanelEvents();
-	}
 
-	public override void _Process(double delta)
-	{
-		if (Input.IsActionJustPressed(_UP_INPUT))
-		{
-			PanelList.ForEach(x =>
-			{
-				x.MoveFocusBackward(SwitchAudio);
-			});
-		}
-
-		if (Input.IsActionJustPressed(_DOWN_INPUT))
-		{
-			PanelList.ForEach(x =>
-			{
-				x.MoveFocusForward(SwitchAudio);
-			});
-		}
+		MainPanel.Open += OpenPanel;
+		ShopKeeperPanel.Open += OpenPanel;
+		
+		GD.Print($"MainPanel {MainPanel.Id}");
+		GD.Print($"ShopKeeperPanel {ShopKeeperPanel.Id}");
 	}
 
 	public override void _ExitTree()
@@ -88,28 +46,26 @@ public partial class PauseMenu : CanvasLayer
 			_pauseMenuService.CloseMenu -= HandleCloseMenu;
 		}
 
-		if (MainPanelOpenHandler != null)
+		MainPanel.Open -= OpenPanel;
+		ShopKeeperPanel.Open -= OpenPanel;
+	}
+
+	public override void _PhysicsProcess(double delta)
+	{
+		if (Input.IsActionJustPressed(_UP_INPUT))
 		{
-			MainPanel.Open -= MainPanelOpenHandler;
-			MainPanelOpenHandler = null;
+			_panelList.ForEach(x =>
+			{
+				x.MoveFocusBackward();
+			});
 		}
 
-		if (AudioSettingsPanelOpenHandler != null)
+		if (Input.IsActionJustPressed(_DOWN_INPUT))
 		{
-			AudioSettingsPanel.Open -= AudioSettingsPanelOpenHandler;
-			AudioSettingsPanelOpenHandler = null;
-		}
-
-		if (GameplaySettingsPanelOpenHandler != null)
-		{
-			GameplaySettingsPanel.Open -= GameplaySettingsPanelOpenHandler;
-			GameplaySettingsPanelOpenHandler = null;
-		}
-
-		if (PlayerControlsPanelOpenHandler != null)
-		{
-			PlayerControlsPanel.Open -= PlayerControlsPanelOpenHandler;
-			PlayerControlsPanelOpenHandler = null;
+			_panelList.ForEach(x =>
+			{
+				x.MoveFocusForward();
+			});
 		}
 	}
 
@@ -117,68 +73,35 @@ public partial class PauseMenu : CanvasLayer
 	{
 		var result = new List<BaseMenuPanel>();
 		result.Add(MainPanel);
-		result.Add(AudioSettingsPanel);
-		result.Add(GameplaySettingsPanel);
-		result.Add(PlayerControlsPanel);
+		result.Add(ShopKeeperPanel);
 		return result;
-	}
-
-	private void SubscribeToPanelEvents()
-	{
-		SubscribeToMainPanelEvents();
-		SubscribeToAudioSettingsPanelEvents();
-		SubscribeToGameplaySettingsPanelEvents();
-		SubscribeToPlayerControlsPanelEvents();
-	}
-
-	private void SubscribeToMainPanelEvents()
-	{
-		MainPanelOpenHandler = OpenPanel;
-		MainPanel.Open += MainPanelOpenHandler;
-	}
-
-	private void SubscribeToAudioSettingsPanelEvents()
-	{
-		AudioSettingsPanelOpenHandler = OpenPanel;
-		AudioSettingsPanel.Open += AudioSettingsPanelOpenHandler;
-	}
-
-	private void SubscribeToGameplaySettingsPanelEvents()
-	{
-		GameplaySettingsPanelOpenHandler = OpenPanel;
-		GameplaySettingsPanel.Open += GameplaySettingsPanelOpenHandler;
-	}
-
-	private void SubscribeToPlayerControlsPanelEvents()
-	{
-		PlayerControlsPanelOpenHandler = OpenPanel;
-		PlayerControlsPanel.Open += PlayerControlsPanelOpenHandler;
 	}
 
 	public void OpenPanel(int openPanelId)
 	{
-		HideAllPanels();
-		var openPanel = PanelList.Where(x => (int)x.Id == openPanelId).First();
-		openPanel.Visible = true;
+		ResetAllPanels();
+		var openPanel = _panelList.Where(x => (int)x.Id == openPanelId).First();
+		openPanel.OpenPanel();
 	}
 
-	public void HideAllPanels()
+	public void ResetAllPanels()
 	{
-		PanelList.ForEach(x =>
+		_panelList.ForEach(x =>
 		{
 			x.Visible = false;
+			x.FocusIndex = 0;
 		});
 	}
 	
 	void HandleOpenMenu()
 	{
-		GD.Print("Open Menu");
+		ResetAllPanels();
 		Visible = true;
+		MainPanel.OpenPanel();
 	}
 	
 	void HandleCloseMenu()
 	{
-		GD.Print("Close Menu");
 		Visible = false;
 	}
 }

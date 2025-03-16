@@ -79,7 +79,6 @@ public partial class Protein : RigidBody2D
 	void HandleMagnetMovement(double delta)
 	{
 		Vector2 normalProteinToPcDelta = (_pcPositionService.GlobalPosition-GlobalPosition).Normalized(); 
-		_logger.LogInfo($"Protein hit Magnet Area. {normalProteinToPcDelta.ToString()}");
 		ConstantForce = normalProteinToPcDelta * MAGNET_SPEED * 3;
 		ApplyImpulse(normalProteinToPcDelta * MAGNET_SPEED, Vector2.Zero);
 	}

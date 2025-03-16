@@ -50,7 +50,79 @@
         "description": "A protein-lacking meal. Healing but not strengthening.",
         "price": 3,
         "oneTimeHpBenefit": 2
-    },    
+    },   
+    {
+        "$type": "withHealingEffect",
+        "id": "SALAD",
+        "name": "Salad",
+        "description": "A protein-lacking meal. Healing but not strengthening.",
+        "price": 3,
+        "oneTimeHpBenefit": 2
+    },  
+    {
+        "$type": "withHealingEffect",
+        "id": "SALAD",
+        "name": "Salad",
+        "description": "A protein-lacking meal. Healing but not strengthening.",
+        "price": 3,
+        "oneTimeHpBenefit": 2
+    },  
+    {
+        "$type": "withHealingEffect",
+        "id": "SALAD",
+        "name": "Salad",
+        "description": "A protein-lacking meal. Healing but not strengthening.",
+        "price": 3,
+        "oneTimeHpBenefit": 2
+    },  
+    {
+        "$type": "withHealingEffect",
+        "id": "SALAD",
+        "name": "Salad",
+        "description": "A protein-lacking meal. Healing but not strengthening.",
+        "price": 3,
+        "oneTimeHpBenefit": 2
+    },  
+    {
+        "$type": "withHealingEffect",
+        "id": "SALAD",
+        "name": "Salad",
+        "description": "A protein-lacking meal. Healing but not strengthening.",
+        "price": 3,
+        "oneTimeHpBenefit": 2
+    },  
+    {
+        "$type": "withHealingEffect",
+        "id": "SALAD",
+        "name": "Salad",
+        "description": "A protein-lacking meal. Healing but not strengthening.",
+        "price": 3,
+        "oneTimeHpBenefit": 2
+    },  
+    {
+        "$type": "withHealingEffect",
+        "id": "SALAD",
+        "name": "Salad",
+        "description": "A protein-lacking meal. Healing but not strengthening.",
+        "price": 3,
+        "oneTimeHpBenefit": 2
+    },  
+    {
+        "$type": "withHealingEffect",
+        "id": "SALAD",
+        "name": "Salad",
+        "description": "A protein-lacking meal. Healing but not strengthening.",
+        "price": 3,
+        "oneTimeHpBenefit": 2
+    },  
+    {
+        "$type": "withHealingEffect",
+        "id": "SALAD",
+        "name": "Salad",
+        "description": "A protein-lacking meal. Healing but not strengthening.",
+        "price": 3,
+        "oneTimeHpBenefit": 2
+    },   
     {
         "$type": "withBlastingEffect",
         "id": "SINGLE_SHOT_BLASTER",

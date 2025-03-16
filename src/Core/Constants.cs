@@ -18,5 +18,6 @@ public partial class Constants
 		public const string ProteinFactory = "/root/ProteinFactory";
 		public const string EnemyFactory = "/root/EnemyFactory";
 		public const string PauseMenuService = "/root/PauseMenuService";
+		public const string ShopKeeperService = "/root/ShopKeeperService";
 	}
 }

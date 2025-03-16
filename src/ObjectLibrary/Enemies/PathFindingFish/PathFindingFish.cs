@@ -84,11 +84,6 @@ public partial class PathFindingFish : Agent, IEnemy
 		
 		_navTarget = DetectPlayerCharacter(_rayCastList);
 
-		// if (_navTarget == null)
-		// 	_logger.LogInfo("raycasts DOES NOT detect PC");
-		// else 
-		// 	_logger.LogInfo("raycasts DOES detect PC");
-
 		if (_state == States.Searching && _navTarget != null)
 		{
 			// If raycasts detects PC, target PC with NavAgent and set state to Approaching
@@ -146,6 +141,7 @@ public partial class PathFindingFish : Agent, IEnemy
 			case Enumerations.PcAreas.Body:
 				break;
 			case Enumerations.PcAreas.Blast:
+				GD.Print("PathFinding hit Blast");
 				ReactToBlastHurt();
 				break;
 			case Enumerations.PcAreas.Boots:

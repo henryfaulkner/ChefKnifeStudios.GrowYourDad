@@ -32,6 +32,7 @@ PcInventoryService="*res://Core/PC/PcInventoryService.cs"
 PcWalletService="*res://Core/PC/PcWalletService.cs"
 ProteinFactory="*res://ObjectLibrary/Protein/ProteinFactory.cs"
 PcPositionService="*res://Core/PC/PcPositionService.cs"
+ShopKeeperService="*res://Core/Items/ShopKeeperService.cs"
 
 [dotnet]
 

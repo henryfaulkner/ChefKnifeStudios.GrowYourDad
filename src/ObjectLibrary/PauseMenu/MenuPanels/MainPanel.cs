@@ -7,81 +7,63 @@ public partial class MainPanel : BaseMenuPanel
 {
 	[Export]
 	private BaseButton ResumeBtn;
-
 	[Export]
-	private BaseButton AudioSettingsBtn;
-
-	[Export]
-	private BaseButton GameplaySettingsBtn;
-
+	private BaseButton ShopKeeperBtn;
 	[Export]
 	private BaseButton MainMenuBtn;
 
-	public Enumerations.PauseMenuPanels Id => Enumerations.PauseMenuPanels.Main;
-	private PauseMenuService _pauseMenuService;
+	public override Enumerations.PauseMenuPanels Id => Enumerations.PauseMenuPanels.Main;
+	
+	PauseMenuService _pauseMenuService;
 
 	public override void _Ready()
 	{
+		_pauseMenuService = GetNode<PauseMenuService>(Constants.SingletonNodes.PauseMenuService);
+
 		FocusIndex = 0;
 		Buttons = new List<BaseButton>();
 		Buttons.Add(ResumeBtn);
-		//Buttons.Add(AudioSettingsBtn);
-		//Buttons.Add(GameplaySettingsBtn);
-		//Buttons.Add(MainMenuBtn);
-		SubscribeToButtonEvents();
-		_pauseMenuService = GetNode<PauseMenuService>(Constants.SingletonNodes.PauseMenuService);
+		Buttons.Add(ShopKeeperBtn);
+		Buttons.Add(MainMenuBtn);
+		
+		ResumeBtn.Pressed += HandleResumeBtnClick;
+		ShopKeeperBtn.Pressed += HandleShopKeeperBtnClick;
+		MainMenuBtn.Pressed += HandleMainMenuBtnClick;
 	}
 
 	public override void _ExitTree()
 	{
 		if (ResumeBtn != null)
 		{
-			ResumeBtn.Pressed -= HandleResume;
+			ResumeBtn.Pressed -= HandleResumeBtnClick;
 		}
 
-		if (AudioSettingsBtn != null)
+		if (ShopKeeperBtn != null)
 		{
-			AudioSettingsBtn.Pressed -= HandleAudioSettings;
-		}
-
-		if (GameplaySettingsBtn != null)
-		{
-			GameplaySettingsBtn.Pressed -= HandleGameplaySettings;
+			ShopKeeperBtn.Pressed -= HandleShopKeeperBtnClick;
 		}
 
 		if (MainMenuBtn != null)
 		{
-			MainMenuBtn.Pressed -= HandleMainMenu;
+			MainMenuBtn.Pressed -= HandleMainMenuBtnClick;
 		}
 	}
 
-	private void SubscribeToButtonEvents()
-	{
-		ResumeBtn.Pressed += HandleResume;
-		AudioSettingsBtn.Pressed += HandleAudioSettings;
-		GameplaySettingsBtn.Pressed += HandleGameplaySettings;
-		MainMenuBtn.Pressed += HandleMainMenu;
-	}
-
-	private void HandleResume()
+	private void HandleResumeBtnClick()
 	{
 		_pauseMenuService.EmitCloseMenu();
 	}
 
-	private void HandleAudioSettings()
+	private void HandleShopKeeperBtnClick()
 	{
+		GD.Print("ShopKeeper");
 		_pauseMenuService.PushPanel(this);
-		EmitSignal(SignalName.Open, (int)Enumerations.PauseMenuPanels.AudioSettings);
+		EmitSignal(SignalName.Open, (int)Enumerations.PauseMenuPanels.ShopKeeper);
 	}
 
-	private void HandleGameplaySettings()
+	private void HandleMainMenuBtnClick()
 	{
-		_pauseMenuService.PushPanel(this);
-		EmitSignal(SignalName.Open, (int)Enumerations.PauseMenuPanels.GameplaySettings);
-	}
-
-	private void HandleMainMenu()
-	{
+		GD.Print("MainMenu");
 		throw new NotImplementedException();
 	}
 }

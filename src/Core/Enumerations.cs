@@ -30,8 +30,6 @@ public partial class Enumerations
 	public enum PauseMenuPanels
     {
         Main,
-        AudioSettings,
-        GameplaySettings,
-        PlayerControls,
+        ShopKeeper,
     }
 }

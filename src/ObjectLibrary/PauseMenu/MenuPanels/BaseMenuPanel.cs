@@ -4,17 +4,16 @@ using System.Collections.Generic;
 
 public partial class BaseMenuPanel : Panel
 {
-	public Enumerations.PauseMenuPanels Id { get; }
+	public virtual Enumerations.PauseMenuPanels Id { get; }
 	public List<BaseButton> Buttons { get; set; }
 	public int FocusIndex { get; set; }
 
 	[Signal]
 	public delegate void OpenEventHandler(int openPanelId);
 
-	public void MoveFocusBackward(AudioStreamPlayer switchAudio)
+	public void MoveFocusBackward()
 	{
 		if (!Visible) return;
-		switchAudio.Play();
 		int len = Buttons.Count;
 		if (FocusIndex == 0)
 		{
@@ -28,10 +27,9 @@ public partial class BaseMenuPanel : Panel
 		}
 	}
 
-	public void MoveFocusForward(AudioStreamPlayer switchAudio)
+	public void MoveFocusForward()
 	{
 		if (!Visible) return;
-		switchAudio.Play();
 		int len = Buttons.Count;
 		if (FocusIndex == len - 1)
 		{
@@ -43,5 +41,11 @@ public partial class BaseMenuPanel : Panel
 			Buttons[FocusIndex + 1].GrabFocus();
 			FocusIndex += 1;
 		}
+	}
+	
+	public void OpenPanel()
+	{
+		Visible = true;
+		Buttons[0].GrabFocus();
 	}
 }
