@@ -79,7 +79,7 @@ public partial class Protein : RigidBody2D
 	void HandleMagnetMovement(double delta)
 	{
 		Vector2 normalProteinToPcDelta = (_pcPositionService.GlobalPosition-GlobalPosition).Normalized(); 
-		ConstantForce = normalProteinToPcDelta * MAGNET_SPEED * 3;
+		ConstantForce = normalProteinToPcDelta * MAGNET_SPEED * 10;
 		ApplyImpulse(normalProteinToPcDelta * MAGNET_SPEED, Vector2.Zero);
 	}
 }

@@ -33,9 +33,6 @@ public partial class PauseMenu : CanvasLayer
 
 		MainPanel.Open += OpenPanel;
 		ShopKeeperPanel.Open += OpenPanel;
-		
-		GD.Print($"MainPanel {MainPanel.Id}");
-		GD.Print($"ShopKeeperPanel {ShopKeeperPanel.Id}");
 	}
 
 	public override void _ExitTree()

@@ -30,7 +30,7 @@
         "baseHpBenefit": 0,
         "baseSpBenefit": 0,
         "damageBenefit": 0,
-        "magnetRadiusBenefit": 10
+        "magnetRadiusBenefit": 30
     },
     {
         "$type": "withPassiveEffect",

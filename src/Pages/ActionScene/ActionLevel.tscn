@@ -21,7 +21,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ae0j7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wkonu"]
-radius = 120.0
+radius = 40.0
 
 [sub_resource type="Theme" id="Theme_phno0"]
 
@@ -77,8 +77,9 @@ script = ExtResource("6_g4070")
 shape = SubResource("RectangleShape2D_ae0j7")
 debug_color = Color(0, 0.701961, 0, 0.419608)
 
-[node name="MagnetArea" type="Area2D" parent="PC/GravityController"]
+[node name="MagnetArea" type="Area2D" parent="PC/GravityController" node_paths=PackedStringArray("_collisionShape")]
 script = ExtResource("7_qgake")
+_collisionShape = NodePath("CollisionShape2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PC/GravityController/MagnetArea"]
 shape = SubResource("CircleShape2D_wkonu")

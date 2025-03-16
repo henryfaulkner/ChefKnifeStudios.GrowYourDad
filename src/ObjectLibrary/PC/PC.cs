@@ -52,8 +52,8 @@ public partial class PC : Node2D
 	public override void _PhysicsProcess(double delta)
 	{
 		SyncChildPositionsToController();
-		_pcPositionService.Position = Position;
-		_pcPositionService.GlobalPosition = GlobalPosition;
+		_pcPositionService.Position = _controller.Position;
+		_pcPositionService.GlobalPosition = _controller.GlobalPosition;
 		
 		if (_blaster != null && Input.IsActionJustPressed("shoot") && !_controller.IsOnFloor())
 		{

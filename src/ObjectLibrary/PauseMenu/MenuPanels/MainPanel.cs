@@ -11,10 +11,18 @@ public partial class MainPanel : BaseMenuPanel
 	private BaseButton ShopKeeperBtn;
 	[Export]
 	private BaseButton MainMenuBtn;
+	
+	static readonly StringName PREACTION_LEVEL_PATH = new StringName("res://Pages/PreActionScene/PreActionScene.tscn");
+	readonly PackedScene _preactionLevelScene;
 
 	public override Enumerations.PauseMenuPanels Id => Enumerations.PauseMenuPanels.Main;
 	
 	PauseMenuService _pauseMenuService;
+
+	public MainPanel()
+	{
+		_preactionLevelScene = (PackedScene)ResourceLoader.Load(PREACTION_LEVEL_PATH);
+	}
 
 	public override void _Ready()
 	{
@@ -56,14 +64,20 @@ public partial class MainPanel : BaseMenuPanel
 
 	private void HandleShopKeeperBtnClick()
 	{
-		GD.Print("ShopKeeper");
 		_pauseMenuService.PushPanel(this);
 		EmitSignal(SignalName.Open, (int)Enumerations.PauseMenuPanels.ShopKeeper);
 	}
 
 	private void HandleMainMenuBtnClick()
 	{
-		GD.Print("MainMenu");
-		throw new NotImplementedException();
+		// Restarting the game state is gonna be a whole thing... sheesh
+
+		// Use call_deferred to safely change the scene
+		CallDeferred(nameof(ChangeToActionLevel));
+	}
+
+	void ChangeToActionLevel()
+	{
+		GetTree().ChangeSceneToPacked(_preactionLevelScene);
 	}
 }

@@ -141,7 +141,6 @@ public partial class PathFindingFish : Agent, IEnemy
 			case Enumerations.PcAreas.Body:
 				break;
 			case Enumerations.PcAreas.Blast:
-				GD.Print("PathFinding hit Blast");
 				ReactToBlastHurt();
 				break;
 			case Enumerations.PcAreas.Boots:
