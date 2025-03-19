@@ -15,7 +15,7 @@ public partial class Meter : MarginContainer
 	[Export]
 	Label ValueLabel { get; set; } = null!;
 
-	ILoggerService _logger;
+	ILoggerService _logger = null!;
 
 	public override void _Ready()
 	{

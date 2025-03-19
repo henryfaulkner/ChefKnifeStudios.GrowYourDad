@@ -12,10 +12,10 @@ public partial class ProteinFactory : Node, IProteinFactory
 {
 	#region Protein
 	private readonly StringName PROTEIN_SCENE_PATH = "res://ObjectLibrary/Protein/Protein.tscn";
-	private PackedScene _proteinScene;
+	private PackedScene _proteinScene = null!;
 	#endregion
 
-	ILoggerService _logger;
+	ILoggerService _logger = null!;
 
 	public override void _Ready()
 	{

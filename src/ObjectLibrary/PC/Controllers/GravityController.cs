@@ -7,7 +7,7 @@ public partial class GravityController : CharacterBody2D, IController
 {
 	[ExportGroup("Nodes")]
 	[Export]
-	public PcHurtBoxArea HurtBox { get; set; }
+	public PcHurtBoxArea HurtBox { get; set; } = null!;
 	
 	[ExportGroup("Variables")]
 	[Export]
@@ -19,10 +19,10 @@ public partial class GravityController : CharacterBody2D, IController
 	[Export]
 	float _gravityRatio = 1.00f;
 
-	ILoggerService _logger;
-	Observables _observables;
-	IPcMeterService _pcMeterService;
-	IPcInventoryService _pcInventoryService;
+	ILoggerService _logger = null!;
+	Observables _observables = null!;
+	IPcMeterService _pcMeterService = null!;
+	IPcInventoryService _pcInventoryService = null!;
 	
 	public override void _Ready() 
 	{

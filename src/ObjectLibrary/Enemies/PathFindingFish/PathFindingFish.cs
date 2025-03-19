@@ -9,13 +9,13 @@ public partial class PathFindingFish : Agent, IEnemy
 
 	[ExportGroup("Nodes")]
 	[Export]
-	CharacterBody2D _controller;
+	CharacterBody2D _controller = null!;
 	[Export]
-	Node2D _rayCastContainer { get; set; }
+	Node2D _rayCastContainer = null!;
 	[Export]
-	EnemyHurtBoxArea _hurtBox;
+	EnemyHurtBoxArea _hurtBox = null!;
 	[Export]
-	EnemyHitBoxArea _hitBox;
+	EnemyHitBoxArea _hitBox = null!;
 
 	[ExportGroup("Variables")]
 	[Export]

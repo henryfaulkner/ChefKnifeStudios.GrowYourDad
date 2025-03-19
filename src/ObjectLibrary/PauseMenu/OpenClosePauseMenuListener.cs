@@ -5,10 +5,10 @@ public partial class OpenClosePauseMenuListener : Node2D
 {
 	private static readonly StringName _PAUSE_INPUT = new StringName("pause");
 
-	PauseMenuService _pauseMenuService;
+	PauseMenuService _pauseMenuService = null!;
 
 	[Export]
-	private Panel BaseMenuPanels;
+	private Panel BaseMenuPanels { get; set; } = null!;
 
 	public override void _Ready()
 	{

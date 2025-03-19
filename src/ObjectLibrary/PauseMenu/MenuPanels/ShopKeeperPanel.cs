@@ -6,19 +6,19 @@ using Godot;
 public partial class ShopKeeperPanel : BaseMenuPanel
 {
 	[Export]
-	BaseButton BackBtn;
+	BaseButton BackBtn = null!;
 	[Export]
-	OptionButton ItemOptionBtn;
+	OptionButton ItemOptionBtn = null!;
 	[Export]
-	BaseButton BuyBtn;
+	BaseButton BuyBtn = null!;
 	
 	public override Enumerations.PauseMenuPanels Id => Enumerations.PauseMenuPanels.ShopKeeper;
 	
-	ILoggerService _logger;
-	PauseMenuService _pauseMenuService;
-	IShopKeeperService _shopKeeperService;
-	IPcInventoryService _pcInventoryService;
-	IPcWalletService _pcWalletService;
+	ILoggerService _logger = null!;
+	PauseMenuService _pauseMenuService = null!;
+	IShopKeeperService _shopKeeperService = null!;
+	IPcInventoryService _pcInventoryService = null!;
+	IPcWalletService _pcWalletService = null!;
 
 	public override void _Ready()
 	{

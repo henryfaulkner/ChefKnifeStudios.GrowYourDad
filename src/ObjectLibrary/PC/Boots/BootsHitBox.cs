@@ -3,8 +3,8 @@ using System;
 
 public partial class BootsHitBox : Area2D
 {
-	ILoggerService _logger;
-	Observables _observables;
+	ILoggerService _logger = null!;
+	Observables _observables = null!;
 
 	public override void _Ready() 
 	{

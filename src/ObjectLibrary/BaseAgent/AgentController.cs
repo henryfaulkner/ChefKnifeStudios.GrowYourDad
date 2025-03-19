@@ -9,26 +9,26 @@ public partial class AgentController : CharacterBody2D
 
 	[ExportGroup("Nodes")]
 	[Export]
-	protected Area2D Area { get; set; }
+	protected Area2D Area { get; set; } = null!;
 	[Export]
-	protected CollisionShape2D AreaCollision { get; set; }
+	protected CollisionShape2D AreaCollision { get; set; } = null!;
 	[Export]
-	protected CollisionShape2D Collision { get; set; }
+	protected CollisionShape2D Collision { get; set; } = null!;
 
 	// Good NavigationAgent2D tutorial
 	// https://www.youtube.com/watch?v=Lt9YdQ6Ztm4&t=13s
 	[Export]
-	protected NavigationAgent2D NavAgent { get; set; }
+	protected NavigationAgent2D NavAgent { get; set; } = null!;
 	[Export]
-	Timer NavTimer { get; set; }
+	Timer NavTimer { get; set; } = null!;
 
 	[ExportGroup("Variables")]
 	[Export]
 	float _movementSpeed = 0.2f;
 
-	Node2D? _navTarget;
+	Node2D? _navTarget = null!;
 
-	ILoggerService _logger;
+	ILoggerService _logger = null!;
 
 	public override void _Ready()
 	{

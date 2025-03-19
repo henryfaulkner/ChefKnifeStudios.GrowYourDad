@@ -4,9 +4,9 @@ using System;
 public abstract partial class Agent : Node2D, IAgent
 {
 	[Export]
-	protected AgentController Controller;
+	protected AgentController Controller { get; set; } = null!;
 
-	ILoggerService _logger;
+	ILoggerService _logger = null!;
 
 	public override void _Ready()
 	{

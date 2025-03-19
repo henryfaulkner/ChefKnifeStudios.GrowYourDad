@@ -12,20 +12,20 @@ public partial class UpgradeMenuOption : Control
 
 	[ExportGroup("Nodes")]
 	[Export]
-	Panel Panel { get; set; }
+	Panel Panel { get; set; } = null!;
 	[Export]
-	Godot.TextureButton TextureBtn { get; set; }
+	Godot.TextureButton TextureBtn { get; set; } = null!;
 
 	[ExportGroup("Textures")]
 	[Export]
-	private Texture2D NormalTexture { get; set; }
+	private Texture2D NormalTexture { get; set; } = null!;
 	[Export]
-	private Texture2D HoverTexture { get; set; }
+	private Texture2D HoverTexture { get; set; } = null!;
 	
-	private StyleBoxFlat ActivePagePanelOptionStyle { get; set; }
-	private StyleBoxFlat InactivePagePanelOptionStyle { get; set; }
+	private StyleBoxFlat ActivePagePanelOptionStyle { get; set; } = null!;
+	private StyleBoxFlat InactivePagePanelOptionStyle { get; set; } = null!;
 	
-	LoggerService _logger;
+	LoggerService _logger = null!;
 
 	public UpgradeMenuOption() 
 	{
@@ -45,17 +45,17 @@ public partial class UpgradeMenuOption : Control
 		_logger = GetNode<LoggerService>(Constants.SingletonNodes.LoggerService);
 	}
 
-    public override void _ExitTree()
-    {
-        if (TextureBtn != null)
+	public override void _ExitTree()
+	{
+		if (TextureBtn != null)
 		{
 			TextureBtn.MouseEntered -= HandleMouseEntered;
 			TextureBtn.MouseExited -= HandleMouseExited;
 			TextureBtn.Pressed -= HandlePressed;
 		}
-    }
+	}
 
-    public void GrabFocus()
+	public void GrabFocus()
 	{
 		TextureBtn.GrabFocus();
 		ApplyActivePagePanelOption(Panel);

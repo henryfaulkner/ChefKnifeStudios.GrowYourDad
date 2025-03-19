@@ -33,6 +33,7 @@ PcWalletService="*res://Core/PC/PcWalletService.cs"
 ProteinFactory="*res://ObjectLibrary/Protein/ProteinFactory.cs"
 PcPositionService="*res://Core/PC/PcPositionService.cs"
 ShopKeeperService="*res://Core/Items/ShopKeeperService.cs"
+CrawlStatsService="*res://Core/Crawls/CrawlStatsService.cs"
 
 [dotnet]
 

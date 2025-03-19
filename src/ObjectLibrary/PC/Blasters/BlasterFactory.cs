@@ -11,15 +11,15 @@ public partial class BlasterFactory : Node, IBlasterFactory
 {
 	#region SingleShot
 	private readonly StringName SINGLESHOT_SCENE_PATH = "res://ObjectLibrary/PC/Blasters/SingleShot/SingleShotBlaster.tscn";
-	private PackedScene _singleShotScene;
+	private PackedScene _singleShotScene = null!;
 	#endregion
 
 	#region TripleShot
 	readonly StringName TRIPLESHOT_SCENE_PATH = "res://ObjectLibrary/PC/Blasters/TripleShot/TripleShotBlaster.tscn";
-	PackedScene _tripleShotScene;
+	PackedScene _tripleShotScene = null!;
 	#endregion
 
-	ILoggerService _logger;
+	ILoggerService _logger = null!;
 
 	public override void _Ready()
 	{

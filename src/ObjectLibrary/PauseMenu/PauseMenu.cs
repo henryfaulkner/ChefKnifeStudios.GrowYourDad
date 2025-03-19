@@ -12,13 +12,13 @@ public partial class PauseMenu : CanvasLayer
 
 	[ExportGroup("Nodes")]
 	[Export]
-	MainPanel MainPanel;
+	MainPanel MainPanel { get; set; } = null!;
 	[Export]
-	ShopKeeperPanel ShopKeeperPanel;
+	ShopKeeperPanel ShopKeeperPanel { get; set; } = null!;
 
-	PauseMenuService _pauseMenuService;
+	PauseMenuService _pauseMenuService = null!;
 	
-	List<BaseMenuPanel> _panelList { get; set; }
+	List<BaseMenuPanel> _panelList { get; set; } = null!;
 
 	
 	public override void _Ready()

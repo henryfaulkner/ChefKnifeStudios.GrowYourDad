@@ -6,7 +6,7 @@ public partial class Blast : RigidBody2D
 	[Export]
 	private Area2D HitBox { get; set; } = null!;
 
-	ILoggerService _logger;
+	ILoggerService _logger = null!;
 
 	public override void _Ready() 
 	{

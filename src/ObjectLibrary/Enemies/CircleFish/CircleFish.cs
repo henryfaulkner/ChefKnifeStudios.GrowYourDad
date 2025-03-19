@@ -7,11 +7,11 @@ public partial class CircleFish : Path2D, IEnemy
 {
 	[ExportGroup("Nodes")]
 	[Export]
-	PathFollow2D _pathFollow;
+	PathFollow2D _pathFollow = null!;
 	[Export]
-	EnemyHurtBoxArea _hurtBox;
+	EnemyHurtBoxArea _hurtBox = null!;
 	[Export]
-	EnemyHitBoxArea _hitBox;
+	EnemyHitBoxArea _hitBox = null!;
 	
 	[ExportGroup("Variables")]
 	[Export]

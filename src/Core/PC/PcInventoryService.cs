@@ -5,8 +5,8 @@ using System.Linq;
 
 public interface IPcInventoryService
 {
-	List<ItemBase> ItemInventory { get; }
 	void AddToInventory(ItemBase item);
+	void Clear();
 	
 	IEnumerable<ItemWithHealingEffect> GetInvItemsWithHealingEffect();
 	IEnumerable<ItemWithBlastingEffect> GetInvItemsWithBlastingEffect();
@@ -19,9 +19,9 @@ public interface IPcInventoryService
 
 public partial class PcInventoryService : Node, IPcInventoryService
 {
-	IPcMeterService _pcMeterService;
+	IPcMeterService _pcMeterService = null!;
 
-	public List<ItemBase> ItemInventory { get; private set; } = new();
+	List<ItemBase> _itemInventory = new();
 
 	public override void _Ready()
 	{
@@ -43,7 +43,7 @@ public partial class PcInventoryService : Node, IPcInventoryService
 				}
 				break;
 			case ItemWithBlastingEffect itemWithBlastingEffect:
-				ItemInventory.RemoveAll(x => x is ItemWithBlastingEffect);
+				_itemInventory.RemoveAll(x => x is ItemWithBlastingEffect);
 				break;
 			case ItemWithPassiveEffect itemWithPassiveEffect:
 				// when an item is added, which will improve the PC's base health, 
@@ -54,22 +54,27 @@ public partial class PcInventoryService : Node, IPcInventoryService
 				break;
 		}
 
-		ItemInventory.Add(item);
+		_itemInventory.Add(item);
+	}
+
+	public void Clear()
+	{
+		_itemInventory.Clear();
 	}
 
 	public IEnumerable<ItemWithHealingEffect> GetInvItemsWithHealingEffect()
 	{
-		return ItemInventory.OfType<ItemWithHealingEffect>();
+		return _itemInventory.OfType<ItemWithHealingEffect>();
 	}
 
 	public IEnumerable<ItemWithBlastingEffect> GetInvItemsWithBlastingEffect()
 	{
-		return ItemInventory.OfType<ItemWithBlastingEffect>();
+		return _itemInventory.OfType<ItemWithBlastingEffect>();
 	}
 
 	public IEnumerable<ItemWithPassiveEffect> GetInvItemsWithPassiveEffect()
 	{
-		return ItemInventory.OfType<ItemWithPassiveEffect>();
+		return _itemInventory.OfType<ItemWithPassiveEffect>();
 	}
 
 	public int GetPcHpMax()

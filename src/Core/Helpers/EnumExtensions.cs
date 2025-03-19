@@ -35,9 +35,9 @@ public static class EnumExtensions
 	} 
 
 	public static T Random<T>(this T _) where T : Enum
-    {
-        List<T> enums = Enum.GetValues(typeof(T)).Cast<T>().ToList();
-        Random random = new();
-        return enums[random.Next(0, enums.Count)];
-    }
+	{
+		List<T> enums = Enum.GetValues(typeof(T)).Cast<T>().ToList();
+		Random random = new();
+		return enums[random.Next(0, enums.Count)];
+	}
 }

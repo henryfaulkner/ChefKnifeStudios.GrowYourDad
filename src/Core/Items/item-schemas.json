@@ -4,7 +4,7 @@
         "id": "HEART_CONTAINER",
         "name": "Heart Container",
         "description": "An item which grants an additional hp unit.",
-        "price": 2,
+        "price": 10,
         "baseHpBenefit": 1,
         "baseSpBenefit": 0,
         "damageBenefit": 0,
@@ -15,7 +15,7 @@
         "id": "MAGAZINE_EXTENDER",
         "name": "Magazine Extender",
         "description": "An item which grants an additional sp unit.",
-        "price": 3,
+        "price": 15,
         "baseHpBenefit": 0,
         "baseSpBenefit": 1,
         "damageBenefit": 0,
@@ -26,7 +26,7 @@
         "id": "MEAT_MAGNET",
         "name": "Meat Magnet",
         "description": "An item which grants additional protein grabbing range.",
-        "price": 3,
+        "price": 15,
         "baseHpBenefit": 0,
         "baseSpBenefit": 0,
         "damageBenefit": 0,
@@ -37,7 +37,7 @@
         "id": "FORCE_MULTIPLIER",
         "name": "Force Multiplier",
         "description": "An item which grants additional damage when attacking foes.",
-        "price": 5,
+        "price": 25,
         "baseHpBenefit": 0,
         "baseSpBenefit": 0,
         "damageBenefit": 1,
@@ -48,79 +48,7 @@
         "id": "SALAD",
         "name": "Salad",
         "description": "A protein-lacking meal. Healing but not strengthening.",
-        "price": 3,
-        "oneTimeHpBenefit": 2
-    },   
-    {
-        "$type": "withHealingEffect",
-        "id": "SALAD",
-        "name": "Salad",
-        "description": "A protein-lacking meal. Healing but not strengthening.",
-        "price": 3,
-        "oneTimeHpBenefit": 2
-    },  
-    {
-        "$type": "withHealingEffect",
-        "id": "SALAD",
-        "name": "Salad",
-        "description": "A protein-lacking meal. Healing but not strengthening.",
-        "price": 3,
-        "oneTimeHpBenefit": 2
-    },  
-    {
-        "$type": "withHealingEffect",
-        "id": "SALAD",
-        "name": "Salad",
-        "description": "A protein-lacking meal. Healing but not strengthening.",
-        "price": 3,
-        "oneTimeHpBenefit": 2
-    },  
-    {
-        "$type": "withHealingEffect",
-        "id": "SALAD",
-        "name": "Salad",
-        "description": "A protein-lacking meal. Healing but not strengthening.",
-        "price": 3,
-        "oneTimeHpBenefit": 2
-    },  
-    {
-        "$type": "withHealingEffect",
-        "id": "SALAD",
-        "name": "Salad",
-        "description": "A protein-lacking meal. Healing but not strengthening.",
-        "price": 3,
-        "oneTimeHpBenefit": 2
-    },  
-    {
-        "$type": "withHealingEffect",
-        "id": "SALAD",
-        "name": "Salad",
-        "description": "A protein-lacking meal. Healing but not strengthening.",
-        "price": 3,
-        "oneTimeHpBenefit": 2
-    },  
-    {
-        "$type": "withHealingEffect",
-        "id": "SALAD",
-        "name": "Salad",
-        "description": "A protein-lacking meal. Healing but not strengthening.",
-        "price": 3,
-        "oneTimeHpBenefit": 2
-    },  
-    {
-        "$type": "withHealingEffect",
-        "id": "SALAD",
-        "name": "Salad",
-        "description": "A protein-lacking meal. Healing but not strengthening.",
-        "price": 3,
-        "oneTimeHpBenefit": 2
-    },  
-    {
-        "$type": "withHealingEffect",
-        "id": "SALAD",
-        "name": "Salad",
-        "description": "A protein-lacking meal. Healing but not strengthening.",
-        "price": 3,
+        "price": 15,
         "oneTimeHpBenefit": 2
     },   
     {
@@ -128,7 +56,7 @@
         "id": "SINGLE_SHOT_BLASTER",
         "name": "Single Shot Blaster",
         "description": "A blaster that fires one shot at a time.",
-        "price": 1,
+        "price": 5,
         "damageBase": 1,
         "ammoConsumed": 1,
         "blasterType": 1
@@ -138,7 +66,7 @@
         "id": "TRIPLE_SHOT_BLASTER",
         "name": "Triple Shot Blaster",
         "description": "A blaster that fires three shots at a time.",
-        "price": 2,
+        "price": 15,
         "damageBase": 1,
         "ammoConsumed": 3,
         "blasterType": 2

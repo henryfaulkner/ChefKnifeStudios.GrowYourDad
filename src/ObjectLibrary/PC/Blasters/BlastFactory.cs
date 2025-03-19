@@ -10,10 +10,10 @@ public partial class BlastFactory : Node, IBlastFactory
 {
 	#region Blast
 	private readonly StringName BLAST_SCENE_PATH = "res://ObjectLibrary/PC/Blasters/Blast.tscn";
-	private PackedScene _blastScene;
+	private PackedScene _blastScene = null!;
 	#endregion
 
-	ILoggerService _logger;
+	ILoggerService _logger = null!;
 
 	public override void _Ready()
 	{

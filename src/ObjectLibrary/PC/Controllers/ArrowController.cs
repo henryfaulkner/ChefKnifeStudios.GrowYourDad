@@ -5,7 +5,7 @@ public partial class ArrowController : CharacterBody2D, IController
 {
 	[ExportGroup("Nodes")]
 	[Export]
-	public PcHurtBoxArea HurtBox { get; set; }
+	public PcHurtBoxArea HurtBox { get; set; } = null!;
 	
 	[ExportGroup("Variables")]
 	[Export]

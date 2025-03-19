@@ -6,9 +6,9 @@ public partial class Protein : RigidBody2D
 	[Export]
 	private Area2D HitBox { get; set; } = null!;
 
-	ILoggerService _logger;
-	IPcWalletService _pcWalletService;
-	IPcPositionService _pcPositionService;
+	ILoggerService _logger = null!;
+	IPcWalletService _pcWalletService = null!;
+	IPcPositionService _pcPositionService = null!;
 
 	const float MAGNET_SPEED = 20.0f;
 	bool _isInPcMagnetArea = false; 

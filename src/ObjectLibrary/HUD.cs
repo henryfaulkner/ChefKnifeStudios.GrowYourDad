@@ -9,14 +9,20 @@ public partial class HUD : CanvasLayer
 	[Export]
 	public Meter SpMeter { get; set; } = null!;
 	
+	[ExportGroup("Crawl Depth")]
+	[Export]
+	public RichTextLabel CrawlDepthLabel { get; set; } = null!;
+
 	[ExportGroup("Protein")]
 	[Export]
 	public RichTextLabel ProteinLabel { get; set; } = null!;
 
-	Observables _observables;
-	ILoggerService _logger;
-	PcWalletService _pcWalletService;
+	Observables _observables = null!;
+	ILoggerService _logger = null!;
+	PcWalletService _pcWalletService = null!;
+	ICrawlStatsService _crawlStatsService = null!;
 	
+	const string CRAWL_DEPTH_LABEL_TEXT = "[font_size=24][left]Level {0}[/left][/font_size]";
 	const string PROTEIN_LABEL_TEXT = "[font_size=24][right]{0} proteins[/right][/font_size]";
 
 	public override void _Ready()
@@ -24,6 +30,7 @@ public partial class HUD : CanvasLayer
 		_observables = GetNode<Observables>(Constants.SingletonNodes.Observables);
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 		_pcWalletService = GetNode<PcWalletService>(Constants.SingletonNodes.PcWalletService);
+		_crawlStatsService = GetNode<ICrawlStatsService>(Constants.SingletonNodes.CrawlStatsService);
 
 		_observables.UpdateHpMeterValue += HpMeter.UpdateValue;
 		_observables.UpdateHpMeterMax += HpMeter.UpdateMax;
@@ -31,8 +38,9 @@ public partial class HUD : CanvasLayer
 		_observables.UpdateSpMeterValue += SpMeter.UpdateValue;
 		_observables.UpdateSpMeterMax += SpMeter.UpdateMax;
 		
+		CrawlDepthLabel.Text = string.Format(CRAWL_DEPTH_LABEL_TEXT, _crawlStatsService.CrawlDepth.ToString());
+
 		_pcWalletService.RefreshWalletUI += HandleRefreshWalletUI;
-		
 		HandleRefreshWalletUI();
 	}
 

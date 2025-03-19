@@ -5,9 +5,9 @@ using System.Linq;
 public partial class PcMagnetArea : Area2D 
 { 
 	[Export]	
-	CollisionShape2D _collisionShape; 
+	CollisionShape2D _collisionShape = null!;
 	
-	IPcInventoryService _pcInventoryService;
+	IPcInventoryService _pcInventoryService = null!;
 	
 	public override void _Ready()
 	{

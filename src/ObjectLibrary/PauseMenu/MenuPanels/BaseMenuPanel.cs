@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 public partial class BaseMenuPanel : Panel
 {
-	public virtual Enumerations.PauseMenuPanels Id { get; }
-	public List<BaseButton> Buttons { get; set; }
-	public int FocusIndex { get; set; }
+	public virtual Enumerations.PauseMenuPanels Id { get; } = Enumerations.PauseMenuPanels.Main;
+	public List<BaseButton> Buttons { get; set; } = null!;
+	public int FocusIndex { get; set; } = -1;
 
 	[Signal]
 	public delegate void OpenEventHandler(int openPanelId);

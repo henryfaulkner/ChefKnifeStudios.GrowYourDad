@@ -4,15 +4,15 @@ using System;
 public partial class PreActionScene : Node2D
 {
 	[Export]
-	Area2D DoorArea { get; set; }
+	Area2D DoorArea { get; set; } = null!;
 
 	static readonly StringName ACTION_LEVEL_PATH = new StringName("res://Pages/ActionScene/ActionLevel.tscn");
-	readonly PackedScene _actionLevelScene;
+	readonly PackedScene _actionLevelScene = null!;
 
-	ILoggerService _logger;
-	PauseMenuService _pauseMenuService;
-	IPcMeterService _pcMeterService;
-	IPcInventoryService _pcInventoryService;
+	ILoggerService _logger = null!;
+	PauseMenuService _pauseMenuService = null!;
+	IPcMeterService _pcMeterService = null!;
+	IPcInventoryService _pcInventoryService = null!;
 
 	public PreActionScene()
 	{
@@ -25,7 +25,7 @@ public partial class PreActionScene : Node2D
 		_pauseMenuService = GetNode<PauseMenuService>(Constants.SingletonNodes.PauseMenuService);
 		_pcMeterService = GetNode<IPcMeterService>(Constants.SingletonNodes.PcMeterService);
 		_pcInventoryService = GetNode<IPcInventoryService>(Constants.SingletonNodes.PcInventoryService);
-
+		
 		_pcMeterService.HpValue = _pcInventoryService.GetPcHpMax();
 		_pcMeterService.HpMax = _pcInventoryService.GetPcHpMax();
 		_pcMeterService.SpValue = _pcInventoryService.GetPcHpMax();

@@ -4,15 +4,16 @@ using System;
 public partial class UpgradeScene : CanvasLayer
 {
 	[Export]
-	Area2D FreezeArea { get; set; }
+	Area2D FreezeArea { get; set; } = null!;
 	[Export]
-	Area2D DoorArea { get; set; }
+	Area2D DoorArea { get; set; } = null!;
 
 	static readonly StringName ACTION_LEVEL_PATH = new StringName("res://Pages/ActionScene/ActionLevel.tscn");
-	readonly PackedScene _actionLevelScene;
+	readonly PackedScene _actionLevelScene = null!;
 
-	ILoggerService _logger;
-	PauseMenuService _pauseMenuService;
+	ILoggerService _logger = null!;
+	PauseMenuService _pauseMenuService = null!;
+	ICrawlStatsService _crawlStatsService = null!;
 
 	public UpgradeScene()
 	{
@@ -23,11 +24,14 @@ public partial class UpgradeScene : CanvasLayer
 	{
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 		_pauseMenuService = GetNode<PauseMenuService>(Constants.SingletonNodes.PauseMenuService);
+		_crawlStatsService = GetNode<ICrawlStatsService>(Constants.SingletonNodes.CrawlStatsService);
 
 		_pauseMenuService.EmitCloseMenu();
 		
 		FreezeArea.AreaEntered += HandleFreezeAreaEntered;
 		DoorArea.AreaEntered += HandleDoorAreaEntered;
+
+		_crawlStatsService.CrawlDepth.IncrementCrawlDepth();
 	}
 
 	public override void _ExitTree()

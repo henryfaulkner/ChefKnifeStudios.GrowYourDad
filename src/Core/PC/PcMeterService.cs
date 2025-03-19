@@ -11,10 +11,10 @@ public interface IPcMeterService
 
 public partial class PcMeterService : Node, IPcMeterService 
 {
-	private int _hpValue;
-	private int _hpMax;
-	private int _spValue;
-	private int _spMax;
+	private int _hpValue = -1;
+	private int _hpMax = -1;
+	private int _spValue = -1;
+	private int _spMax = -1;
 
 	public int HpValue
 	{
@@ -23,6 +23,7 @@ public partial class PcMeterService : Node, IPcMeterService
 		{
 			if (_hpValue == value) return;
 			if (value < 0) value = 0;
+			if (value == 0) HandleDeath();
 			_hpValue = value;
 			HandleHpValueChange(value);
 		}
@@ -64,13 +65,25 @@ public partial class PcMeterService : Node, IPcMeterService
 		}
 	}
 
-	ILoggerService _logger;
-	Observables _observables;
+	static readonly StringName PREACTION_LEVEL_PATH = new StringName("res://Pages/PreActionScene/PreActionScene.tscn");
+	readonly PackedScene _preactionLevelScene;
+
+	ILoggerService _logger = null!;
+	Observables _observables = null!;
+	IPcInventoryService _pcInventoryService = null!;
+	IPcWalletService _pcWalletService = null!;
+
+	public PcMeterService()
+	{
+		_preactionLevelScene = (PackedScene)ResourceLoader.Load(PREACTION_LEVEL_PATH);
+	}
 
 	public override void _Ready()
 	{
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 		_observables = GetNode<Observables>(Constants.SingletonNodes.Observables);
+		_pcInventoryService = GetNode<IPcInventoryService>(Constants.SingletonNodes.PcInventoryService);
+		_pcWalletService = GetNode<IPcWalletService>(Constants.SingletonNodes.PcWalletService);
 	}
 
 	void HandleHpValueChange(int hpValue)
@@ -91,5 +104,19 @@ public partial class PcMeterService : Node, IPcMeterService
 	void HandleSpMaxChange(int spMax)
 	{
 		_observables.EmitUpdateSpMeterMax(spMax);
+	}
+
+	private void HandleDeath()
+	{
+		_pcInventoryService.Clear();
+		_pcWalletService.ProteinInWallet = 0;
+
+		// Use call_deferred to safely change the scene
+		CallDeferred(nameof(ChangeToActionLevel));
+	}
+
+	void ChangeToActionLevel()
+	{
+		GetTree().ChangeSceneToPacked(_preactionLevelScene);
 	}
 }

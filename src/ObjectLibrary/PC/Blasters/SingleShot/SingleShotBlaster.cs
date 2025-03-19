@@ -6,8 +6,8 @@ public partial class SingleShotBlaster : BaseBlaster
 {
 	const float BLAST_SPEED = 150f;
 	
-	IBlastFactory _blastFactory;
-	IPcMeterService _pcMeterService;
+	IBlastFactory _blastFactory = null!;
+	IPcMeterService _pcMeterService = null!;
 
 	public override void _Ready()
 	{

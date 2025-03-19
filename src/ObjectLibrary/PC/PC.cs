@@ -9,7 +9,7 @@ public partial class PC : Node2D
 	[Export]
 	CharacterBody2D _controller = null!;
 	
-	BaseBlaster _blaster = null!;
+	BaseBlaster? _blaster = null!;
 	
 	ILoggerService _logger = null!;
 	IBlasterFactory _blasterFactory= null!;
@@ -63,7 +63,7 @@ public partial class PC : Node2D
 
 	public override void _Input(InputEvent @event)
 	{
-		if (Input.IsActionJustPressed("single-shot"))
+		if (Input.IsActionJustPressed("single-shot") )
 		{
 			_blaster.QueueFree();
 			_blaster = null;

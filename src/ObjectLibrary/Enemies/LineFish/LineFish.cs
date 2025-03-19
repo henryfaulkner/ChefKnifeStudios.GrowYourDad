@@ -4,11 +4,11 @@ using System;
 public partial class LineFish : Path2D, IEnemy
 {
 	[Export]
-	PathFollow2D _pathFollow;
+	PathFollow2D _pathFollow = null!;
 	[Export]
-	EnemyHurtBoxArea _hurtBox;
+	EnemyHurtBoxArea _hurtBox = null!;
 	[Export]
-	EnemyHitBoxArea _hitBox;
+	EnemyHitBoxArea _hitBox = null!;
 
 	float _speed = 0.2f;
 	int _directionSign = 1;

@@ -85,10 +85,11 @@ _collisionShape = NodePath("CollisionShape2D")
 shape = SubResource("CircleShape2D_wkonu")
 debug_color = Color(0, 0.701961, 0, 0.419608)
 
-[node name="HUD" type="CanvasLayer" parent="." node_paths=PackedStringArray("HpMeter", "SpMeter", "ProteinLabel")]
+[node name="HUD" type="CanvasLayer" parent="." node_paths=PackedStringArray("HpMeter", "SpMeter", "CrawlDepthLabel", "ProteinLabel")]
 script = ExtResource("6_i0uts")
 HpMeter = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Meters/HpMeter")
 SpMeter = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Meters/SpMeter")
+CrawlDepthLabel = NodePath("MarginContainer/VBoxContainer/HBoxContainer/CrawlDepthContainer/MarginContainer/CrawlDepthLabel")
 ProteinLabel = NodePath("MarginContainer/VBoxContainer/HBoxContainer/ProteinContainer/MarginContainer/ProteinLabel")
 
 [node name="MarginContainer" type="MarginContainer" parent="HUD"]
@@ -105,9 +106,21 @@ theme = SubResource("Theme_phno0")
 [node name="HBoxContainer" type="HBoxContainer" parent="HUD/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="CrawlDepthContainer" type="HBoxContainer" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer/CrawlDepthContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 20
+
+[node name="CrawlDepthLabel" type="RichTextLabel" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer/CrawlDepthContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+bbcode_enabled = true
+text = "[font_size=24][left]Level ####[/left][/font_size]"
+fit_content = true
 
 [node name="Meters" type="VBoxContainer" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2

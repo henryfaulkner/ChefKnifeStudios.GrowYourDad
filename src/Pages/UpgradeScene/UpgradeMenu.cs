@@ -16,8 +16,8 @@ public partial class UpgradeMenu : MarginContainer
 	int SelectedOptionIndex { get; set; } = -1;
 	List<ItemBase> ItemList { get; set; } = new();
 
-	ILoggerService _logger;
-	IPcInventoryService _pcInventoryService;
+	ILoggerService _logger = null!;
+	IPcInventoryService _pcInventoryService = null!;
 
 	public override void _Ready()
 	{

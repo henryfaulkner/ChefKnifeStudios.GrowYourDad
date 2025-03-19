@@ -5,11 +5,11 @@ using System.Reflection.Metadata;
 
 public partial class ActionLevel : Node2D
 {
-	ILoggerService _logger;
-	IPcMeterService _pcMeterService;
-	IPcInventoryService _pcInventoryService;
-	PauseMenuService _pauseMenuService;
-	Observables _observables;
+	ILoggerService _logger = null!;
+	IPcMeterService _pcMeterService = null!;
+	IPcInventoryService _pcInventoryService = null!;
+	PauseMenuService _pauseMenuService = null!;
+	Observables _observables = null!;
 
 	public override void _Ready()
 	{

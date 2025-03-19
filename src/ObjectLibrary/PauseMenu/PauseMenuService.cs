@@ -3,8 +3,8 @@ using Godot;
 
 public partial class PauseMenuService : Node
 {
-	public Stack<BaseMenuPanel> WorkingDirectory { get; set; }
-	public List<BaseMenuPanel> PanelList { get; set; }
+	public Stack<BaseMenuPanel> WorkingDirectory { get; set; } = null!;
+	public List<BaseMenuPanel> PanelList { get; set; } = null!;
 
 	public override void _Ready()
 	{
