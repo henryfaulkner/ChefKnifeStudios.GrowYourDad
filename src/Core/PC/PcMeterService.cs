@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 public interface IPcMeterService
 {
@@ -72,6 +73,7 @@ public partial class PcMeterService : Node, IPcMeterService
 	Observables _observables = null!;
 	IPcInventoryService _pcInventoryService = null!;
 	IPcWalletService _pcWalletService = null!;
+	ICrawlStatsService _crawlStatsService = null!;
 
 	public PcMeterService()
 	{
@@ -84,6 +86,7 @@ public partial class PcMeterService : Node, IPcMeterService
 		_observables = GetNode<Observables>(Constants.SingletonNodes.Observables);
 		_pcInventoryService = GetNode<IPcInventoryService>(Constants.SingletonNodes.PcInventoryService);
 		_pcWalletService = GetNode<IPcWalletService>(Constants.SingletonNodes.PcWalletService);
+		_crawlStatsService = GetNode<ICrawlStatsService>(Constants.SingletonNodes.CrawlStatsService);
 	}
 
 	void HandleHpValueChange(int hpValue)
@@ -108,6 +111,10 @@ public partial class PcMeterService : Node, IPcMeterService
 
 	private void HandleDeath()
 	{
+		_crawlStatsService.CrawlStats.ProteinsBanked = _pcWalletService.ProteinInWallet;
+		_crawlStatsService.CrawlStats.ItemsCollected = _pcInventoryService.CountInventory();
+		Task.Run(async () => await _crawlStatsService.PersistCrawlStatsAsync());
+
 		_pcInventoryService.Clear();
 		_pcWalletService.ProteinInWallet = 0;
 

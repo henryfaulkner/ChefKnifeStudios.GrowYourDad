@@ -31,7 +31,7 @@ public partial class UpgradeScene : CanvasLayer
 		FreezeArea.AreaEntered += HandleFreezeAreaEntered;
 		DoorArea.AreaEntered += HandleDoorAreaEntered;
 
-		_crawlStatsService.CrawlDepth.IncrementCrawlDepth();
+		_crawlStatsService.CrawlStats.IncrementCrawlDepth();
 	}
 
 	public override void _ExitTree()

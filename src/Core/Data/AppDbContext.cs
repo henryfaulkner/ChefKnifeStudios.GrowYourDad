@@ -24,7 +24,7 @@ public class AppDbContext : DbContext
 	}
 
 	#region Tables
-
+	public DbSet<CrawlStats> CrawlStats { get; set; }
 	#endregion
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -9,6 +9,7 @@ public partial class Protein : RigidBody2D
 	ILoggerService _logger = null!;
 	IPcWalletService _pcWalletService = null!;
 	IPcPositionService _pcPositionService = null!;
+	ICrawlStatsService _crawlStatsService = null!;
 
 	const float MAGNET_SPEED = 20.0f;
 	bool _isInPcMagnetArea = false; 
@@ -18,6 +19,7 @@ public partial class Protein : RigidBody2D
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 		_pcWalletService = GetNode<IPcWalletService>(Constants.SingletonNodes.PcWalletService);
 		_pcPositionService = GetNode<IPcPositionService>(Constants.SingletonNodes.PcPositionService);
+		_crawlStatsService = GetNode<ICrawlStatsService>(Constants.SingletonNodes.CrawlStatsService);
 
 		HitBox.AreaEntered += HandleAreaEntered;
 		HitBox.AreaExited += HandleAreaExited;
@@ -45,6 +47,7 @@ public partial class Protein : RigidBody2D
 		{
 			case PcGrabArea grabArea:
 				_pcWalletService.ProteinInWallet += 1;
+				_crawlStatsService.CrawlStats.ProteinsCollected += 1;
 				QueueFree();
 				break;
 			case PcMagnetArea magnetArea:

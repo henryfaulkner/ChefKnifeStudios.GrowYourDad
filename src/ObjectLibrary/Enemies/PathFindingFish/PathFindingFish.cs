@@ -38,6 +38,7 @@ public partial class PathFindingFish : Agent, IEnemy
 	IPcInventoryService _pcInventoryService = null!;
 	IProteinFactory _proteinFactory = null!;
 	Observables _observables = null!;
+	ICrawlStatsService _crawlStatsService = null!;
 
 	bool _isFlashing = false;
 
@@ -56,7 +57,8 @@ public partial class PathFindingFish : Agent, IEnemy
 		_pcInventoryService = GetNode<IPcInventoryService>(Constants.SingletonNodes.PcInventoryService);
 		_proteinFactory = GetNode<IProteinFactory>(Constants.SingletonNodes.ProteinFactory);
 		_observables = GetNode<Observables>(Constants.SingletonNodes.Observables);
-
+		_crawlStatsService = GetNode<ICrawlStatsService>(Constants.SingletonNodes.CrawlStatsService);
+		
 		ReadyAgent();
 
 		_state = States.Searching;
@@ -200,6 +202,7 @@ public partial class PathFindingFish : Agent, IEnemy
 
 	void HandleDeath()
 	{
+		_crawlStatsService.CrawlStats.FoesDefeated += 1;
 		_proteinFactory.SpawnMultiProtein(GetNode(".."), _controller.GlobalPosition);
 		QueueFree();
 	}

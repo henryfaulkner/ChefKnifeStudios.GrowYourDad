@@ -1,9 +1,6 @@
-public class CrawlDepth
+public partial class CrawlStats
 {
 	const int DEPTH_PER_FLOOR = 15; 
-
-	public int FloorNumber { get; set; } = 1;
-	public int DepthOnFloor { get; set; } = 1;
 
 	public void IncrementCrawlDepth()
 	{
@@ -15,7 +12,7 @@ public class CrawlDepth
 		}
 	}
 
-	public override string ToString()
+	public string CrawlDepth_ToString()
 	{
 		return $"{FloorNumber}-{DepthOnFloor}";
 	}

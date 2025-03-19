@@ -6,6 +6,7 @@ using System.Linq;
 public interface IPcInventoryService
 {
 	void AddToInventory(ItemBase item);
+	int CountInventory();
 	void Clear();
 	
 	IEnumerable<ItemWithHealingEffect> GetInvItemsWithHealingEffect();
@@ -20,12 +21,14 @@ public interface IPcInventoryService
 public partial class PcInventoryService : Node, IPcInventoryService
 {
 	IPcMeterService _pcMeterService = null!;
+	ICrawlStatsService _crawlStatsService = null!;
 
 	List<ItemBase> _itemInventory = new();
 
 	public override void _Ready()
 	{
 		_pcMeterService = GetNode<IPcMeterService>(Constants.SingletonNodes.PcMeterService);
+		_crawlStatsService = GetNode<ICrawlStatsService>(Constants.SingletonNodes.CrawlStatsService);
 	}
 
 	public void AddToInventory(ItemBase item)
@@ -55,7 +58,10 @@ public partial class PcInventoryService : Node, IPcInventoryService
 		}
 
 		_itemInventory.Add(item);
+		_crawlStatsService.CrawlStats.ItemsCollected += 1;
 	}
+
+	public int CountInventory() => _itemInventory.Count();
 
 	public void Clear()
 	{

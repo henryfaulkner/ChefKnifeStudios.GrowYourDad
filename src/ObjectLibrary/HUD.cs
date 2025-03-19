@@ -38,7 +38,7 @@ public partial class HUD : CanvasLayer
 		_observables.UpdateSpMeterValue += SpMeter.UpdateValue;
 		_observables.UpdateSpMeterMax += SpMeter.UpdateMax;
 		
-		CrawlDepthLabel.Text = string.Format(CRAWL_DEPTH_LABEL_TEXT, _crawlStatsService.CrawlDepth.ToString());
+		CrawlDepthLabel.Text = string.Format(CRAWL_DEPTH_LABEL_TEXT, _crawlStatsService.CrawlStats.CrawlDepth_ToString());
 
 		_pcWalletService.RefreshWalletUI += HandleRefreshWalletUI;
 		HandleRefreshWalletUI();

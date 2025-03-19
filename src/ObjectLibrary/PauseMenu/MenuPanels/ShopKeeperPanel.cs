@@ -19,6 +19,7 @@ public partial class ShopKeeperPanel : BaseMenuPanel
 	IShopKeeperService _shopKeeperService = null!;
 	IPcInventoryService _pcInventoryService = null!;
 	IPcWalletService _pcWalletService = null!;
+	ICrawlStatsService _crawlStatsService = null!;
 
 	public override void _Ready()
 	{
@@ -27,6 +28,7 @@ public partial class ShopKeeperPanel : BaseMenuPanel
 		_shopKeeperService = GetNode<IShopKeeperService>(Constants.SingletonNodes.ShopKeeperService);
 		_pcInventoryService = GetNode<IPcInventoryService>(Constants.SingletonNodes.PcInventoryService);
 		_pcWalletService = GetNode<IPcWalletService>(Constants.SingletonNodes.PcWalletService);
+		_crawlStatsService = GetNode<ICrawlStatsService>(Constants.SingletonNodes.CrawlStatsService);
 
 		FocusIndex = 0;
 		Buttons = new List<BaseButton>();
@@ -66,6 +68,7 @@ public partial class ShopKeeperPanel : BaseMenuPanel
 
 		_pcWalletService.ProteinInWallet -= selectedItem.Price;
 		_pcInventoryService.AddToInventory(selectedItem);
+		_crawlStatsService.CrawlStats.ItemsPurchased += 1;
 	}
 	
 	void PopulateItemOptions()
