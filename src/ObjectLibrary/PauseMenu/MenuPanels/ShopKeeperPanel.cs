@@ -30,11 +30,10 @@ public partial class ShopKeeperPanel : BaseMenuPanel
 		_pcWalletService = GetNode<IPcWalletService>(Constants.SingletonNodes.PcWalletService);
 		_crawlStatsService = GetNode<ICrawlStatsService>(Constants.SingletonNodes.CrawlStatsService);
 
-		FocusIndex = 0;
-		Buttons = new List<BaseButton>();
-		Buttons.Add(BackBtn);
-		Buttons.Add(ItemOptionBtn);
-		Buttons.Add(BuyBtn);
+		Controls = new List<Control>();
+		Controls.Add(BackBtn);
+		Controls.Add(ItemOptionBtn);
+		Controls.Add(BuyBtn);
 		
 		BackBtn.Pressed += HandleBack;	
 		PopulateItemOptions();
@@ -49,6 +48,9 @@ public partial class ShopKeeperPanel : BaseMenuPanel
 		{
 			BackBtn.Pressed -= HandleBack;
 		}
+
+		if (BuyBtn != null)
+			BuyBtn.Pressed += HandleBuy;
 	}
 
 	void HandleBack()

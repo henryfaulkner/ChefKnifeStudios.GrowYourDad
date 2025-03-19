@@ -113,7 +113,7 @@ public partial class PcMeterService : Node, IPcMeterService
 	{
 		_crawlStatsService.CrawlStats.ProteinsBanked = _pcWalletService.ProteinInWallet;
 		_crawlStatsService.CrawlStats.ItemsCollected = _pcInventoryService.CountInventory();
-		Task.Run(async () => await _crawlStatsService.PersistCrawlStatsAsync());
+		_crawlStatsService.PersistCrawlStats();
 
 		_pcInventoryService.Clear();
 		_pcWalletService.ProteinInWallet = 0;

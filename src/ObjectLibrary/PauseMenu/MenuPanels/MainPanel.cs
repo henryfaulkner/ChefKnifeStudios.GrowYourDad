@@ -6,11 +6,13 @@ using Godot;
 public partial class MainPanel : BaseMenuPanel
 {
 	[Export]
-	private BaseButton ResumeBtn { get; set; } = null!;
+	BaseButton ResumeBtn { get; set; } = null!;
 	[Export]
-	private BaseButton ShopKeeperBtn { get; set; } = null!;
+	BaseButton ShopKeeperBtn { get; set; } = null!;
 	[Export]
-	private BaseButton MainMenuBtn { get; set; } = null!;
+	BaseButton GameSaveBtn { get; set; } = null!;
+	[Export]
+	BaseButton MainMenuBtn { get; set; } = null!;
 	
 	static readonly StringName PREACTION_LEVEL_PATH = new StringName("res://Pages/PreActionScene/PreActionScene.tscn");
 	readonly PackedScene _preactionLevelScene;
@@ -32,14 +34,15 @@ public partial class MainPanel : BaseMenuPanel
 		_pcInventoryService = GetNode<IPcInventoryService>(Constants.SingletonNodes.PcInventoryService);
 		_pcWalletService = GetNode<IPcWalletService>(Constants.SingletonNodes.PcWalletService);
 
-		FocusIndex = 0;
-		Buttons = new List<BaseButton>();
-		Buttons.Add(ResumeBtn);
-		Buttons.Add(ShopKeeperBtn);
-		Buttons.Add(MainMenuBtn);
+		Controls = new List<Control>();
+		Controls.Add(ResumeBtn);
+		Controls.Add(ShopKeeperBtn);
+		Controls.Add(GameSaveBtn);
+		Controls.Add(MainMenuBtn);
 		
 		ResumeBtn.Pressed += HandleResumeBtnClick;
 		ShopKeeperBtn.Pressed += HandleShopKeeperBtnClick;
+		GameSaveBtn.Pressed += HandleGameSaveBtnClick;
 		MainMenuBtn.Pressed += HandleMainMenuBtnClick;
 	}
 
@@ -53,6 +56,11 @@ public partial class MainPanel : BaseMenuPanel
 		if (ShopKeeperBtn != null)
 		{
 			ShopKeeperBtn.Pressed -= HandleShopKeeperBtnClick;
+		}
+		
+		if (GameSaveBtn != null)
+		{
+			GameSaveBtn.Pressed -= HandleGameSaveBtnClick;
 		}
 
 		if (MainMenuBtn != null)
@@ -70,6 +78,12 @@ public partial class MainPanel : BaseMenuPanel
 	{
 		_pauseMenuService.PushPanel(this);
 		EmitSignal(SignalName.Open, (int)Enumerations.PauseMenuPanels.ShopKeeper);
+	}
+	
+	void HandleGameSaveBtnClick()
+	{
+		_pauseMenuService.PushPanel(this);
+		EmitSignal(SignalName.Open, (int)Enumerations.PauseMenuPanels.GameSave);
 	}
 
 	private void HandleMainMenuBtnClick()

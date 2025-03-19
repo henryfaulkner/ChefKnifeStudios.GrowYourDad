@@ -4,9 +4,10 @@ using System.Threading.Tasks;
 
 public interface ICrawlStatsService
 {
+	GameSave GameSave { get; set; }
 	CrawlStats CrawlStats { get; }
 
-	Task PersistCrawlStatsAsync();
+	void PersistCrawlStats();
 } 
 
 public partial class CrawlStatsService : Node, ICrawlStatsService
@@ -19,6 +20,17 @@ public partial class CrawlStatsService : Node, ICrawlStatsService
 		_unitOfWork = GetNode<IUnitOfWork>(Constants.SingletonNodes.UnitOfWork);
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 	}
+	
+	GameSave? _gameSave = null!;
+	public GameSave? GameSave 
+	{ 
+		get => _gameSave; 
+		set
+		{
+			_gameSave = value;
+			CrawlStats.GameSaveId = _gameSave?.Id;
+		}
+	}
 
 	CrawlStats _crawlStats = new();
 	public CrawlStats CrawlStats
@@ -27,13 +39,13 @@ public partial class CrawlStatsService : Node, ICrawlStatsService
 		set => _crawlStats = value;
 	}
 
-	public async Task PersistCrawlStatsAsync()
+	public void PersistCrawlStats()
 	{
-		_logger.LogInfo("Start PersistCrawlStatsAsync");
+		_logger.LogInfo("Start PersistCrawlStats");
 		try
 		{
-			await _unitOfWork.CrawlStatsRepository.AddAsync(_crawlStats);
-			await _unitOfWork.SaveChangesAsync();
+			_unitOfWork.CrawlStatsRepository.Add(_crawlStats);
+			_unitOfWork.SaveChanges();
 			ClearCrawlStats();
 		} 
 		catch (Exception ex)
@@ -46,7 +58,7 @@ public partial class CrawlStatsService : Node, ICrawlStatsService
 			_logger.LogError($"Inner exception: {innerException.Message}");
 			throw;
 		}
-		_logger.LogInfo("End PersistCrawlStatsAsync");
+		_logger.LogInfo("End PersistCrawlStats");
 	}
 
 	void ClearCrawlStats()

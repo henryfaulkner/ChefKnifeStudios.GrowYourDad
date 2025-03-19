@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dwlmfdqio1b4g"]
+[gd_scene load_steps=11 format=3 uid="uid://dwlmfdqio1b4g"]
 
 [ext_resource type="Script" path="res://ObjectLibrary/PauseMenu/PauseMenu.cs" id="1_u6non"]
 [ext_resource type="FontFile" uid="uid://dpfxhw7kcgm36" path="res://Assets/Fonts/Born2bSportyV2.ttf" id="2_2uhv5"]
@@ -7,14 +7,16 @@
 [ext_resource type="Script" path="res://ObjectLibrary/PauseMenu/MenuPanels/MainPanel.cs" id="3_vflnm"]
 [ext_resource type="Theme" uid="uid://cew4a71d1h5c8" path="res://ObjectLibrary/PauseMenu/Styles/PauseMenuOptionButtonTheme.tres" id="4_n6aq3"]
 [ext_resource type="Script" path="res://ObjectLibrary/PauseMenu/MenuPanels/ShopKeeperPanel.cs" id="7_kid54"]
+[ext_resource type="Script" path="res://ObjectLibrary/PauseMenu/MenuPanels/GameSavePanel.cs" id="8_le7e0"]
 [ext_resource type="Script" path="res://ObjectLibrary/PauseMenu/OpenClosePauseMenuListener.cs" id="9_tt8pv"]
 
 [sub_resource type="Theme" id="Theme_whrd5"]
 
-[node name="PauseMenu" type="CanvasLayer" node_paths=PackedStringArray("MainPanel", "ShopKeeperPanel")]
+[node name="PauseMenu" type="CanvasLayer" node_paths=PackedStringArray("MainPanel", "ShopKeeperPanel", "GameSavePanel")]
 script = ExtResource("1_u6non")
 MainPanel = NodePath("MarginContainer/MainPanel")
 ShopKeeperPanel = NodePath("MarginContainer/ShopKeeperPanel")
+GameSavePanel = NodePath("MarginContainer/GameSavePanel")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchors_preset = 15
@@ -27,7 +29,7 @@ theme_override_constants/margin_top = 80
 theme_override_constants/margin_right = 160
 theme_override_constants/margin_bottom = 80
 
-[node name="MainPanel" type="Panel" parent="MarginContainer" node_paths=PackedStringArray("ResumeBtn", "ShopKeeperBtn", "MainMenuBtn")]
+[node name="MainPanel" type="Panel" parent="MarginContainer" node_paths=PackedStringArray("ResumeBtn", "ShopKeeperBtn", "GameSaveBtn", "MainMenuBtn")]
 visible = false
 layout_mode = 2
 theme = SubResource("Theme_whrd5")
@@ -35,6 +37,7 @@ theme_override_styles/panel = ExtResource("2_4lxy2")
 script = ExtResource("3_vflnm")
 ResumeBtn = NodePath("PaddingContainer/VBoxContainer/ResumeButton")
 ShopKeeperBtn = NodePath("PaddingContainer/VBoxContainer/ShopKeeperButton")
+GameSaveBtn = NodePath("PaddingContainer/VBoxContainer/GameSaveButton")
 MainMenuBtn = NodePath("PaddingContainer/VBoxContainer/MainMenuButton")
 
 [node name="PaddingContainer" type="MarginContainer" parent="MarginContainer/MainPanel"]
@@ -89,6 +92,16 @@ theme = ExtResource("4_n6aq3")
 text = "Shop
 "
 
+[node name="HSeparator7" type="HSeparator" parent="MarginContainer/MainPanel/PaddingContainer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="GameSaveButton" type="Button" parent="MarginContainer/MainPanel/PaddingContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("4_n6aq3")
+text = "Game Saves"
+
 [node name="HSeparator2" type="HSeparator" parent="MarginContainer/MainPanel/PaddingContainer/VBoxContainer"]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
@@ -113,6 +126,7 @@ text = "Version 0.0.1"
 horizontal_alignment = 1
 
 [node name="ShopKeeperPanel" type="Panel" parent="MarginContainer" node_paths=PackedStringArray("BackBtn", "ItemOptionBtn", "BuyBtn")]
+visible = false
 layout_mode = 2
 theme = SubResource("Theme_whrd5")
 theme_override_styles/panel = ExtResource("2_4lxy2")
@@ -184,6 +198,121 @@ layout_mode = 2
 theme_override_constants/separation = 108
 
 [node name="Label2" type="Label" parent="MarginContainer/ShopKeeperPanel/PaddingContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_gawf8")
+theme_override_font_sizes/font_size = 40
+text = "Version 0.0.1"
+horizontal_alignment = 1
+
+[node name="GameSavePanel" type="Panel" parent="MarginContainer" node_paths=PackedStringArray("BackBtn", "GameSaveOptionsSeparator", "GameSaveOptions", "UsernameBtns", "NewGameSaveSeparator", "NewGameSaveTextBox", "SubmitBtnSeparator", "SubmitBtn")]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_whrd5")
+theme_override_styles/panel = ExtResource("2_4lxy2")
+script = ExtResource("8_le7e0")
+BackBtn = NodePath("PaddingContainer/VBoxContainer/BackButton")
+GameSaveOptionsSeparator = NodePath("PaddingContainer/VBoxContainer/GameSaveOptionsSeparator")
+GameSaveOptions = NodePath("PaddingContainer/VBoxContainer/GameSaveOptions")
+UsernameBtns = [NodePath("PaddingContainer/VBoxContainer/GameSaveOptions/SaveOneButton"), NodePath("PaddingContainer/VBoxContainer/GameSaveOptions/SaveTwoButton"), NodePath("PaddingContainer/VBoxContainer/GameSaveOptions/SaveThreeButton")]
+NewGameSaveSeparator = NodePath("PaddingContainer/VBoxContainer/NewGameSaveSeparator")
+NewGameSaveTextBox = NodePath("PaddingContainer/VBoxContainer/NextGameSaveTextBox")
+SubmitBtnSeparator = NodePath("PaddingContainer/VBoxContainer/SubmitButtonSeparator")
+SubmitBtn = NodePath("PaddingContainer/VBoxContainer/SubmitButton")
+
+[node name="PaddingContainer" type="MarginContainer" parent="MarginContainer/GameSavePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -26.5
+offset_top = -57.0
+offset_right = 26.5
+offset_bottom = 57.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 172
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 172
+theme_override_constants/margin_bottom = 64
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/GameSavePanel/PaddingContainer"]
+layout_mode = 2
+
+[node name="HSeparator5" type="HSeparator" parent="MarginContainer/GameSavePanel/PaddingContainer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="MarginContainer/GameSavePanel/PaddingContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_2uhv5")
+theme_override_font_sizes/font_size = 64
+text = "GAME SAVES"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/GameSavePanel/PaddingContainer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="BackButton" type="Button" parent="MarginContainer/GameSavePanel/PaddingContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("4_n6aq3")
+text = "Back"
+
+[node name="GameSaveOptionsSeparator" type="HSeparator" parent="MarginContainer/GameSavePanel/PaddingContainer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="GameSaveOptions" type="HBoxContainer" parent="MarginContainer/GameSavePanel/PaddingContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SaveOneButton" type="Button" parent="MarginContainer/GameSavePanel/PaddingContainer/VBoxContainer/GameSaveOptions"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("4_n6aq3")
+text = "N/A"
+
+[node name="SaveTwoButton" type="Button" parent="MarginContainer/GameSavePanel/PaddingContainer/VBoxContainer/GameSaveOptions"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("4_n6aq3")
+text = "N/A"
+
+[node name="SaveThreeButton" type="Button" parent="MarginContainer/GameSavePanel/PaddingContainer/VBoxContainer/GameSaveOptions"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("4_n6aq3")
+text = "N/A"
+
+[node name="NewGameSaveSeparator" type="HSeparator" parent="MarginContainer/GameSavePanel/PaddingContainer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="NextGameSaveTextBox" type="TextEdit" parent="MarginContainer/GameSavePanel/PaddingContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 20
+placeholder_text = "Type new username"
+
+[node name="SubmitButtonSeparator" type="HSeparator" parent="MarginContainer/GameSavePanel/PaddingContainer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="SubmitButton" type="Button" parent="MarginContainer/GameSavePanel/PaddingContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("4_n6aq3")
+text = "Create New Save"
+
+[node name="HSeparator4" type="HSeparator" parent="MarginContainer/GameSavePanel/PaddingContainer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 48
+
+[node name="Label2" type="Label" parent="MarginContainer/GameSavePanel/PaddingContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_gawf8")
 theme_override_font_sizes/font_size = 40

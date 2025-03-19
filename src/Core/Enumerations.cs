@@ -28,8 +28,9 @@ public partial class Enumerations
 	}
 
 	public enum PauseMenuPanels
-    {
-        Main,
-        ShopKeeper,
-    }
+	{
+		Main,
+		ShopKeeper,
+		GameSave,
+	}
 }

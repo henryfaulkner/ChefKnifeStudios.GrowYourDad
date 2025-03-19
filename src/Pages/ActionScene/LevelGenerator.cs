@@ -260,7 +260,7 @@ public partial class LevelGenerator : Node2D
 	enum Enemies 
 	{
 		CircleFish,
-		//LineFish, uncomment when line draw logic is ready
+		LineFish,
 		PathFindingFish,
 	}
 
@@ -268,9 +268,14 @@ public partial class LevelGenerator : Node2D
 	{
 		Random rand = new();
 
+		float lfMinSpeed = 0.3f;
+		float lfMaxSpeed = 1.2f;
+		float lfMinLength = 0.75f;
+		float lfMaxLength = 4.0f; 
+
 		float cfMinSpeed = 0.3f;
 		float cfMaxSpeed = 1.2f;
-		float cfMinRadius = 1.5f;
+		float cfMinRadius = 0.5f;
 		float cfMaxRadius = 3.5f;
 
 		for (int y = lowestHeight; y < highestHeight; y += 1)
@@ -289,12 +294,33 @@ public partial class LevelGenerator : Node2D
 						switch (enemyType)
 						{
 							case Enemies.CircleFish:
-								var speed = (float)rand.NextDouble() * (cfMaxSpeed - cfMinSpeed) + cfMinSpeed;
-								var radius = (float)rand.NextDouble() * (cfMaxRadius - cfMinRadius) + cfMinRadius;
-								_ = _enemyFactory.SpawnCircleFish(this, spawnPos, speed, radius);
+								{
+									var speed = (float)rand.NextDouble() * (cfMaxSpeed - cfMinSpeed) + cfMinSpeed;
+									var radius = (float)rand.NextDouble() * (cfMaxRadius - cfMinRadius) + cfMinRadius;
+									_ = _enemyFactory.SpawnCircleFish(this, spawnPos, speed, radius);
+								}
+								break;
+							case Enemies.LineFish:
+								{
+									_logger.LogInfo("Call case Enemies.LineFish");
+									var speed = (float)rand.NextDouble() * (lfMaxSpeed - lfMinSpeed) + lfMinSpeed;
+									var length = (float)rand.NextDouble() * (lfMaxLength - lfMinLength) + lfMinLength;
+									length *= 16;
+									(Vector2 pointOnePos, Vector2 pointTwoPos) = CalculateLinePoints(
+										spawnPos, 
+										length, 
+										lowestWidth, 
+										highestWidth, 
+										lowestHeight, 
+										highestHeight
+									);
+									_ = _enemyFactory.SpawnLineFish(this, spawnPos, pointOnePos, pointTwoPos, speed);
+								}
 								break;
 							case Enemies.PathFindingFish:
-								_ = _enemyFactory.SpawnPathFindingFish(this, spawnPos);
+								{
+									_ = _enemyFactory.SpawnPathFindingFish(this, spawnPos);
+								}
 								break;
 							default:
 								_logger.LogError("LevelGenerator GenerateEnemies Enemies did not map properly.");
@@ -383,5 +409,68 @@ public partial class LevelGenerator : Node2D
 	void ChangeToUpgradeLevel()
 	{
 		GetTree().ChangeSceneToPacked(_upgradeLevelScene);
+	}
+
+	private (Vector2, Vector2) CalculateLinePoints(Vector2 spawnPos, float length, int lowestWidth, int highestWidth, int lowestHeight, int highestHeight)
+	{
+		Random rand = new();
+		
+		// Try several angles to find points within boundaries
+		for (int i = 0; i < 8; i++)
+		{
+			// Generate a random angle in radians
+			float ang = (float)(rand.NextDouble() * Math.PI * 2);
+			
+			// Calculate offset based on angle and length
+			Vector2 offset = new Vector2(
+				(float)Math.Cos(ang) * length * TILE_SQUARE_SIZE / 2,
+				(float)Math.Sin(ang) * length * TILE_SQUARE_SIZE / 2
+			);
+			
+			// Calculate the two points
+			Vector2 pointOne = new Vector2(-offset.X, -offset.Y); // Relative to the fish position
+			Vector2 pointTwo = new Vector2(offset.X, offset.Y);   // Relative to the fish position
+			
+			// Calculate absolute positions to check boundaries
+			Vector2 absPointOne = spawnPos + pointOne;
+			Vector2 absPointTwo = spawnPos + pointTwo;
+			
+			// Check if within boundaries
+			if (absPointOne.X >= lowestWidth * TILE_SQUARE_SIZE && absPointOne.X < highestWidth * TILE_SQUARE_SIZE &&
+				absPointOne.Y >= lowestHeight * TILE_SQUARE_SIZE && absPointOne.Y < highestHeight * TILE_SQUARE_SIZE &&
+				absPointTwo.X >= lowestWidth * TILE_SQUARE_SIZE && absPointTwo.X < highestWidth * TILE_SQUARE_SIZE &&
+				absPointTwo.Y >= lowestHeight * TILE_SQUARE_SIZE && absPointTwo.Y < highestHeight * TILE_SQUARE_SIZE)
+			{
+				return (pointOne, pointTwo);
+			}
+		}
+		
+		// Fallback: If no valid points found after attempts, create a shorter line that fits within boundaries
+		float safeLength = length * 0.5f;
+		float angle = (float)(rand.NextDouble() * Math.PI * 2);
+		Vector2 safeOffset = new Vector2(
+			(float)Math.Cos(angle) * safeLength * TILE_SQUARE_SIZE / 2,
+			(float)Math.Sin(angle) * safeLength * TILE_SQUARE_SIZE / 2
+		);
+		
+		Vector2 safePointOne = new Vector2(-safeOffset.X, -safeOffset.Y);
+		Vector2 safePointTwo = new Vector2(safeOffset.X, safeOffset.Y);
+		
+		// Verify boundary constraints with absolute positions
+		Vector2 absSafePointOne = spawnPos + safePointOne;
+		Vector2 absSafePointTwo = spawnPos + safePointTwo;
+		
+		// Clamp absolute positions to boundaries if needed
+		absSafePointOne.X = Math.Clamp(absSafePointOne.X, lowestWidth * TILE_SQUARE_SIZE, (highestWidth - 1) * TILE_SQUARE_SIZE);
+		absSafePointOne.Y = Math.Clamp(absSafePointOne.Y, lowestHeight * TILE_SQUARE_SIZE, (highestHeight - 1) * TILE_SQUARE_SIZE);
+		
+		absSafePointTwo.X = Math.Clamp(absSafePointTwo.X, lowestWidth * TILE_SQUARE_SIZE, (highestWidth - 1) * TILE_SQUARE_SIZE);
+		absSafePointTwo.Y = Math.Clamp(absSafePointTwo.Y, lowestHeight * TILE_SQUARE_SIZE, (highestHeight - 1) * TILE_SQUARE_SIZE);
+		
+		// Convert back to relative positions
+		safePointOne = absSafePointOne - spawnPos;
+		safePointTwo = absSafePointTwo - spawnPos;
+		
+		return (safePointOne, safePointTwo);
 	}
 }

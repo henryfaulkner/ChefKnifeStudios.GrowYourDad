@@ -18,12 +18,13 @@ public class AppDbContext : DbContext
 		Database.EnsureCreated();
 	}
 	
-	public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+	public override int SaveChanges()
 	{
-		return await base.SaveChangesAsync(cancellationToken);
+		return base.SaveChanges();
 	}
 
 	#region Tables
+	public DbSet<GameSave> GameSaves { get; set; }
 	public DbSet<CrawlStats> CrawlStats { get; set; }
 	#endregion
 

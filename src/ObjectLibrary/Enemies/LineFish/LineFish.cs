@@ -10,7 +10,7 @@ public partial class LineFish : Path2D, IEnemy
 	[Export]
 	EnemyHitBoxArea _hitBox = null!;
 
-	float _speed = 0.2f;
+	public float Speed = 0.2f;
 	int _directionSign = 1;
 
 	[Export]
@@ -44,7 +44,7 @@ public partial class LineFish : Path2D, IEnemy
 
 	public override void _Process(double delta)
 	{
-		ProcessPathFollow(_pathFollow, _speed, delta);
+		ProcessPathFollow(_pathFollow, Speed, delta);
 	}
 
 	public override void _ExitTree()

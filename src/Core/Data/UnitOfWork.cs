@@ -4,16 +4,18 @@ using System.Threading.Tasks;
 
 public interface IUnitOfWork : IDisposable
 {
+	IRepository<GameSave> GameSaveRepository { get; }
 	IRepository<CrawlStats> CrawlStatsRepository { get; }
 
-	Task<bool> SaveChangesAsync();
+	bool SaveChanges();
 }
 
 public partial class UnitOfWork : Node, IUnitOfWork
 {
 	private readonly AppDbContext _context;
 
-	public IRepository<CrawlStats> CrawlStatsRepository { get; private set; }
+	public IRepository<GameSave> GameSaveRepository { get; private set; } = null!;
+	public IRepository<CrawlStats> CrawlStatsRepository { get; private set; } = null!;
 
 	public UnitOfWork()
 	{
@@ -29,9 +31,9 @@ public partial class UnitOfWork : Node, IUnitOfWork
 		RegisterRepositories(context);
 	}
 
-	public async Task<bool> SaveChangesAsync()
+	public bool SaveChanges()
 	{
-		var numberOfEntries = await _context.SaveChangesAsync();
+		var numberOfEntries = _context.SaveChanges();
 		return numberOfEntries > 0;
 	}
 
@@ -42,6 +44,7 @@ public partial class UnitOfWork : Node, IUnitOfWork
 
 	void RegisterRepositories(AppDbContext context)
 	{
+		GameSaveRepository = new Repository<GameSave>(_context);
 		CrawlStatsRepository = new Repository<CrawlStats>(_context);
 	}
 }

@@ -2,133 +2,132 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 public interface IRepository<T> where T : class
 {
-	Task<T> GetByIdAsync(int id);
-	Task<T> GetByIdIncludesAsync(int id, params Func<IQueryable<T>, IQueryable<T>>[] includes);
-	Task<IEnumerable<T>> GetAllAsync();
-	Task<IEnumerable<T>> GetAllIncludesAsync(params Func<IQueryable<T>, IQueryable<T>>[] includes);
-	Task AddAsync(T entity);
-	Task AddRangeAsync(IEnumerable<T> entities);
-	void Remove(T entity);
-	void RemoveRange(IEnumerable<T> entities);
-	Task<bool> SaveRepositoryAsync();
-	Task<bool> AnyAsync();
-	Task<TResult> QueryScalarAsync<TResult>(Func<IQueryable<T>, TResult> queryFunc);
-	Task<List<T>> QueryAsync(Func<IQueryable<T>, IQueryable<T>> queryFunc);
+    T GetById(int id);
+    T GetByIdIncludes(int id, params Func<IQueryable<T>, IQueryable<T>>[] includes);
+    IEnumerable<T> GetAll();
+    IEnumerable<T> GetAllIncludes(params Func<IQueryable<T>, IQueryable<T>>[] includes);
+    void Add(T entity);
+    void AddRange(IEnumerable<T> entities);
+    void Remove(T entity);
+    void RemoveRange(IEnumerable<T> entities);
+    bool SaveRepository();
+    bool Any();
+    TResult QueryScalar<TResult>(Func<IQueryable<T>, TResult> queryFunc);
+    IEnumerable<T> Query(Func<IQueryable<T>, IQueryable<T>> queryFunc);
 }
 
 
 public class Repository<T> : IRepository<T>, IDisposable where T : class
 {
-	private AppDbContext _context;
-	private bool _disposed = false; // To detect redundant calls
-	
-	public Repository(AppDbContext appDBContext)
-	{
-		_context = appDBContext;
-	}
+    private AppDbContext _context;
+    private bool _disposed = false; // To detect redundant calls
+    
+    public Repository(AppDbContext appDBContext)
+    {
+        _context = appDBContext;
+    }
 
-	public async Task AddAsync(T entity)
-	{
-		await _context.Set<T>().AddAsync(entity);
-	}
+    public void Add(T entity)
+    {
+        _context.Set<T>().Add(entity);
+    }
 
-	public async Task AddRangeAsync(IEnumerable<T> entities)
-	{
-		await _context.Set<T>().AddRangeAsync(entities);
-	}
+    public void AddRange(IEnumerable<T> entities)
+    {
+        _context.Set<T>().AddRange(entities);
+    }
 
-	public async Task<IEnumerable<T>> GetAllAsync()
-	{
-		return await _context.Set<T>().ToListAsync();
-	}
+    public IEnumerable<T> GetAll()
+    {
+        return _context.Set<T>().AsEnumerable();
+    }
 
-	public async Task<IEnumerable<T>> GetAllIncludesAsync(params Func<IQueryable<T>, IQueryable<T>>[] includes)
-	{
-		IQueryable<T> query = _context.Set<T>();
+    public IEnumerable<T> GetAllIncludes(params Func<IQueryable<T>, IQueryable<T>>[] includes)
+    {
+        IQueryable<T> query = _context.Set<T>();
 
-		// Apply each include function to the query
-		foreach (var include in includes)
-		{
-			query = include(query);
-		}
+        // Apply each include function to the query
+        foreach (var include in includes)
+        {
+            query = include(query);
+        }
 
-		return await query.ToListAsync();
-	}
+        return query.AsEnumerable();
+    }
 
-	public async Task<T> GetByIdAsync(int id)
-	{
-		return await _context.Set<T>().FindAsync(id);
-	}
+    public T GetById(int id)
+    {
+        return _context.Set<T>().Find(id);
+    }
 
-	public async Task<T> GetByIdIncludesAsync(int id, params Func<IQueryable<T>, IQueryable<T>>[] includes)
-	{
-		IQueryable<T> query = _context.Set<T>();
+    public T GetByIdIncludes(int id, params Func<IQueryable<T>, IQueryable<T>>[] includes)
+    {
+        IQueryable<T> query = _context.Set<T>();
 
-		// Apply each include function to the query
-		foreach (var include in includes)
-		{
-			query = include(query);
-		}
+        // Apply each include function to the query
+        foreach (var include in includes)
+        {
+            query = include(query);
+        }
 
-		return await query.FirstOrDefaultAsync(x => EF.Property<int>(x, "Id") == id);
-	}
+        return query.FirstOrDefault(x => EF.Property<int>(x, "Id") == id);
+    }
 
-	public void Remove(T entity)
-	{
-		_context.Set<T>().Remove(entity);
-	}
+    public void Remove(T entity)
+    {
+        _context.Set<T>().Remove(entity);
+    }
 
-	public void RemoveRange(IEnumerable<T> entities)
-	{
-		_context.Set<T>().RemoveRange(entities);
-	}
+    public void RemoveRange(IEnumerable<T> entities)
+    {
+        _context.Set<T>().RemoveRange(entities);
+    }
 
-	public async Task<bool> SaveRepositoryAsync()
-	{
-		var rows = await _context.SaveChangesAsync();
-		return rows > 0;
-	}
+    public bool SaveRepository()
+    {
+        var rows = _context.SaveChanges();
+        return rows > 0;
+    }
 
-	public async Task<bool> AnyAsync()
-	{
-		return await _context.Set<T>().AnyAsync();
-	}
-	
-	public async Task<TResult> QueryScalarAsync<TResult>(Func<IQueryable<T>, TResult> queryFunc)
-	{
-		return await Task.FromResult(queryFunc(_context.Set<T>()));
-	}
+    public bool Any()
+    {
+        return _context.Set<T>().Any();
+    }
+    
+    public TResult QueryScalar<TResult>(Func<IQueryable<T>, TResult> queryFunc)
+    {
+        return queryFunc(_context.Set<T>());
+    }
 
-	public async Task<List<T>> QueryAsync(Func<IQueryable<T>, IQueryable<T>> queryFunc)
-	{
-		var query = queryFunc(_context.Set<T>());
-		return await query.ToListAsync();
-	}
-	
-	// Implementation of Dispose pattern
-	public void Dispose()
-	{
-		Dispose(true);
-		GC.SuppressFinalize(this);
-	}
+    public IEnumerable<T> Query(Func<IQueryable<T>, IQueryable<T>> queryFunc)
+    {
+        var query = queryFunc(_context.Set<T>());
+        return query.AsEnumerable();
+    }
+    
+    // Implementation of Dispose pattern
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
 
-	protected virtual void Dispose(bool disposing)
-	{
-		if (!_disposed)
-		{
-			if (disposing)
-			{
-				// Dispose managed resources.
-				_context?.Dispose();
-			}
-			// Free unmanaged resources (if any) here.
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing)
+            {
+                // Dispose managed resources.
+                _context?.Dispose();
+            }
+            // Free unmanaged resources (if any) here.
 
-			_disposed = true;
-		}
-	}
+            _disposed = true;
+        }
+    }
 }

@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://dwlmfdqio1b4g" path="res://ObjectLibrary/PauseMenu/PauseMenu.tscn" id="14_1jdno"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ae0j7"]
+size = Vector2(21, 21)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wkonu"]
 radius = 40.0
@@ -67,6 +68,7 @@ HitBoxes = []
 script = ExtResource("5_32222")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PC/GravityController/HurtBox"]
+position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_ae0j7")
 debug_color = Color(0, 0.701961, 0, 0.419608)
 

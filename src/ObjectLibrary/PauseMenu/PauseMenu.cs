@@ -15,6 +15,8 @@ public partial class PauseMenu : CanvasLayer
 	MainPanel MainPanel { get; set; } = null!;
 	[Export]
 	ShopKeeperPanel ShopKeeperPanel { get; set; } = null!;
+	[Export]
+	GameSavePanel GameSavePanel { get; set; } = null!;
 
 	PauseMenuService _pauseMenuService = null!;
 	
@@ -33,6 +35,7 @@ public partial class PauseMenu : CanvasLayer
 
 		MainPanel.Open += OpenPanel;
 		ShopKeeperPanel.Open += OpenPanel;
+		GameSavePanel.Open += OpenPanel;
 	}
 
 	public override void _ExitTree()
@@ -45,25 +48,7 @@ public partial class PauseMenu : CanvasLayer
 
 		MainPanel.Open -= OpenPanel;
 		ShopKeeperPanel.Open -= OpenPanel;
-	}
-
-	public override void _PhysicsProcess(double delta)
-	{
-		if (Input.IsActionJustPressed(_UP_INPUT))
-		{
-			_panelList.ForEach(x =>
-			{
-				x.MoveFocusBackward();
-			});
-		}
-
-		if (Input.IsActionJustPressed(_DOWN_INPUT))
-		{
-			_panelList.ForEach(x =>
-			{
-				x.MoveFocusForward();
-			});
-		}
+		GameSavePanel.Open -= OpenPanel;
 	}
 
 	private List<BaseMenuPanel> GetPauseMenuPanels()
@@ -71,6 +56,7 @@ public partial class PauseMenu : CanvasLayer
 		var result = new List<BaseMenuPanel>();
 		result.Add(MainPanel);
 		result.Add(ShopKeeperPanel);
+		result.Add(GameSavePanel);
 		return result;
 	}
 
@@ -86,7 +72,6 @@ public partial class PauseMenu : CanvasLayer
 		_panelList.ForEach(x =>
 		{
 			x.Visible = false;
-			x.FocusIndex = 0;
 		});
 	}
 	

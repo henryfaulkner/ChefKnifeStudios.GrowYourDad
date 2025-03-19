@@ -6,7 +6,7 @@
 
 [sub_resource type="Curve2D" id="Curve2D_ra2vn"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 305, 35, 0, 0, 0, 0, 0, 0)
+"points": PackedVector2Array(0, 0, 0, 0, 80, 1000, 0, 0, 0, 0, 0, 1010)
 }
 point_count = 2
 
@@ -30,8 +30,8 @@ _hurtBox = NodePath("PathFollow2D/StaticBody2D/HurtBox")
 _hitBox = NodePath("PathFollow2D/StaticBody2D/HitBox")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="."]
-position = Vector2(305, 35)
-rotation = -3.02734
+position = Vector2(80, 1000)
+rotation = 3.01724
 
 [node name="StaticBody2D" type="StaticBody2D" parent="PathFollow2D"]
 collision_layer = 6
