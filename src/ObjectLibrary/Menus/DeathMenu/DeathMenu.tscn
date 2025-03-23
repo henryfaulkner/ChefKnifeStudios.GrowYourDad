@@ -1,0 +1,86 @@
+[gd_scene load_steps=2 format=3 uid="uid://gj2bwugoogxn"]
+
+[ext_resource type="Script" path="res://ObjectLibrary/Menus/DeathMenu/DeathMenu.cs" id="1_nmieh"]
+
+[node name="DeathMenu" type="CanvasLayer"]
+script = ExtResource("1_nmieh")
+
+[node name="Panel" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 300
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 300
+theme_override_constants/margin_bottom = 100
+
+[node name="Panels" type="VBoxContainer" parent="Panel"]
+layout_mode = 2
+
+[node name="MainPanel" type="Panel" parent="Panel/Panels"]
+layout_mode = 2
+
+[node name="+" type="Control" parent="Panel/Panels/MainPanel"]
+layout_mode = 2
+anchors_preset = 0
+offset_top = -447.0
+offset_right = 552.0
+offset_bottom = -302.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel/Panels/MainPanel/+"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 64
+text = "RESUME"
+
+[node name="GameSaves" type="Control" parent="Panel/Panels/MainPanel"]
+layout_mode = 2
+anchors_preset = 0
+offset_top = -298.0
+offset_right = 552.0
+offset_bottom = -153.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel/Panels/MainPanel/GameSaves"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "[dropcap font_size=64 margins=96,0,0,0]
+	RESUME
+[/dropcap]"
+
+[node name="ReturnToSurface" type="Control" parent="Panel/Panels/MainPanel"]
+layout_mode = 2
+anchors_preset = 0
+offset_top = -149.0
+offset_right = 552.0
+offset_bottom = -4.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel/Panels/MainPanel/ReturnToSurface"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "[dropcap font_size=64 margins=96,0,0,0]
+	RESUME
+[/dropcap]"

@@ -5,18 +5,22 @@ public partial class OpenClosePauseMenuListener : Node2D
 {
 	private static readonly StringName _PAUSE_INPUT = new StringName("pause");
 
-	PauseMenuService _pauseMenuService = null!;
+	public MenuBusiness MenuBusiness { get; set; } = null!;
 
 	[Export]
 	private Panel BaseMenuPanels { get; set; } = null!;
 
+	public void Init(MenuBusiness menuBusiness)
+	{
+		MenuBusiness = menuBusiness;
+		
+		MenuBusiness.OpenMenu += HandleOpenMenu;
+		MenuBusiness.CloseMenu += HandleCloseMenu;
+	}
+
 	public override void _Ready()
 	{
-		_pauseMenuService = GetNode<PauseMenuService>(Constants.SingletonNodes.PauseMenuService);
-
 		ProcessMode = Node.ProcessModeEnum.Always;
-		_pauseMenuService.OpenMenu += HandleOpenMenu;
-		_pauseMenuService.CloseMenu += HandleCloseMenu;
 	}
 
 	public override void _Process(double _delta)
@@ -25,21 +29,21 @@ public partial class OpenClosePauseMenuListener : Node2D
 		{
 			if (GetTree().Paused)
 			{
-				_pauseMenuService.EmitCloseMenu();
+				MenuBusiness.EmitCloseMenu();
 			}
 			else
 			{
-				_pauseMenuService.EmitOpenMenu();
+				MenuBusiness.EmitOpenMenu();
 			}
 		}
 	}
 
 	public override void _ExitTree()
 	{
-		if (_pauseMenuService != null)
+		if (MenuBusiness != null)
 		{
-			_pauseMenuService.OpenMenu -= HandleOpenMenu;
-			_pauseMenuService.CloseMenu -= HandleCloseMenu;
+			MenuBusiness.OpenMenu -= HandleOpenMenu;
+			MenuBusiness.CloseMenu -= HandleCloseMenu;
 		}
 	}
 

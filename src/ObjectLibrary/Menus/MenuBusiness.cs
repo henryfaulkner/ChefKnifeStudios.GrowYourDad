@@ -1,15 +1,10 @@
 using System.Collections.Generic;
 using Godot;
 
-public partial class PauseMenuService : Node
+public partial class MenuBusiness : Node
 {
-	public Stack<BaseMenuPanel> WorkingDirectory { get; set; } = null!;
-	public List<BaseMenuPanel> PanelList { get; set; } = null!;
-
-	public override void _Ready()
-	{
-		WorkingDirectory = new Stack<BaseMenuPanel>();
-	}
+	public Stack<BaseMenuPanel> WorkingDirectory { get; set; } = new Stack<BaseMenuPanel>();
+	public List<BaseMenuPanel> PanelList { get; set; } = new List<BaseMenuPanel>();
 
 	public void SetPanelList(List<BaseMenuPanel> panelList)
 	{

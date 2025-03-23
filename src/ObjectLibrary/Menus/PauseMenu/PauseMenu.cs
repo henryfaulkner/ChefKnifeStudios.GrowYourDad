@@ -17,33 +17,45 @@ public partial class PauseMenu : CanvasLayer
 	ShopKeeperPanel ShopKeeperPanel { get; set; } = null!;
 	[Export]
 	GameSavePanel GameSavePanel { get; set; } = null!;
-
-	PauseMenuService _pauseMenuService = null!;
+	[Export]
+	OpenClosePauseMenuListener PauseListener { get; set; } = null!;
+	[Export]
+	public MenuBusiness MenuBusiness { get; set; } = null!;
 	
 	List<BaseMenuPanel> _panelList { get; set; } = null!;
-
 	
 	public override void _Ready()
 	{
 		ProcessMode = Node.ProcessModeEnum.WhenPaused;
-		_panelList = GetPauseMenuPanels();
-		_pauseMenuService = GetNode<PauseMenuService>("/root/PauseMenuService");
-		_pauseMenuService.SetPanelList(GetPauseMenuPanels());
+		MainPanel.Init(MenuBusiness);
+		ShopKeeperPanel.Init(MenuBusiness);
+		GameSavePanel.Init(MenuBusiness);
+		PauseListener.Init(MenuBusiness);
 
-		_pauseMenuService.OpenMenu += HandleOpenMenu;
-		_pauseMenuService.CloseMenu += HandleCloseMenu;
+		_panelList = new List<BaseMenuPanel>
+		{
+			MainPanel,
+			ShopKeeperPanel,
+			GameSavePanel
+		};
+		MenuBusiness.SetPanelList(_panelList);
+
+		MenuBusiness.OpenMenu += HandleOpenMenu;
+		MenuBusiness.CloseMenu += HandleCloseMenu;
 
 		MainPanel.Open += OpenPanel;
 		ShopKeeperPanel.Open += OpenPanel;
 		GameSavePanel.Open += OpenPanel;
+
+		MenuBusiness.EmitCloseMenu();
 	}
 
 	public override void _ExitTree()
 	{
-		if (_pauseMenuService != null)
+		if (MenuBusiness != null)
 		{
-			_pauseMenuService.OpenMenu -= HandleOpenMenu;
-			_pauseMenuService.CloseMenu -= HandleCloseMenu;
+			MenuBusiness.OpenMenu -= HandleOpenMenu;
+			MenuBusiness.CloseMenu -= HandleCloseMenu;
 		}
 
 		MainPanel.Open -= OpenPanel;
@@ -51,13 +63,24 @@ public partial class PauseMenu : CanvasLayer
 		GameSavePanel.Open -= OpenPanel;
 	}
 
-	private List<BaseMenuPanel> GetPauseMenuPanels()
-	{
-		var result = new List<BaseMenuPanel>();
-		result.Add(MainPanel);
-		result.Add(ShopKeeperPanel);
-		result.Add(GameSavePanel);
-		return result;
+	public override void _PhysicsProcess(double delta)
+ 	{
+		// DISABLING MANUAL FOCUS
+ 		// if (Input.IsActionJustPressed(_UP_INPUT))
+ 		// {
+ 		// 	_panelList.ForEach(x =>
+ 		// 	{
+ 		// 		x.MoveFocusBackward();
+ 		// 	});
+ 		// }
+ 
+ 		// if (Input.IsActionJustPressed(_DOWN_INPUT))
+ 		// {
+ 		// 	_panelList.ForEach(x =>
+ 		// 	{
+ 		// 		x.MoveFocusForward();
+ 		// 	});
+ 		// }
 	}
 
 	public void OpenPanel(int openPanelId)

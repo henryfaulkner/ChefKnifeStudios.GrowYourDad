@@ -15,16 +15,16 @@ public partial class ShopKeeperPanel : BaseMenuPanel
 	public override Enumerations.PauseMenuPanels Id => Enumerations.PauseMenuPanels.ShopKeeper;
 	
 	ILoggerService _logger = null!;
-	PauseMenuService _pauseMenuService = null!;
 	IShopKeeperService _shopKeeperService = null!;
 	IPcInventoryService _pcInventoryService = null!;
 	IPcWalletService _pcWalletService = null!;
 	ICrawlStatsService _crawlStatsService = null!;
 
+	public MenuBusiness MenuBusiness { get; set; } = null!;
+
 	public override void _Ready()
 	{
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
-		_pauseMenuService = GetNode<PauseMenuService>(Constants.SingletonNodes.PauseMenuService);
 		_shopKeeperService = GetNode<IShopKeeperService>(Constants.SingletonNodes.ShopKeeperService);
 		_pcInventoryService = GetNode<IPcInventoryService>(Constants.SingletonNodes.PcInventoryService);
 		_pcWalletService = GetNode<IPcWalletService>(Constants.SingletonNodes.PcWalletService);
@@ -42,6 +42,11 @@ public partial class ShopKeeperPanel : BaseMenuPanel
 		_shopKeeperService.GetShopItems();
 	}
 
+	public void Init(MenuBusiness menuBusiness)
+	{
+		MenuBusiness = menuBusiness;
+	}
+
 	public override void _ExitTree()
 	{
 		if (BackBtn != null)
@@ -55,7 +60,7 @@ public partial class ShopKeeperPanel : BaseMenuPanel
 
 	void HandleBack()
 	{
-		var resultPanel = _pauseMenuService.PopPanel();
+		var resultPanel = MenuBusiness.PopPanel();
 		EmitSignal(SignalName.Open, (int)resultPanel.Id);
 	}
 

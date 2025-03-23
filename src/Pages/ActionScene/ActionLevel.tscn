@@ -16,7 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://ctmmi8iho7gu4" path="res://Assets/Images/Icons/HeartMeterIcon.png" id="7_g4q0p"]
 [ext_resource type="Script" path="res://ObjectLibrary/PC/Areas/PcMagnetArea.cs" id="7_qgake"]
 [ext_resource type="Texture2D" uid="uid://dw5fvi3uh70tn" path="res://Assets/Images/Icons/StatsIconFA.png" id="8_qos51"]
-[ext_resource type="PackedScene" uid="uid://dwlmfdqio1b4g" path="res://ObjectLibrary/PauseMenu/PauseMenu.tscn" id="14_1jdno"]
+[ext_resource type="PackedScene" uid="uid://dwlmfdqio1b4g" path="res://ObjectLibrary/Menus/PauseMenu/PauseMenu.tscn" id="14_1jdno"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ae0j7"]
 size = Vector2(21, 21)

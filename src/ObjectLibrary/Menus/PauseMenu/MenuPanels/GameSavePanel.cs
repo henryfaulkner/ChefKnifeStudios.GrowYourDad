@@ -31,14 +31,19 @@ public partial class GameSavePanel : BaseMenuPanel
 	
 	IUnitOfWork _unitOfWork = null!;
 	ILoggerService _logger = null!;
-	PauseMenuService _pauseMenuService = null!;
 	ICrawlStatsService _crawlStatsService = null!;
+
+	public MenuBusiness MenuBusiness { get; set; } = null!;
 	
+	public void Init(MenuBusiness menuBusiness)
+	{
+		MenuBusiness = menuBusiness;
+	}
+
 	public override void _Ready()
 	{
 		_unitOfWork = GetNode<IUnitOfWork>(Constants.SingletonNodes.UnitOfWork);
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
-		_pauseMenuService = GetNode<PauseMenuService>(Constants.SingletonNodes.PauseMenuService);
 		_crawlStatsService = GetNode<ICrawlStatsService>(Constants.SingletonNodes.CrawlStatsService);
 		
 		IEnumerable<GameSave> gameSaves = _unitOfWork.GameSaveRepository.GetAll();
@@ -153,7 +158,7 @@ public partial class GameSavePanel : BaseMenuPanel
 
 	void HandleBack()
 	{
-		var resultPanel = _pauseMenuService.PopPanel();
+		var resultPanel = MenuBusiness.PopPanel();
 		EmitSignal(SignalName.Open, (int)resultPanel.Id);
 	}
 
@@ -167,7 +172,6 @@ public partial class GameSavePanel : BaseMenuPanel
 			return;
 		}
 
-		GD.Print($"GameSave Id: {gameSave.Id}");
 		_crawlStatsService.GameSave = gameSave;
 	}
 

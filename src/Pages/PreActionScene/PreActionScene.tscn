@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Pages/PreActionScene/PreActionScene.cs" id="1_bb6b4"]
 [ext_resource type="PackedScene" uid="uid://bg8l4v4jd010p" path="res://ObjectLibrary/PC/PC.tscn" id="1_ec0l0"]
 [ext_resource type="PackedScene" uid="uid://cpwrvs0vtdn42" path="res://ObjectLibrary/PC/Controllers/GravityController.tscn" id="2_sii2s"]
-[ext_resource type="PackedScene" uid="uid://dwlmfdqio1b4g" path="res://ObjectLibrary/PauseMenu/PauseMenu.tscn" id="3_l3csv"]
+[ext_resource type="PackedScene" uid="uid://dwlmfdqio1b4g" path="res://ObjectLibrary/Menus/PauseMenu/PauseMenu.tscn" id="3_l3csv"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_v3wyx"]
 [ext_resource type="Script" path="res://ObjectLibrary/PC/Areas/PcHurtBoxArea.cs" id="4_vu6po"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="5_pls7o"]
@@ -38,9 +38,6 @@ script = ExtResource("4_vu6po")
 shape = SubResource("RectangleShape2D_bliku")
 debug_color = Color(0, 0.701961, 0, 0.419608)
 
-[node name="PauseMenu" parent="." instance=ExtResource("3_l3csv")]
-visible = false
-
 [node name="Camera2D" type="Camera2D" parent="."]
 physics_interpolation_mode = 1
 process_callback = 0
@@ -68,3 +65,5 @@ position = Vector2(560, 200)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DoorArea"]
 shape = SubResource("RectangleShape2D_vkmmg")
+
+[node name="PauseMenu" parent="." instance=ExtResource("3_l3csv")]

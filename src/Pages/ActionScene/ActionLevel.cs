@@ -8,14 +8,12 @@ public partial class ActionLevel : Node2D
 	ILoggerService _logger = null!;
 	IPcMeterService _pcMeterService = null!;
 	IPcInventoryService _pcInventoryService = null!;
-	PauseMenuService _pauseMenuService = null!;
 	Observables _observables = null!;
 
 	public override void _Ready()
 	{
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 		_pcMeterService = GetNode<IPcMeterService>(Constants.SingletonNodes.PcMeterService);
-		_pauseMenuService = GetNode<PauseMenuService>(Constants.SingletonNodes.PauseMenuService);
 		_pcInventoryService = GetNode<IPcInventoryService>(Constants.SingletonNodes.PcInventoryService);
 		_observables = GetNode<Observables>(Constants.SingletonNodes.Observables);
 
@@ -29,7 +27,5 @@ public partial class ActionLevel : Node2D
 		_observables.EmitUpdateHpMeterMax(_pcMeterService.HpMax);
 		_observables.EmitUpdateSpMeterValue(_pcMeterService.SpValue);
 		_observables.EmitUpdateSpMeterMax(_pcMeterService.SpMax);
-
-		_pauseMenuService.EmitCloseMenu();
 	}
 }

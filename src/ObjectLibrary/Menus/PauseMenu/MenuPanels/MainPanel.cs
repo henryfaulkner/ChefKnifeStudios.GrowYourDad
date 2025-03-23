@@ -19,18 +19,23 @@ public partial class MainPanel : BaseMenuPanel
 
 	public override Enumerations.PauseMenuPanels Id => Enumerations.PauseMenuPanels.Main;
 	
-	PauseMenuService _pauseMenuService = null!;
 	IPcInventoryService _pcInventoryService = null!;
 	IPcWalletService _pcWalletService = null!;
+
+	public MenuBusiness MenuBusiness { get; set; } = null!;
 
 	public MainPanel()
 	{
 		_preactionLevelScene = (PackedScene)ResourceLoader.Load(PREACTION_LEVEL_PATH);
 	}
 
+	public void Init(MenuBusiness menuBusiness)
+	{
+		MenuBusiness = menuBusiness;
+	}
+
 	public override void _Ready()
 	{
-		_pauseMenuService = GetNode<PauseMenuService>(Constants.SingletonNodes.PauseMenuService);
 		_pcInventoryService = GetNode<IPcInventoryService>(Constants.SingletonNodes.PcInventoryService);
 		_pcWalletService = GetNode<IPcWalletService>(Constants.SingletonNodes.PcWalletService);
 
@@ -71,18 +76,18 @@ public partial class MainPanel : BaseMenuPanel
 
 	private void HandleResumeBtnClick()
 	{
-		_pauseMenuService.EmitCloseMenu();
+		MenuBusiness.EmitCloseMenu();
 	}
 
 	private void HandleShopKeeperBtnClick()
 	{
-		_pauseMenuService.PushPanel(this);
+		MenuBusiness.PushPanel(this);
 		EmitSignal(SignalName.Open, (int)Enumerations.PauseMenuPanels.ShopKeeper);
 	}
 	
 	void HandleGameSaveBtnClick()
 	{
-		_pauseMenuService.PushPanel(this);
+		MenuBusiness.PushPanel(this);
 		EmitSignal(SignalName.Open, (int)Enumerations.PauseMenuPanels.GameSave);
 	}
 
