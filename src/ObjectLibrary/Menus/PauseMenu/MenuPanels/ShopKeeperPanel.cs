@@ -12,7 +12,7 @@ public partial class ShopKeeperPanel : BaseMenuPanel
 	[Export]
 	BaseButton BuyBtn = null!;
 	
-	public override Enumerations.PauseMenuPanels Id => Enumerations.PauseMenuPanels.ShopKeeper;
+	public override int Id => (int)Enumerations.PauseMenuPanels.ShopKeeper;
 	
 	ILoggerService _logger = null!;
 	IShopKeeperService _shopKeeperService = null!;
@@ -30,10 +30,7 @@ public partial class ShopKeeperPanel : BaseMenuPanel
 		_pcWalletService = GetNode<IPcWalletService>(Constants.SingletonNodes.PcWalletService);
 		_crawlStatsService = GetNode<ICrawlStatsService>(Constants.SingletonNodes.CrawlStatsService);
 
-		Controls = new List<Control>();
-		Controls.Add(BackBtn);
-		Controls.Add(ItemOptionBtn);
-		Controls.Add(BuyBtn);
+		Controls = [BackBtn, ItemOptionBtn, BuyBtn];
 		
 		BackBtn.Pressed += HandleBack;	
 		PopulateItemOptions();

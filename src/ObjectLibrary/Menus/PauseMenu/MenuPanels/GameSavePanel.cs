@@ -27,7 +27,7 @@ public partial class GameSavePanel : BaseMenuPanel
 	[Export]
 	BaseButton SubmitBtn { get; set; } = null!;
 	
-	public override Enumerations.PauseMenuPanels Id => Enumerations.PauseMenuPanels.GameSave;
+	public override int Id => (int)Enumerations.PauseMenuPanels.GameSave;
 	
 	IUnitOfWork _unitOfWork = null!;
 	ILoggerService _logger = null!;
@@ -47,11 +47,8 @@ public partial class GameSavePanel : BaseMenuPanel
 		_crawlStatsService = GetNode<ICrawlStatsService>(Constants.SingletonNodes.CrawlStatsService);
 		
 		IEnumerable<GameSave> gameSaves = _unitOfWork.GameSaveRepository.GetAll();
-		Controls = new List<Control>();
-		Controls.Add(BackBtn);
+		Controls = [BackBtn];
 		BackBtn.Pressed += HandleBack;
-		
-		GD.Print($"gameSaves.Count() {gameSaves.Count()}");
 		
 		if (gameSaves.Count() > 0)
 		{

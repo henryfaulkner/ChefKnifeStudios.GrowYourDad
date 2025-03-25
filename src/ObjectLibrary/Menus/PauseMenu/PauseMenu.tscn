@@ -32,7 +32,7 @@ theme_override_constants/margin_top = 80
 theme_override_constants/margin_right = 160
 theme_override_constants/margin_bottom = 80
 
-[node name="MainPanel" type="Panel" parent="MarginContainer" node_paths=PackedStringArray("ResumeBtn", "ShopKeeperBtn", "GameSaveBtn", "MainMenuBtn", "MenuBusiness")]
+[node name="MainPanel" type="Panel" parent="MarginContainer" node_paths=PackedStringArray("ResumeBtn", "ShopKeeperBtn", "GameSaveBtn", "MainMenuBtn")]
 visible = false
 layout_mode = 2
 theme = SubResource("Theme_whrd5")
@@ -42,7 +42,6 @@ ResumeBtn = NodePath("PaddingContainer/VBoxContainer/ResumeButton")
 ShopKeeperBtn = NodePath("PaddingContainer/VBoxContainer/ShopKeeperButton")
 GameSaveBtn = NodePath("PaddingContainer/VBoxContainer/GameSaveButton")
 MainMenuBtn = NodePath("PaddingContainer/VBoxContainer/MainMenuButton")
-MenuBusiness = NodePath("../../MenuBusiness")
 
 [node name="PaddingContainer" type="MarginContainer" parent="MarginContainer/MainPanel"]
 layout_mode = 1
@@ -129,7 +128,7 @@ theme_override_font_sizes/font_size = 40
 text = "Version 0.0.1"
 horizontal_alignment = 1
 
-[node name="ShopKeeperPanel" type="Panel" parent="MarginContainer" node_paths=PackedStringArray("BackBtn", "ItemOptionBtn", "BuyBtn", "MenuBusiness")]
+[node name="ShopKeeperPanel" type="Panel" parent="MarginContainer" node_paths=PackedStringArray("BackBtn", "ItemOptionBtn", "BuyBtn")]
 visible = false
 layout_mode = 2
 theme = SubResource("Theme_whrd5")
@@ -138,7 +137,6 @@ script = ExtResource("7_kid54")
 BackBtn = NodePath("PaddingContainer/VBoxContainer/BackButton")
 ItemOptionBtn = NodePath("PaddingContainer/VBoxContainer/OptionButton")
 BuyBtn = NodePath("PaddingContainer/VBoxContainer/BuyButton")
-MenuBusiness = NodePath("../../MenuBusiness")
 
 [node name="PaddingContainer" type="MarginContainer" parent="MarginContainer/ShopKeeperPanel"]
 layout_mode = 1
@@ -209,14 +207,13 @@ theme_override_font_sizes/font_size = 40
 text = "Version 0.0.1"
 horizontal_alignment = 1
 
-[node name="GameSavePanel" type="Panel" parent="MarginContainer" node_paths=PackedStringArray("BackBtn", "MenuBusiness", "GameSaveOptionsSeparator", "GameSaveOptions", "UsernameBtns", "NewGameSaveSeparator", "NewGameSaveTextBox", "SubmitBtnSeparator", "SubmitBtn")]
+[node name="GameSavePanel" type="Panel" parent="MarginContainer" node_paths=PackedStringArray("BackBtn", "GameSaveOptionsSeparator", "GameSaveOptions", "UsernameBtns", "NewGameSaveSeparator", "NewGameSaveTextBox", "SubmitBtnSeparator", "SubmitBtn")]
 visible = false
 layout_mode = 2
 theme = SubResource("Theme_whrd5")
 theme_override_styles/panel = ExtResource("2_4lxy2")
 script = ExtResource("8_le7e0")
 BackBtn = NodePath("PaddingContainer/VBoxContainer/BackButton")
-MenuBusiness = NodePath("../../MenuBusiness")
 GameSaveOptionsSeparator = NodePath("PaddingContainer/VBoxContainer/GameSaveOptionsSeparator")
 GameSaveOptions = NodePath("PaddingContainer/VBoxContainer/GameSaveOptions")
 UsernameBtns = [NodePath("PaddingContainer/VBoxContainer/GameSaveOptions/SaveOneButton"), NodePath("PaddingContainer/VBoxContainer/GameSaveOptions/SaveTwoButton"), NodePath("PaddingContainer/VBoxContainer/GameSaveOptions/SaveThreeButton")]
@@ -325,9 +322,8 @@ theme_override_font_sizes/font_size = 40
 text = "Version 0.0.1"
 horizontal_alignment = 1
 
-[node name="OpenCloseMenuListener" type="Node2D" parent="." node_paths=PackedStringArray("MenuBusiness", "BaseMenuPanels")]
+[node name="OpenCloseMenuListener" type="Node2D" parent="." node_paths=PackedStringArray("BaseMenuPanels")]
 script = ExtResource("9_tt8pv")
-MenuBusiness = NodePath("../MenuBusiness")
 BaseMenuPanels = NodePath("../MarginContainer/MainPanel")
 
 [node name="MenuBusiness" type="Node" parent="."]

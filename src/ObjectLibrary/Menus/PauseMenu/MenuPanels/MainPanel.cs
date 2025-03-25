@@ -17,7 +17,7 @@ public partial class MainPanel : BaseMenuPanel
 	static readonly StringName PREACTION_LEVEL_PATH = new StringName("res://Pages/PreActionScene/PreActionScene.tscn");
 	readonly PackedScene _preactionLevelScene;
 
-	public override Enumerations.PauseMenuPanels Id => Enumerations.PauseMenuPanels.Main;
+	public override int Id => (int)Enumerations.PauseMenuPanels.Main;
 	
 	IPcInventoryService _pcInventoryService = null!;
 	IPcWalletService _pcWalletService = null!;
@@ -39,11 +39,7 @@ public partial class MainPanel : BaseMenuPanel
 		_pcInventoryService = GetNode<IPcInventoryService>(Constants.SingletonNodes.PcInventoryService);
 		_pcWalletService = GetNode<IPcWalletService>(Constants.SingletonNodes.PcWalletService);
 
-		Controls = new List<Control>();
-		Controls.Add(ResumeBtn);
-		Controls.Add(ShopKeeperBtn);
-		Controls.Add(GameSaveBtn);
-		Controls.Add(MainMenuBtn);
+		Controls = [ResumeBtn, ShopKeeperBtn, GameSaveBtn, MainMenuBtn];
 		
 		ResumeBtn.Pressed += HandleResumeBtnClick;
 		ShopKeeperBtn.Pressed += HandleShopKeeperBtnClick;

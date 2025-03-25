@@ -38,7 +38,6 @@ public partial class PauseMenu : CanvasLayer
 			ShopKeeperPanel,
 			GameSavePanel
 		};
-		MenuBusiness.SetPanelList(_panelList);
 
 		MenuBusiness.OpenMenu += HandleOpenMenu;
 		MenuBusiness.CloseMenu += HandleCloseMenu;

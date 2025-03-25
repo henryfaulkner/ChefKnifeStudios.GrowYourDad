@@ -4,12 +4,6 @@ using Godot;
 public partial class MenuBusiness : Node
 {
 	public Stack<BaseMenuPanel> WorkingDirectory { get; set; } = new Stack<BaseMenuPanel>();
-	public List<BaseMenuPanel> PanelList { get; set; } = new List<BaseMenuPanel>();
-
-	public void SetPanelList(List<BaseMenuPanel> panelList)
-	{
-		PanelList = panelList;
-	}
 
 	public void PushPanel(BaseMenuPanel priorPanel)
 	{
