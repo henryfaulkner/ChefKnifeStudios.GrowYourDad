@@ -10,12 +10,15 @@ public interface IPcMeterService
 	int SpMax { get; set; }
 }
 
-public partial class PcMeterService : Node, IPcMeterService 
+public partial class PcMeterService : GameStateSingletonBase, IPcMeterService 
 {
-	private int _hpValue = -1;
-	private int _hpMax = -1;
-	private int _spValue = -1;
-	private int _spMax = -1;
+	const int INITIAL_HP = 3;
+	const int INITIAL_SP = 3;
+
+	private int _hpValue = INITIAL_HP;
+	private int _hpMax = INITIAL_HP;
+	private int _spValue = INITIAL_SP;
+	private int _spMax = INITIAL_SP;
 
 	public int HpValue
 	{
@@ -89,7 +92,15 @@ public partial class PcMeterService : Node, IPcMeterService
 		_crawlStatsService = GetNode<ICrawlStatsService>(Constants.SingletonNodes.CrawlStatsService);
 	}
 
-	void HandleHpValueChange(int hpValue)
+    public override void Clear()
+    {
+        HpValue = INITIAL_HP;
+        HpMax = INITIAL_HP;
+        SpValue = INITIAL_SP;
+        SpMax = INITIAL_SP;
+    }
+
+    void HandleHpValueChange(int hpValue)
 	{
 		_observables.EmitUpdateHpMeterValue(hpValue);
 	}
@@ -109,14 +120,13 @@ public partial class PcMeterService : Node, IPcMeterService
 		_observables.EmitUpdateSpMeterMax(spMax);
 	}
 
-	private void HandleDeath()
+	void HandleDeath()
 	{
 		_crawlStatsService.CrawlStats.ProteinsBanked = _pcWalletService.ProteinInWallet;
 		_crawlStatsService.CrawlStats.ItemsCollected = _pcInventoryService.CountInventory();
 		_crawlStatsService.PersistCrawlStats();
 
-		_pcInventoryService.Clear();
-		_pcWalletService.ProteinInWallet = 0;
+		_observables.EmitRestartCrawl();
 
 		// Use call_deferred to safely change the scene
 		CallDeferred(nameof(ChangeToActionLevel));

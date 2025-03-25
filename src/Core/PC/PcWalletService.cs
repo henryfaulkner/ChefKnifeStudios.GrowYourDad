@@ -7,12 +7,12 @@ public interface IPcWalletService
 	int ProteinInWallet { get; set; }
 }
 
-public partial class PcWalletService : Node, IPcWalletService
+public partial class PcWalletService : GameStateSingletonBase, IPcWalletService
 {
 	[Signal]
 	public delegate void RefreshWalletUIEventHandler();
 	
-	int _proteinInWallet;
+	int _proteinInWallet = 0;
 
 	public int ProteinInWallet
 	{
@@ -23,4 +23,9 @@ public partial class PcWalletService : Node, IPcWalletService
 			EmitSignal(SignalName.RefreshWalletUI);
 		}
 	}
+
+    public override void Clear()
+    {
+        ProteinInWallet = 0;
+    }
 }

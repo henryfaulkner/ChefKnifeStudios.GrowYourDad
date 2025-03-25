@@ -18,7 +18,7 @@ public interface IPcInventoryService
 	int GetPcDamage();
 }
 
-public partial class PcInventoryService : Node, IPcInventoryService
+public partial class PcInventoryService : GameStateSingletonBase, IPcInventoryService
 {
 	IPcMeterService _pcMeterService = null!;
 	ICrawlStatsService _crawlStatsService = null!;
@@ -63,7 +63,7 @@ public partial class PcInventoryService : Node, IPcInventoryService
 
 	public int CountInventory() => _itemInventory.Count();
 
-	public void Clear()
+	public override void Clear()
 	{
 		_itemInventory.Clear();
 	}

@@ -85,7 +85,7 @@ public partial class PauseMenu : CanvasLayer
 	public void OpenPanel(int openPanelId)
 	{
 		ResetAllPanels();
-		var openPanel = _panelList.Where(x => (int)x.Id == openPanelId).First();
+		var openPanel = _panelList.Where(x => x.Id == openPanelId).First();
 		openPanel.OpenPanel();
 	}
 

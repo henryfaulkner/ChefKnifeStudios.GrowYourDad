@@ -19,8 +19,7 @@ public partial class MainPanel : BaseMenuPanel
 
 	public override int Id => (int)Enumerations.PauseMenuPanels.Main;
 	
-	IPcInventoryService _pcInventoryService = null!;
-	IPcWalletService _pcWalletService = null!;
+	Observables _observables = null!;
 
 	public MenuBusiness MenuBusiness { get; set; } = null!;
 
@@ -36,8 +35,7 @@ public partial class MainPanel : BaseMenuPanel
 
 	public override void _Ready()
 	{
-		_pcInventoryService = GetNode<IPcInventoryService>(Constants.SingletonNodes.PcInventoryService);
-		_pcWalletService = GetNode<IPcWalletService>(Constants.SingletonNodes.PcWalletService);
+		_observables = GetNode<Observables>(Constants.SingletonNodes.Observables);
 
 		Controls = [ResumeBtn, ShopKeeperBtn, GameSaveBtn, MainMenuBtn];
 		
@@ -87,10 +85,9 @@ public partial class MainPanel : BaseMenuPanel
 		EmitSignal(SignalName.Open, (int)Enumerations.PauseMenuPanels.GameSave);
 	}
 
-	private void HandleMainMenuBtnClick()
+	void HandleMainMenuBtnClick()
 	{
-		_pcInventoryService.Clear();
-		_pcWalletService.ProteinInWallet = 0;
+		_observables.EmitRestartCrawl();
 
 		// Use call_deferred to safely change the scene
 		CallDeferred(nameof(ChangeToActionLevel));

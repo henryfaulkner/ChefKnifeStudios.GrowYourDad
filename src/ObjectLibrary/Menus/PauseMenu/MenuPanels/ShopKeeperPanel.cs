@@ -52,7 +52,7 @@ public partial class ShopKeeperPanel : BaseMenuPanel
 		}
 
 		if (BuyBtn != null)
-			BuyBtn.Pressed += HandleBuy;
+			BuyBtn.Pressed -= HandleBuy;
 	}
 
 	void HandleBack()

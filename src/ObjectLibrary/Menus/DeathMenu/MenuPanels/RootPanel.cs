@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class RootPanel : BaseMenuPanel
+public partial class RootPanel : TextButtonMenuPanel
 {
     const string OPTION_TEMPLATE = """
 		[dropcap font_size=64 margins={0},0,0,0]
@@ -22,8 +22,11 @@ public partial class RootPanel : BaseMenuPanel
     {
         for (int i = 0; i < Options.Length; i += 1)
 		{
-			Control control = new();
 			RichTextLabel label = new();
+			TextButton control = new() {
+				Label = label,
+				HandleSelectCallback = SelectHandlers[i],
+			};
 			AddChild(control);
 			control.AddChild(label);
 			label.Text = string.Format(OPTION_TEMPLATE, MARGIN_INTERVAL * i, Options[i]);
@@ -33,6 +36,4 @@ public partial class RootPanel : BaseMenuPanel
     void HandleResumeSelect() {}
 	void HandleGameSaveSelect() {}
 	void HandleReturnSelect() {}
-
-
 }

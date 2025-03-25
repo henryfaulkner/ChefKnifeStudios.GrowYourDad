@@ -46,4 +46,12 @@ public partial class Observables : Node
 		EmitSignal(SignalName.UpdateSpMeterMax, max);
 	}
 	#endregion
+
+	[Signal]
+	public delegate void RestartCrawlEventHandler();
+	public void EmitRestartCrawl()
+	{
+		EmitSignal(SignalName.RestartCrawl);
+	}
+
 } 
