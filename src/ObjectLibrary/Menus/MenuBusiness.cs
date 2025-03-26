@@ -3,15 +3,15 @@ using Godot;
 
 public partial class MenuBusiness : Node
 {
-	public Stack<BaseMenuPanel> WorkingDirectory { get; set; } = new Stack<BaseMenuPanel>();
+	public Stack<IMenuPanel> WorkingDirectory { get; } = new();
 
-	public void PushPanel(BaseMenuPanel priorPanel)
+	public void PushPanel(IMenuPanel priorPanel)
 	{
 		WorkingDirectory.Push(priorPanel);
 		return;
 	}
 
-	public BaseMenuPanel PopPanel()
+	public IMenuPanel PopPanel()
 	{
 		return WorkingDirectory.Pop();
 	}

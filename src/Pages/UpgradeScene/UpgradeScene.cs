@@ -8,21 +8,15 @@ public partial class UpgradeScene : CanvasLayer
 	[Export]
 	Area2D DoorArea { get; set; } = null!;
 
-	static readonly StringName ACTION_LEVEL_PATH = new StringName("res://Pages/ActionScene/ActionLevel.tscn");
-	readonly PackedScene _actionLevelScene = null!;
-
 	ILoggerService _logger = null!;
 	ICrawlStatsService _crawlStatsService = null!;
-
-	public UpgradeScene()
-	{
-		_actionLevelScene = (PackedScene)ResourceLoader.Load(ACTION_LEVEL_PATH);
-	}
+	NavigationAuthority _navigationAuthority = null!;
 
 	public override void _Ready()
 	{
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 		_crawlStatsService = GetNode<ICrawlStatsService>(Constants.SingletonNodes.CrawlStatsService);
+		_navigationAuthority = GetNode<NavigationAuthority>(Constants.SingletonNodes.NavigationAuthority);
 		
 		FreezeArea.AreaEntered += HandleFreezeAreaEntered;
 		DoorArea.AreaEntered += HandleDoorAreaEntered;
@@ -51,11 +45,6 @@ public partial class UpgradeScene : CanvasLayer
 	void HandleDoorAreaEntered(Area2D target)
 	{
 		// Use call_deferred to safely change the scene
-		CallDeferred(nameof(ChangeToActionLevel));
-	}
-
-	void ChangeToActionLevel()
-	{
-		GetTree().ChangeSceneToPacked(_actionLevelScene);
+		_navigationAuthority.CallDeferred("ChangeToActionLevel");
 	}
 }

@@ -1,4 +1,5 @@
 using Godot;
+using Microsoft.EntityFrameworkCore.Metadata;
 using System;
 
 public partial class PreActionScene : Node2D
@@ -6,23 +7,17 @@ public partial class PreActionScene : Node2D
 	[Export]
 	Area2D DoorArea { get; set; } = null!;
 
-	static readonly StringName ACTION_LEVEL_PATH = new StringName("res://Pages/ActionScene/ActionLevel.tscn");
-	readonly PackedScene _actionLevelScene = null!;
-
 	ILoggerService _logger = null!;
 	IPcMeterService _pcMeterService = null!;
 	IPcInventoryService _pcInventoryService = null!;
-
-	public PreActionScene()
-	{
-		_actionLevelScene = (PackedScene)ResourceLoader.Load(ACTION_LEVEL_PATH);
-	}
+	NavigationAuthority _navigationAuthority = null!;
 
 	public override void _Ready()
 	{
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 		_pcMeterService = GetNode<IPcMeterService>(Constants.SingletonNodes.PcMeterService);
 		_pcInventoryService = GetNode<IPcInventoryService>(Constants.SingletonNodes.PcInventoryService);
+		_navigationAuthority = GetNode<NavigationAuthority>(Constants.SingletonNodes.NavigationAuthority);
 		
 		_pcMeterService.HpValue = _pcInventoryService.GetPcHpMax();
 		_pcMeterService.HpMax = _pcInventoryService.GetPcHpMax();
@@ -54,11 +49,6 @@ public partial class PreActionScene : Node2D
 		});
 
 		// Use call_deferred to safely change the scene
-		CallDeferred(nameof(ChangeToActionLevel));
-	}
-
-	void ChangeToActionLevel()
-	{
-		GetTree().ChangeSceneToPacked(_actionLevelScene);
+		_navigationAuthority.CallDeferred("ChangeToActionLevel");
 	}
 }

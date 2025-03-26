@@ -13,20 +13,13 @@ public partial class MainPanel : BaseMenuPanel
 	BaseButton GameSaveBtn { get; set; } = null!;
 	[Export]
 	BaseButton MainMenuBtn { get; set; } = null!;
-	
-	static readonly StringName PREACTION_LEVEL_PATH = new StringName("res://Pages/PreActionScene/PreActionScene.tscn");
-	readonly PackedScene _preactionLevelScene;
 
 	public override int Id => (int)Enumerations.PauseMenuPanels.Main;
 	
 	Observables _observables = null!;
+	NavigationAuthority _navigationAuthority = null!;
 
 	public MenuBusiness MenuBusiness { get; set; } = null!;
-
-	public MainPanel()
-	{
-		_preactionLevelScene = (PackedScene)ResourceLoader.Load(PREACTION_LEVEL_PATH);
-	}
 
 	public void Init(MenuBusiness menuBusiness)
 	{
@@ -36,6 +29,7 @@ public partial class MainPanel : BaseMenuPanel
 	public override void _Ready()
 	{
 		_observables = GetNode<Observables>(Constants.SingletonNodes.Observables);
+		_navigationAuthority = GetNode<NavigationAuthority>(Constants.SingletonNodes.NavigationAuthority);
 
 		Controls = [ResumeBtn, ShopKeeperBtn, GameSaveBtn, MainMenuBtn];
 		
@@ -90,11 +84,6 @@ public partial class MainPanel : BaseMenuPanel
 		_observables.EmitRestartCrawl();
 
 		// Use call_deferred to safely change the scene
-		CallDeferred(nameof(ChangeToActionLevel));
-	}
-
-	void ChangeToActionLevel()
-	{
-		GetTree().ChangeSceneToPacked(_preactionLevelScene);
+		_navigationAuthority.CallDeferred("ChangeToPreActionLevel");
 	}
 }

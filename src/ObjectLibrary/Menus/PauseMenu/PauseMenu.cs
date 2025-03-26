@@ -62,26 +62,6 @@ public partial class PauseMenu : CanvasLayer
 		GameSavePanel.Open -= OpenPanel;
 	}
 
-	public override void _PhysicsProcess(double delta)
- 	{
-		// DISABLING MANUAL FOCUS
- 		// if (Input.IsActionJustPressed(_UP_INPUT))
- 		// {
- 		// 	_panelList.ForEach(x =>
- 		// 	{
- 		// 		x.MoveFocusBackward();
- 		// 	});
- 		// }
- 
- 		// if (Input.IsActionJustPressed(_DOWN_INPUT))
- 		// {
- 		// 	_panelList.ForEach(x =>
- 		// 	{
- 		// 		x.MoveFocusForward();
- 		// 	});
- 		// }
-	}
-
 	public void OpenPanel(int openPanelId)
 	{
 		ResetAllPanels();

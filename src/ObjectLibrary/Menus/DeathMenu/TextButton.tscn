@@ -1,0 +1,47 @@
+[gd_scene load_steps=4 format=3 uid="uid://vq783ucm887h"]
+
+[ext_resource type="Script" path="res://ObjectLibrary/Menus/DeathMenu/TextButton.cs" id="1_sk2gs"]
+[ext_resource type="FontFile" uid="uid://v3uifgysr27" path="res://Assets/Fonts/Union-Clan-Down-Shadow-Regular.otf" id="2_msnm7"]
+[ext_resource type="FontFile" uid="uid://btq44k635c25e" path="res://Assets/Fonts/Union-Clan-Regular.otf" id="3_nwkku"]
+
+[node name="TextButton" type="Control" node_paths=PackedStringArray("ForegroundLabel", "BackgroundLabel")]
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 2
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+script = ExtResource("1_sk2gs")
+ForegroundLabel = NodePath("ForegroundLabel")
+BackgroundLabel = NodePath("BackgroundLabel")
+
+[node name="BackgroundLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_colors/default_color = Color(1, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_msnm7")
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "Resume"
+
+[node name="ForegroundLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -0.5
+offset_right = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_colors/default_color = Color(1, 1, 0, 1)
+theme_override_fonts/normal_font = ExtResource("3_nwkku")
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "Resume"

@@ -69,19 +69,12 @@ public partial class PcMeterService : GameStateSingletonBase, IPcMeterService
 		}
 	}
 
-	static readonly StringName PREACTION_LEVEL_PATH = new StringName("res://Pages/PreActionScene/PreActionScene.tscn");
-	readonly PackedScene _preactionLevelScene;
-
 	ILoggerService _logger = null!;
 	Observables _observables = null!;
 	IPcInventoryService _pcInventoryService = null!;
 	IPcWalletService _pcWalletService = null!;
 	ICrawlStatsService _crawlStatsService = null!;
-
-	public PcMeterService()
-	{
-		_preactionLevelScene = (PackedScene)ResourceLoader.Load(PREACTION_LEVEL_PATH);
-	}
+	NavigationAuthority _navigationAuthority = null!;
 
 	public override void _Ready()
 	{
@@ -90,6 +83,7 @@ public partial class PcMeterService : GameStateSingletonBase, IPcMeterService
 		_pcInventoryService = GetNode<IPcInventoryService>(Constants.SingletonNodes.PcInventoryService);
 		_pcWalletService = GetNode<IPcWalletService>(Constants.SingletonNodes.PcWalletService);
 		_crawlStatsService = GetNode<ICrawlStatsService>(Constants.SingletonNodes.CrawlStatsService);
+		_navigationAuthority = GetNode<NavigationAuthority>(Constants.SingletonNodes.NavigationAuthority);
 	}
 
     public override void Clear()
@@ -129,11 +123,6 @@ public partial class PcMeterService : GameStateSingletonBase, IPcMeterService
 		_observables.EmitRestartCrawl();
 
 		// Use call_deferred to safely change the scene
-		CallDeferred(nameof(ChangeToActionLevel));
-	}
-
-	void ChangeToActionLevel()
-	{
-		GetTree().ChangeSceneToPacked(_preactionLevelScene);
+		_navigationAuthority.CallDeferred("ChangeToPreActionLevel");
 	}
 }

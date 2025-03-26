@@ -33,4 +33,10 @@ public partial class Enumerations
 		ShopKeeper,
 		GameSave,
 	}
+
+	public enum DeathMenuPanels
+	{
+		Root,
+		GameSaves,
+	}
 }

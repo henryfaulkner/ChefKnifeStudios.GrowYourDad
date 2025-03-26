@@ -20,5 +20,6 @@ public partial class Constants
 		public const string ShopKeeperService = "/root/ShopKeeperService";
 		public const string CrawlStatsService = "/root/CrawlStatsService";
 		public const string UnitOfWork = "/root/UnitOfWork";
+		public const string NavigationAuthority = "/root/NavigationAuthority";
 	}
 }

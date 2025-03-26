@@ -1,9 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://gj2bwugoogxn"]
+[gd_scene load_steps=6 format=3 uid="uid://gj2bwugoogxn"]
 
 [ext_resource type="Script" path="res://ObjectLibrary/Menus/DeathMenu/DeathMenu.cs" id="1_nmieh"]
+[ext_resource type="Script" path="res://ObjectLibrary/Menus/DeathMenu/MenuPanels/RootPanel.cs" id="2_cpy4m"]
+[ext_resource type="PackedScene" uid="uid://vq783ucm887h" path="res://ObjectLibrary/Menus/DeathMenu/TextButton.tscn" id="2_xlsuk"]
+[ext_resource type="Script" path="res://ObjectLibrary/Menus/MenuBusiness.cs" id="3_caavc"]
+[ext_resource type="Script" path="res://ObjectLibrary/Menus/DeathMenu/MenuPanels/GameSavesPanel.cs" id="4_rvnvv"]
 
-[node name="DeathMenu" type="CanvasLayer"]
+[node name="DeathMenu" type="CanvasLayer" node_paths=PackedStringArray("RootPanel", "GameSavesPanel", "MenuBusiness")]
 script = ExtResource("1_nmieh")
+RootPanel = NodePath("Panel/Panels/RootPanel")
+GameSavesPanel = NodePath("Panel/Panels/GameSavesPanel")
+MenuBusiness = NodePath("MenuBusiness")
 
 [node name="Panel" type="MarginContainer" parent="."]
 anchors_preset = 15
@@ -19,68 +26,58 @@ theme_override_constants/margin_bottom = 100
 [node name="Panels" type="VBoxContainer" parent="Panel"]
 layout_mode = 2
 
-[node name="MainPanel" type="Panel" parent="Panel/Panels"]
+[node name="RootPanel" type="Panel" parent="Panel/Panels" node_paths=PackedStringArray("NewCrawlBtn", "GameSavesBtn", "ReturnToSurfaceBtn")]
 layout_mode = 2
-
-[node name="+" type="Control" parent="Panel/Panels/MainPanel"]
-layout_mode = 2
-anchors_preset = 0
-offset_top = -447.0
-offset_right = 552.0
-offset_bottom = -302.0
-size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource("2_cpy4m")
+NewCrawlBtn = NodePath("VBoxContainer/NewCrawl")
+GameSavesBtn = NodePath("VBoxContainer/GameSaves")
+ReturnToSurfaceBtn = NodePath("VBoxContainer/ReturnToSurface")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Panel/Panels/MainPanel/+"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/Panels/RootPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 64
-text = "RESUME"
 
-[node name="GameSaves" type="Control" parent="Panel/Panels/MainPanel"]
+[node name="NewCrawl" parent="Panel/Panels/RootPanel/VBoxContainer" instance=ExtResource("2_xlsuk")]
 layout_mode = 2
-anchors_preset = 0
-offset_top = -298.0
-offset_right = 552.0
-offset_bottom = -153.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Panel/Panels/MainPanel/GameSaves"]
+[node name="GameSaves" parent="Panel/Panels/RootPanel/VBoxContainer" instance=ExtResource("2_xlsuk")]
+layout_mode = 2
+
+[node name="ReturnToSurface" parent="Panel/Panels/RootPanel/VBoxContainer" instance=ExtResource("2_xlsuk")]
+layout_mode = 2
+
+[node name="GameSavesPanel" type="Panel" parent="Panel/Panels" node_paths=PackedStringArray("GameSaveBtns", "BackBtn")]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("4_rvnvv")
+GameSaveBtns = [NodePath("VBoxContainer/GameSave1"), NodePath("VBoxContainer/GameSave2"), NodePath("VBoxContainer/GameSave3")]
+BackBtn = NodePath("VBoxContainer/Back")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/Panels/GameSavesPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 64
-bbcode_enabled = true
-text = "[dropcap font_size=64 margins=96,0,0,0]
-	RESUME
-[/dropcap]"
 
-[node name="ReturnToSurface" type="Control" parent="Panel/Panels/MainPanel"]
+[node name="GameSave1" parent="Panel/Panels/GameSavesPanel/VBoxContainer" instance=ExtResource("2_xlsuk")]
 layout_mode = 2
-anchors_preset = 0
-offset_top = -149.0
-offset_right = 552.0
-offset_bottom = -4.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Panel/Panels/MainPanel/ReturnToSurface"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 64
-bbcode_enabled = true
-text = "[dropcap font_size=64 margins=96,0,0,0]
-	RESUME
-[/dropcap]"
+[node name="GameSave2" parent="Panel/Panels/GameSavesPanel/VBoxContainer" instance=ExtResource("2_xlsuk")]
+layout_mode = 2
+
+[node name="GameSave3" parent="Panel/Panels/GameSavesPanel/VBoxContainer" instance=ExtResource("2_xlsuk")]
+layout_mode = 2
+
+[node name="Back" parent="Panel/Panels/GameSavesPanel/VBoxContainer" instance=ExtResource("2_xlsuk")]
+layout_mode = 2
+
+[node name="MenuBusiness" type="Node" parent="."]
+script = ExtResource("3_caavc")

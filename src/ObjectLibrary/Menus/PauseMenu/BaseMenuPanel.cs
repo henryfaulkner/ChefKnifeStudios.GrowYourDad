@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class BaseMenuPanel : Panel
+public partial class BaseMenuPanel : Panel, IMenuPanel
 {
 	[Signal]
 	public delegate void OpenEventHandler(int openPanelId);

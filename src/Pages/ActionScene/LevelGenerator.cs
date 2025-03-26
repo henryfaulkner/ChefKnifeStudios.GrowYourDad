@@ -21,11 +21,9 @@ public partial class LevelGenerator : Node2D
 	const int TILE_SQUARE_SIZE = 16;
 	const int CLIFF_TILE_SET_SOURCE_ID = 1;
 
-	static readonly StringName UPGRADE_LEVEL_PATH = new StringName("res://Pages/UpgradeScene/UpgradeScene.tscn");
-	readonly PackedScene _upgradeLevelScene;
-
 	IEnemyFactory _enemyFactory = null!;
 	ILoggerService _logger = null!;
+	NavigationAuthority _navigationAuthority = null!;
 
 	// List to store spawned obsticles
 	List<Node2D> _spawnedObsticles = new();
@@ -33,15 +31,11 @@ public partial class LevelGenerator : Node2D
 	Noise _noiseEnemy = null!;
 	Area2D _doorArea = null!;
 
-	public LevelGenerator()
-	{
-		_upgradeLevelScene = (PackedScene)ResourceLoader.Load(UPGRADE_LEVEL_PATH);
-	}
-
 	public override void _Ready()
 	{
 		_enemyFactory = GetNode<IEnemyFactory>(Constants.SingletonNodes.EnemyFactory);
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
+		_navigationAuthority = GetNode<NavigationAuthority>(Constants.SingletonNodes.NavigationAuthority);
 
 		_noisePlatform = _noiseTexturePlatform.Noise;
 		_noiseEnemy = _noiseTextureEnemy.Noise;
@@ -402,13 +396,8 @@ public partial class LevelGenerator : Node2D
 		if (target is PcHurtBoxArea pcHurtBoxArea)
 		{
 			// Use call_deferred to safely change the scene
-			CallDeferred(nameof(ChangeToUpgradeLevel));
+			_navigationAuthority.CallDeferred("ChangeToUpgradeLevel");
 		}
-	}
-
-	void ChangeToUpgradeLevel()
-	{
-		GetTree().ChangeSceneToPacked(_upgradeLevelScene);
 	}
 
 	private (Vector2, Vector2) CalculateLinePoints(Vector2 spawnPos, float length, int lowestWidth, int highestWidth, int lowestHeight, int highestHeight)
