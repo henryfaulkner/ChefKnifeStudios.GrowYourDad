@@ -208,7 +208,6 @@ text = "Version 0.0.1"
 horizontal_alignment = 1
 
 [node name="GameSavePanel" type="Panel" parent="MarginContainer" node_paths=PackedStringArray("BackBtn", "GameSaveOptionsSeparator", "GameSaveOptions", "UsernameBtns", "NewGameSaveSeparator", "NewGameSaveTextBox", "SubmitBtnSeparator", "SubmitBtn")]
-visible = false
 layout_mode = 2
 theme = SubResource("Theme_whrd5")
 theme_override_styles/panel = ExtResource("2_4lxy2")

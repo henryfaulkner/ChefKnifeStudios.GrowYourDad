@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 
 public partial class GameSavesPanel : TextButtonMenuPanel
 {
@@ -9,6 +10,9 @@ public partial class GameSavesPanel : TextButtonMenuPanel
 	TextButton[] GameSaveBtns { get; set; } = null!;
 	[Export]
 	TextButton BackBtn { get; set; } = null!;
+	
+	[Export]
+	NewGameSavePopupMenu NewGameSavePopup { get; set; } = null!;
 
 	public MenuBusiness MenuBusiness { get; set; } = null!;
 	public override int Id => (int)Enumerations.DeathMenuPanels.GameSaves;
@@ -32,6 +36,9 @@ public partial class GameSavesPanel : TextButtonMenuPanel
 	{
 		_unitOfWork = GetNode<IUnitOfWork>(Constants.SingletonNodes.UnitOfWork);
 		_crawlStatsService = GetNode<ICrawlStatsService>(Constants.SingletonNodes.CrawlStatsService);
+		
+		NewGameSavePopup.Visible = false;
+		NewGameSavePopup.Submitted += HandlePopupSubmitted;
 
 		_gameSaveEntityList = _unitOfWork.GameSaveRepository.GetAll().Take(3).ToList();
 
@@ -91,6 +98,7 @@ public partial class GameSavesPanel : TextButtonMenuPanel
 		else
 		{
 			// Show pop-up form to create new save game
+			NewGameSavePopup.Visible = true;
 		}
 	}
 
@@ -98,5 +106,11 @@ public partial class GameSavesPanel : TextButtonMenuPanel
 	{
 		var resultPanel = MenuBusiness.PopPanel();
 		EmitSignal(SignalName.Open, (int)resultPanel.Id);
+	}
+
+	void HandlePopupSubmitted() 
+	{
+		_gameSaveEntityList = _unitOfWork.GameSaveRepository.GetAll().Take(3).ToList();
+		MoveFocusTarget(_gameSaveEntityList.Count - 1); // Grab focus of new game save
 	}
 }
