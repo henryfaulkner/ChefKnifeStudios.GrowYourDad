@@ -9,20 +9,20 @@ public partial class HUD : CanvasLayer
 	[Export]
 	public Meter SpMeter { get; set; } = null!;
 	
-	[ExportGroup("Crawl Depth")]
+	[ExportGroup("Info")]
 	[Export]
 	public RichTextLabel CrawlDepthLabel { get; set; } = null!;
-
-	[ExportGroup("Protein")]
 	[Export]
 	public RichTextLabel ProteinLabel { get; set; } = null!;
+	
+	
 
 	Observables _observables = null!;
 	ILoggerService _logger = null!;
 	PcWalletService _pcWalletService = null!;
-	ICrawlStatsService _crawlStatsService = null!;
+	CrawlStatsService _crawlStatsService = null!;
 	
-	const string CRAWL_DEPTH_LABEL_TEXT = "[font_size=24][left]Level {0}[/left][/font_size]";
+	const string CRAWL_DEPTH_LABEL_TEXT = "[font_size=24][left]Level {0}[/left][/font_size]\n[font_size=20][i][left]{1}[/left][/i][/font_size] ";
 	const string PROTEIN_LABEL_TEXT = "[font_size=24][right]{0} proteins[/right][/font_size]";
 
 	public override void _Ready()
@@ -30,18 +30,19 @@ public partial class HUD : CanvasLayer
 		_observables = GetNode<Observables>(Constants.SingletonNodes.Observables);
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 		_pcWalletService = GetNode<PcWalletService>(Constants.SingletonNodes.PcWalletService);
-		_crawlStatsService = GetNode<ICrawlStatsService>(Constants.SingletonNodes.CrawlStatsService);
+		_crawlStatsService = GetNode<CrawlStatsService>(Constants.SingletonNodes.CrawlStatsService);
 
 		_observables.UpdateHpMeterValue += HpMeter.UpdateValue;
 		_observables.UpdateHpMeterMax += HpMeter.UpdateMax;
 
 		_observables.UpdateSpMeterValue += SpMeter.UpdateValue;
 		_observables.UpdateSpMeterMax += SpMeter.UpdateMax;
-		
-		CrawlDepthLabel.Text = string.Format(CRAWL_DEPTH_LABEL_TEXT, _crawlStatsService.CrawlStats.CrawlDepth_ToString());
 
 		_pcWalletService.RefreshWalletUI += HandleRefreshWalletUI;
 		HandleRefreshWalletUI();
+
+		_crawlStatsService.RefreshUI += HandleRefreshCrawlInfo;
+		HandleRefreshCrawlInfo();
 	}
 
 	public override void _ExitTree()
@@ -65,6 +66,11 @@ public partial class HUD : CanvasLayer
 		{
 			_pcWalletService.RefreshWalletUI -= HandleRefreshWalletUI;
 		}
+	}
+
+	void HandleRefreshCrawlInfo()
+	{
+		CrawlDepthLabel.Text = string.Format(CRAWL_DEPTH_LABEL_TEXT, _crawlStatsService.CrawlStats.CrawlDepth_ToString(), _crawlStatsService.GameSave?.Username ?? string.Empty);
 	}
 	
 	void HandleRefreshWalletUI()

@@ -12,6 +12,9 @@ public interface ICrawlStatsService
 
 public partial class CrawlStatsService : Node, ICrawlStatsService
 {
+	[Signal]
+	public delegate void RefreshUIEventHandler();
+
 	IUnitOfWork _unitOfWork = null!;
 	ILoggerService _logger = null!;
 
@@ -29,6 +32,7 @@ public partial class CrawlStatsService : Node, ICrawlStatsService
 		{
 			_gameSave = value;
 			CrawlStats.GameSaveId = _gameSave?.Id;
+			EmitSignal(SignalName.RefreshUI);
 		}
 	}
 
@@ -36,7 +40,11 @@ public partial class CrawlStatsService : Node, ICrawlStatsService
 	public CrawlStats CrawlStats
 	{
 		get => _crawlStats;
-		set => _crawlStats = value;
+		set 
+		{
+			_crawlStats = value;
+			EmitSignal(SignalName.RefreshUI);
+		}
 	}
 
 	public void PersistCrawlStats()

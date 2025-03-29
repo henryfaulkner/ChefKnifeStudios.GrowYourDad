@@ -11,7 +11,7 @@
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="5_nk2bu"]
 [ext_resource type="Script" path="res://ObjectLibrary/PC/Areas/PcGrabArea.cs" id="6_g4070"]
 [ext_resource type="Script" path="res://ObjectLibrary/HUD.cs" id="6_i0uts"]
-[ext_resource type="PackedScene" uid="uid://v5sccupxhj7q" path="res://ObjectLibrary/Meter/Meter.tscn" id="6_v4xox"]
+[ext_resource type="PackedScene" uid="uid://v5sccupxhj7q" path="res://ObjectLibrary/Menus/Meter.tscn" id="6_v4xox"]
 [ext_resource type="TileSet" uid="uid://2tk1djwsligw" path="res://Pages/TileSet.tres" id="7_ad0wk"]
 [ext_resource type="Texture2D" uid="uid://ctmmi8iho7gu4" path="res://Assets/Images/Icons/HeartMeterIcon.png" id="7_g4q0p"]
 [ext_resource type="Script" path="res://ObjectLibrary/PC/Areas/PcMagnetArea.cs" id="7_qgake"]
@@ -116,12 +116,14 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 25
 
 [node name="CrawlDepthLabel" type="RichTextLabel" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer/CrawlDepthContainer/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 bbcode_enabled = true
-text = "[font_size=24][left]Level ####[/left][/font_size]"
+text = "[font_size=24][left]Level ####[/left][/font_size]
+[font_size=20][i][left]Gamertag[/left][/i][/font_size] "
 fit_content = true
 
 [node name="Meters" type="VBoxContainer" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer"]

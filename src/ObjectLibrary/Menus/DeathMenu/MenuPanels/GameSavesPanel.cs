@@ -97,8 +97,7 @@ public partial class GameSavesPanel : TextButtonMenuPanel
 		}
 		else
 		{
-			// Show pop-up form to create new save game
-			NewGameSavePopup.Visible = true;
+			NewGameSavePopup.Open();
 		}
 	}
 

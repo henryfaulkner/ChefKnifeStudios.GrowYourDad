@@ -123,6 +123,6 @@ public partial class PcMeterService : GameStateSingletonBase, IPcMeterService
 		_observables.EmitRestartCrawl();
 
 		// Use call_deferred to safely change the scene
-		_navigationAuthority.CallDeferred("ChangeToPreActionLevel");
+		_navigationAuthority.CallDeferred("ChangeToDeathMenu");
 	}
 }

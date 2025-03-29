@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://v5sccupxhj7q"]
 
-[ext_resource type="Script" path="res://ObjectLibrary/Meter/Meter.cs" id="1_r3ic7"]
-[ext_resource type="Script" path="res://ObjectLibrary/Meter/StaggeredProgressBar.cs" id="2_mmbln"]
+[ext_resource type="Script" path="res://ObjectLibrary/Meter/StaggeredMeter/Meter.cs" id="1_u2tal"]
+[ext_resource type="Script" path="res://ObjectLibrary/Meter/StaggeredMeter/StaggeredProgressBar.cs" id="2_p7sev"]
 
 [sub_resource type="Theme" id="Theme_u1ejt"]
 
@@ -11,13 +11,13 @@ bg_color = Color(1, 0.347681, 0.232992, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vaiu7"]
 bg_color = Color(0.174171, 0.721662, 1.92523e-07, 1)
 
-[node name="Meter" type="MarginContainer" node_paths=PackedStringArray("Icon", "ProgressBar", "ValueLabel")]
+[node name="StaggeredMeter" type="MarginContainer" node_paths=PackedStringArray("Icon", "ProgressBar", "ValueLabel")]
 offset_right = 795.0
 offset_bottom = 25.0
 size_flags_vertical = 3
-script = ExtResource("1_r3ic7")
+script = ExtResource("1_u2tal")
 Icon = NodePath("HBoxContainer/TextureRect")
-ProgressBar = NodePath("HBoxContainer/ProgressBar")
+ProgressBar = NodePath("HBoxContainer/StaggeredProgressBar")
 ValueLabel = NodePath("HBoxContainer/Value")
 
 [node name="HBoxContainer" type="GridContainer" parent="."]
@@ -33,7 +33,7 @@ tooltip_text = "Love Level"
 expand_mode = 1
 stretch_mode = 4
 
-[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer"]
+[node name="StaggeredProgressBar" type="ProgressBar" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -45,7 +45,7 @@ step = 1.0
 value = 1.0
 rounded = true
 show_percentage = false
-script = ExtResource("2_mmbln")
+script = ExtResource("2_p7sev")
 
 [node name="Value" type="Label" parent="HBoxContainer"]
 layout_mode = 2

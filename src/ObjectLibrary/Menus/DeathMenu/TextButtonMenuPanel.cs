@@ -30,6 +30,8 @@ public partial class TextButtonMenuPanel : Panel, IMenuPanel
 	{
 		if (Input.IsActionJustPressed(_SELECT_INPUT))
  		{
+			if (Controls[FocusIndex]?.HandleSelectCallback == null)
+				GD.Print($"Controls[FocusIndex]?.HandleSelectCallback is null at {FocusIndex}");
  			Controls[FocusIndex].HandleSelectCallback.Invoke();
  		}
 	}
