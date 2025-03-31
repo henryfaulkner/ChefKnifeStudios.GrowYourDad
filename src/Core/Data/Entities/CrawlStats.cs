@@ -15,5 +15,5 @@ public partial class CrawlStats
 	public int ItemsPurchased { get; set; } = 0;
 
 	[ForeignKey(nameof(GameSaveId))]
-	public GameSave GameSave { get; set; }
+	public GameSave? GameSave { get; set; }
 }

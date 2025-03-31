@@ -40,6 +40,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 14
 theme_override_fonts/normal_font = ExtResource("3_nwkku")
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true

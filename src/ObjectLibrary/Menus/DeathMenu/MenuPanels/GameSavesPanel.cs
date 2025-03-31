@@ -39,11 +39,11 @@ public partial class GameSavesPanel : TextButtonMenuPanel
 		
 		NewGameSavePopup.Visible = false;
 		NewGameSavePopup.Submitted += HandlePopupSubmitted;
+		NewGameSavePopup.Closed += HandlePopupClosed;
 
 		_gameSaveEntityList = _unitOfWork.GameSaveRepository.GetAll().Take(3).ToList();
 
 		Controls = GameSaveBtns.ToList().Concat([ BackBtn ]).ToList();
-		GD.Print($"Panel Controls {Controls.Count}");
 		
 		int len = GameSaveBtns.Length;
 		SelectHandlers = new Action[len + 1];
@@ -54,7 +54,27 @@ public partial class GameSavesPanel : TextButtonMenuPanel
 			SelectHandlers[i] = () => HandleGameSaveSelect(index);
 		}
 		SelectHandlers[i] = HandleBackSelect;
+		
+		for (int j = 0; j < Controls.Count; j += 1)
+		{
+			var focusIndex = j; 
+			var textBtn = Controls[j];
+			textBtn.HandleSelectCallback = SelectHandlers[j];
+			textBtn.RequestFocus += () => MoveFocusTarget(focusIndex); 
+		}
 
+		RefreshTexts();
+
+		base._Ready();
+	}
+
+	public void Init(MenuBusiness menuBusiness)
+	{
+		MenuBusiness = menuBusiness;
+	}
+	
+	void RefreshTexts()
+	{
 		Texts = []; 
 		for (int h = 0; h < 3; h += 1)
 		{
@@ -72,20 +92,10 @@ public partial class GameSavesPanel : TextButtonMenuPanel
 
 		for (int j = 0; j < Controls.Count; j += 1)
 		{
-			var focusIndex = j; 
-			var textBtn = Controls[j];
-			textBtn.HandleSelectCallback = SelectHandlers[j];
-			textBtn.RequestFocus += () => MoveFocusTarget(focusIndex); 
+			var textBtn = Controls[j]; 
 			textBtn.ForegroundLabel.Text = string.Format(OPTION_TEMPLATE, MARGIN_INTERVAL * j, Texts[j]);
 			textBtn.BackgroundLabel.Text = string.Format(OPTION_TEMPLATE, MARGIN_INTERVAL * j, Texts[j]);
 		}
-
-		base._Ready();
-	}
-
-	public void Init(MenuBusiness menuBusiness)
-	{
-		MenuBusiness = menuBusiness;
 	}
 
 	void HandleGameSaveSelect(int index)
@@ -98,6 +108,7 @@ public partial class GameSavesPanel : TextButtonMenuPanel
 		else
 		{
 			NewGameSavePopup.Open();
+			Visible = false;
 		}
 	}
 
@@ -110,6 +121,12 @@ public partial class GameSavesPanel : TextButtonMenuPanel
 	void HandlePopupSubmitted() 
 	{
 		_gameSaveEntityList = _unitOfWork.GameSaveRepository.GetAll().Take(3).ToList();
+		RefreshTexts();
 		MoveFocusTarget(_gameSaveEntityList.Count - 1); // Grab focus of new game save
+	}
+	
+	void HandlePopupClosed()
+	{
+		Visible = true;
 	}
 }

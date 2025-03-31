@@ -4,6 +4,11 @@ using System;
 public partial class RootPanel : TextButtonMenuPanel
 {
 	[Export]
+	Label GamerLevelPanel { get; set; } = null!;
+	[Export]
+	SmootheMeter GamerLevelProgress { get; set; } = null!;
+
+	[Export]
 	TextButton NewCrawlBtn { get; set; } = null!;
 	[Export]
 	TextButton GameSavesBtn { get; set; } = null!;
@@ -12,6 +17,10 @@ public partial class RootPanel : TextButtonMenuPanel
 
 	public MenuBusiness MenuBusiness { get; set; } = null!;
 	public override int Id => (int)Enumerations.DeathMenuPanels.Root;
+
+	const string GAMER_LEVEL_TEMPLATE = """
+		Label {0}
+	""";
 
 	const string OPTION_TEMPLATE = """
 		[dropcap font_size=64 margins={0},0,0,0]
@@ -24,10 +33,14 @@ public partial class RootPanel : TextButtonMenuPanel
 	Action[] SelectHandlers = null!;
 
 	NavigationAuthority _navigationAuthority = null!;
+	ICrawlStatsService _crawlStatsService = null!;
+	ILevelingInteractor _levelingInteractor = null!;
 
 	public override void _Ready()
 	{
 		_navigationAuthority = GetNode<NavigationAuthority>(Constants.SingletonNodes.NavigationAuthority);
+		_crawlStatsService = GetNode<ICrawlStatsService>(Constants.SingletonNodes.CrawlStatsService);
+		_levelingInteractor = GetNode<ILevelingInteractor>(Constants.SingletonNodes.LevelingInteractor);
 
 		Controls = [ NewCrawlBtn, GameSavesBtn, ReturnToSurfaceBtn ];
 		SelectHandlers = [ HandleNewCrawlSelect, HandleGameSaveSelect, HandleReturnToSurfaceSelect ];
@@ -44,6 +57,7 @@ public partial class RootPanel : TextButtonMenuPanel
 		}
 
 		MoveFocusTarget(0);
+		RefreshGamerLevelUi();
 
 		base._Ready();
 	}
@@ -51,6 +65,16 @@ public partial class RootPanel : TextButtonMenuPanel
 	public void Init(MenuBusiness menuBusiness)
 	{
 		MenuBusiness = menuBusiness;
+	}
+	
+	public void RefreshGamerLevelUi()
+	{
+		int gameSaveId = _crawlStatsService.GameSave.Id;
+		PcLevelModel pcLevel = _levelingInteractor.GetPcLevel(gameSaveId);
+		LevelRequirementModel levelRequirement = _levelingInteractor.GetLevelRequirement(pcLevel.Level);
+
+		GamerLevelProgress.SetLeftLabel(string.Format(GAMER_LEVEL_TEMPLATE, pcLevel.Level.ToString()));
+		GamerLevelProgress.UpdateMaxAndValue(levelRequirement.TotalProteinNeededForNextLevel, pcLevel.TotalProteinBanked);
 	}
 
 	void HandleNewCrawlSelect() 

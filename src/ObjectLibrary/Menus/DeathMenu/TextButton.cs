@@ -28,11 +28,29 @@ public partial class TextButton : Control
 	public void HandleFocus() 
 	{
 		BackgroundLabel.Visible = false;
+		
+		//if (ForegroundLabel.HasThemeColorOverride("font_outline_color"))
+		//{
+			//GD.Print("HandleFocus Has outline color ovveride");
+			//GD.Print(ForegroundLabel.GetThemeColor("font_outline_color"));
+			//ForegroundLabel.RemoveThemeColorOverride("font_outline_color");
+		//}
+		//ForegroundLabel.AddThemeColorOverride("font_outline_color", new Color(0, 0, 1, 1));
+		//ForegroundLabel.QueueRedraw();
 	}
 	
 	public void HandleLoseFocus() 
 	{
 		BackgroundLabel.Visible = true;
+		
+		//if (ForegroundLabel.HasThemeColorOverride("font_outline_color"))
+		//{
+			//GD.Print("HandleLoseFocus Has outline color ovveride");
+			//GD.Print(ForegroundLabel.GetThemeColor("font_outline_color"));
+			//ForegroundLabel.RemoveThemeColorOverride("font_outline_color");
+		//}
+		//ForegroundLabel.AddThemeColorOverride("font_outline_color", new Color(0, 0, 0, 1));
+		//ForegroundLabel.QueueRedraw();
 	}
 
 	void HandleMouseEnter()

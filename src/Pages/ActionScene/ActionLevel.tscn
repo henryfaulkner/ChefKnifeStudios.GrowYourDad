@@ -89,8 +89,8 @@ debug_color = Color(0, 0.701961, 0, 0.419608)
 
 [node name="HUD" type="CanvasLayer" parent="." node_paths=PackedStringArray("HpMeter", "SpMeter", "CrawlDepthLabel", "ProteinLabel")]
 script = ExtResource("6_i0uts")
-HpMeter = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Meters/HpMeter")
-SpMeter = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Meters/SpMeter")
+HpMeter = NodePath("MarginContainer/VBoxContainer/HBoxContainer/MetersContainer/Meters/HpMeter")
+SpMeter = NodePath("MarginContainer/VBoxContainer/HBoxContainer/MetersContainer/Meters/SpMeter")
 CrawlDepthLabel = NodePath("MarginContainer/VBoxContainer/HBoxContainer/CrawlDepthContainer/MarginContainer/CrawlDepthLabel")
 ProteinLabel = NodePath("MarginContainer/VBoxContainer/HBoxContainer/ProteinContainer/MarginContainer/ProteinLabel")
 
@@ -126,15 +126,21 @@ text = "[font_size=24][left]Level ####[/left][/font_size]
 [font_size=20][i][left]Gamertag[/left][/i][/font_size] "
 fit_content = true
 
-[node name="Meters" type="VBoxContainer" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="MetersContainer" type="MarginContainer" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Meters" type="VBoxContainer" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer/MetersContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HpMeter" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer/Meters" instance=ExtResource("6_v4xox")]
+[node name="HpMeter" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer/MetersContainer/Meters" instance=ExtResource("6_v4xox")]
 layout_mode = 2
 IconTexture = ExtResource("7_g4q0p")
 
-[node name="SpMeter" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer/Meters" instance=ExtResource("6_v4xox")]
+[node name="SpMeter" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer/MetersContainer/Meters" instance=ExtResource("6_v4xox")]
 layout_mode = 2
 IconTexture = ExtResource("8_qos51")
 

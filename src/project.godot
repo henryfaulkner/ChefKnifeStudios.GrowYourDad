@@ -35,6 +35,7 @@ ShopKeeperService="*res://Core/Items/ShopKeeperService.cs"
 CrawlStatsService="*res://Core/Crawls/CrawlStatsService.cs"
 UnitOfWork="*res://Core/Data/UnitOfWork.cs"
 NavigationAuthority="*res://Core/NavigationAuthority.cs"
+LevelingInteractor="*res://Core/Interactors/LevelingInteractor.cs"
 
 [dotnet]
 

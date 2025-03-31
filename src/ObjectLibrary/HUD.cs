@@ -70,11 +70,18 @@ public partial class HUD : CanvasLayer
 
 	void HandleRefreshCrawlInfo()
 	{
-		CrawlDepthLabel.Text = string.Format(CRAWL_DEPTH_LABEL_TEXT, _crawlStatsService.CrawlStats.CrawlDepth_ToString(), _crawlStatsService.GameSave?.Username ?? string.Empty);
+		CrawlDepthLabel.Text = string.Format(
+			CRAWL_DEPTH_LABEL_TEXT, 
+			_crawlStatsService.CrawlStats?.CrawlDepth_ToString() ?? string.Empty, 
+			_crawlStatsService.GameSave?.Username ?? string.Empty
+		);
 	}
 	
 	void HandleRefreshWalletUI()
 	{
-		ProteinLabel.Text = string.Format(PROTEIN_LABEL_TEXT, _pcWalletService.ProteinInWallet.ToString());
+		ProteinLabel.Text = string.Format(
+			PROTEIN_LABEL_TEXT, 
+			_pcWalletService.ProteinInWallet.ToString()
+		);
 	}
 }

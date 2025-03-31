@@ -49,7 +49,6 @@ public partial class CrawlStatsService : Node, ICrawlStatsService
 
 	public void PersistCrawlStats()
 	{
-		_logger.LogInfo("Start PersistCrawlStats");
 		try
 		{
 			_unitOfWork.CrawlStatsRepository.Add(_crawlStats);
@@ -66,7 +65,6 @@ public partial class CrawlStatsService : Node, ICrawlStatsService
 			_logger.LogError($"Inner exception: {innerException.Message}");
 			throw;
 		}
-		_logger.LogInfo("End PersistCrawlStats");
 	}
 
 	void ClearCrawlStats()

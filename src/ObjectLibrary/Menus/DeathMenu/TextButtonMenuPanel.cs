@@ -42,8 +42,6 @@ public partial class TextButtonMenuPanel : Panel, IMenuPanel
 		{
 			if (mouseEvent.ButtonIndex == MouseButton.Left)
 			{
-				GD.Print($"Press Controls {Controls.Count}");
-				GD.Print($"Press FocusIndex {FocusIndex}");
 				if (FocusIndex < 0 || FocusIndex >= Controls.Count) return;
 				
 				Controls[FocusIndex].HandleSelectCallback.Invoke();
@@ -117,7 +115,6 @@ public partial class TextButtonMenuPanel : Panel, IMenuPanel
 
 	public void MoveFocusTarget(int focusIndex)
 	{
-		GD.Print($"MoveFocusTarget {focusIndex}");
 		if (!Visible) return;
 		int len = Controls.Count;
 		if (focusIndex >= len) return;
@@ -130,12 +127,10 @@ public partial class TextButtonMenuPanel : Panel, IMenuPanel
 
 	void HandleMouseEntered()
 	{
-		GD.Print("HandleMouseEntered");
 	}
 
 	void HandleMouseExited()
 	{
-		GD.Print("HandleMouseExited");
 		MoveFocusTarget(-1);
 	}
 }

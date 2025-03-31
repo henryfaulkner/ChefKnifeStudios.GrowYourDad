@@ -2,15 +2,19 @@ using Godot;
 using System;
 using System.Linq;
 
-public partial class NewGameSavePopupMenu : PopupMenu
+public partial class NewGameSavePopupMenu : Panel
 {
 	[Signal]
 	public delegate void SubmittedEventHandler();
+	[Signal]
+	public delegate void ClosedEventHandler();
 
 	[Export]
 	TextEdit TextBox { get; set; } = null!;
 	[Export] 
 	Button SubmitBtn { get; set; } = null!;
+	[Export]
+	Button CloseBtn { get; set; } = null!;
 
 	IUnitOfWork _unitOfWork = null!;
 	ILoggerService _logger = null!;
@@ -23,24 +27,31 @@ public partial class NewGameSavePopupMenu : PopupMenu
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 		_crawlStatsService = GetNode<CrawlStatsService>(Constants.SingletonNodes.CrawlStatsService);
 
-		SubmitBtn.Pressed += HandleSubmitClicked;    
+		SubmitBtn.Pressed += HandleSubmitClicked; 
+		CloseBtn.Pressed += HandleCloseBtnClicked;
 	}
 
 	public override void _ExitTree()
 	{
 		SubmitBtn.Pressed -= HandleSubmitClicked;
+		CloseBtn.Pressed -= HandleCloseBtnClicked;
 	}
 
 	public void Open()
 	{
+		GD.Print("NewGameSavePopupMenu Open");
 		Visible = true;
 		GetTree().Paused = true;
+		TextBox.GrabFocus();
 	}
 
 	public void Close()
 	{
+		GD.Print("NewGameSavePopupMenu Close");
+		TextBox.Text = string.Empty;
 		Visible = false;
 		GetTree().Paused = false;
+		EmitSignal(SignalName.Closed);
 	}
 
 	void HandleSubmitClicked()
@@ -70,6 +81,12 @@ public partial class NewGameSavePopupMenu : PopupMenu
 		_crawlStatsService.GameSave = newGameSave;
 
 		EmitSignal(SignalName.Submitted);
+		this.Close();
+	}
+
+	void HandleCloseBtnClicked()
+	{
+		GD.Print("HandleCloseCtrlInput");
 		this.Close();
 	}
 }

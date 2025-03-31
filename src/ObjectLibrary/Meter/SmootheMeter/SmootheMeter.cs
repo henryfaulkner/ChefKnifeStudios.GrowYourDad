@@ -13,7 +13,10 @@ public partial class SmootheMeter : MarginContainer
 	SmootheProgressBar ProgressBar { get; set; } = null!;
 
 	[Export]
-	Label ValueLabel { get; set; } = null!;
+	Label LeftLabel { get; set; } = null!;
+
+	[Export]
+	Label RightLabel { get; set; } = null!;
 
 	ILoggerService _logger = null!;
 
@@ -27,18 +30,23 @@ public partial class SmootheMeter : MarginContainer
 	{
 		ProgressBar.UpdateMax(max);
 		ProgressBar.UpdateValue(value);
-		ValueLabel.Text = ProgressBar.ToString();
+		RightLabel.Text = ProgressBar.ToString();
 	}
 
 	public void UpdateMax(int max)
 	{
 		ProgressBar.UpdateMax(max);
-		ValueLabel.Text = ProgressBar.ToString();
+		RightLabel.Text = ProgressBar.ToString();
 	}
 
 	public void UpdateValue(int value)
 	{
 		ProgressBar.UpdateValue(value);
-		ValueLabel.Text = ProgressBar.ToString();
+		RightLabel.Text = ProgressBar.ToString();
+	}
+	
+	public void SetLeftLabel(string text)
+	{
+		LeftLabel.Text = text;
 	}
 }

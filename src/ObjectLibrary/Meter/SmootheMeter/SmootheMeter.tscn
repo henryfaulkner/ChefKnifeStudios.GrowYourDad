@@ -11,29 +11,36 @@ bg_color = Color(1, 0.347681, 0.232992, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vaiu7"]
 bg_color = Color(0.174171, 0.721662, 1.92523e-07, 1)
 
-[node name="SmootheMeter" type="MarginContainer" node_paths=PackedStringArray("Icon", "ProgressBar", "ValueLabel")]
+[node name="SmootheMeter" type="MarginContainer" node_paths=PackedStringArray("ProgressBar")]
 offset_right = 795.0
 offset_bottom = 25.0
 size_flags_vertical = 3
 script = ExtResource("1_6jyxp")
-Icon = NodePath("HBoxContainer/TextureRect")
-ProgressBar = NodePath("HBoxContainer/SmootheProgressBar")
-ValueLabel = NodePath("HBoxContainer/Value")
+ProgressBar = NodePath("VBoxContainer/HBoxContainer/SmootheProgressBar")
 
-[node name="HBoxContainer" type="GridContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
-columns = 3
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
-custom_minimum_size = Vector2(25, 25)
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 4.87
-tooltip_text = "Love Level"
-expand_mode = 1
-stretch_mode = 4
 
-[node name="SmootheProgressBar" type="ProgressBar" parent="HBoxContainer"]
+[node name="LeftLabel" type="Label" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "Level ####"
+vertical_alignment = 2
+
+[node name="RightLabel" type="Label" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "9/9"
+horizontal_alignment = 2
+
+[node name="HBoxContainer" type="GridContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+
+[node name="SmootheProgressBar" type="ProgressBar" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -46,7 +53,3 @@ value = 1.0
 rounded = true
 show_percentage = false
 script = ExtResource("2_6au4d")
-
-[node name="Value" type="Label" parent="HBoxContainer"]
-layout_mode = 2
-text = "9/9"

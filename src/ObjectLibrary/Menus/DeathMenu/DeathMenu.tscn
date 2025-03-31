@@ -1,15 +1,17 @@
-[gd_scene load_steps=13 format=3 uid="uid://gj2bwugoogxn"]
+[gd_scene load_steps=14 format=3 uid="uid://gj2bwugoogxn"]
 
 [ext_resource type="Script" path="res://ObjectLibrary/Menus/DeathMenu/DeathMenu.cs" id="1_nmieh"]
 [ext_resource type="Script" path="res://ObjectLibrary/Menus/DeathMenu/MenuPanels/RootPanel.cs" id="2_cpy4m"]
 [ext_resource type="PackedScene" uid="uid://vq783ucm887h" path="res://ObjectLibrary/Menus/DeathMenu/TextButton.tscn" id="2_xlsuk"]
 [ext_resource type="Script" path="res://ObjectLibrary/Menus/MenuBusiness.cs" id="3_caavc"]
+[ext_resource type="PackedScene" uid="uid://cakhfohqamd3e" path="res://ObjectLibrary/Meter/SmootheMeter/SmootheMeter.tscn" id="4_5lbtm"]
 [ext_resource type="Script" path="res://ObjectLibrary/Menus/DeathMenu/MenuPanels/GameSavesPanel.cs" id="4_rvnvv"]
 [ext_resource type="FontFile" uid="uid://dpfxhw7kcgm36" path="res://Assets/Fonts/Born2bSportyV2.ttf" id="5_4ld7y"]
 [ext_resource type="StyleBox" uid="uid://bavjolk3k0jyo" path="res://ObjectLibrary/Menus/PauseMenu/Styles/PauseMenuPanelStyles.tres" id="5_v223c"]
 [ext_resource type="Script" path="res://ObjectLibrary/Menus/DeathMenu/MenuPanels/NewGameSavePopupMenu.cs" id="6_0xfhw"]
 [ext_resource type="Theme" uid="uid://cew4a71d1h5c8" path="res://ObjectLibrary/Menus/PauseMenu/Styles/PauseMenuOptionButtonTheme.tres" id="6_kbqx5"]
 [ext_resource type="FontFile" uid="uid://d4jmdiojkdhmx" path="res://Assets/Fonts/HelvetiPixel.ttf" id="7_gn0o4"]
+[ext_resource type="StyleBox" uid="uid://bk1hm6ap23ddf" path="res://ObjectLibrary/Menus/DeathMenu/Transparent.tres" id="11_k1oao"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yd1hk"]
 bg_color = Color(0, 0, 0, 1)
@@ -19,10 +21,6 @@ border_width_right = 30
 border_width_bottom = 30
 border_color = Color(1, 1, 1, 1)
 border_blend = true
-
-[sub_resource type="Theme" id="Theme_dhhbn"]
-PopupMenu/styles/labeled_separator_right = null
-PopupMenu/styles/panel = ExtResource("5_v223c")
 
 [node name="DeathMenu" type="CanvasLayer" node_paths=PackedStringArray("RootPanel", "GameSavesPanel", "MenuBusiness")]
 script = ExtResource("1_nmieh")
@@ -48,18 +46,20 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 200
-theme_override_constants/margin_top = 100
+theme_override_constants/margin_top = 75
 theme_override_constants/margin_right = 200
 theme_override_constants/margin_bottom = 75
 
 [node name="Panels" type="VBoxContainer" parent="BgPanel/Panel"]
 layout_mode = 2
 
-[node name="RootPanel" type="Panel" parent="BgPanel/Panel/Panels" node_paths=PackedStringArray("NewCrawlBtn", "GameSavesBtn", "ReturnToSurfaceBtn")]
+[node name="RootPanel" type="Panel" parent="BgPanel/Panel/Panels" node_paths=PackedStringArray("GamerLevelPanel", "GamerLevelProgress", "NewCrawlBtn", "GameSavesBtn", "ReturnToSurfaceBtn")]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("2_cpy4m")
+GamerLevelPanel = NodePath("VBoxContainer/Label")
+GamerLevelProgress = NodePath("VBoxContainer/HBoxContainer/SmootheMeter")
 NewCrawlBtn = NodePath("VBoxContainer/NewCrawl")
 GameSavesBtn = NodePath("VBoxContainer/GameSaves")
 ReturnToSurfaceBtn = NodePath("VBoxContainer/ReturnToSurface")
@@ -81,10 +81,22 @@ text = "YOU DOVE AS FAR AS YOU COULD GO"
 horizontal_alignment = 1
 autowrap_mode = 2
 
+[node name="HSeparator6" type="HSeparator" parent="BgPanel/Panel/Panels/RootPanel/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BgPanel/Panel/Panels/RootPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="SmootheMeter" parent="BgPanel/Panel/Panels/RootPanel/VBoxContainer/HBoxContainer" instance=ExtResource("4_5lbtm")]
+layout_mode = 2
+size_flags_horizontal = 3
+
 [node name="HSeparator5" type="HSeparator" parent="BgPanel/Panel/Panels/RootPanel/VBoxContainer"]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
-theme_override_constants/separation = 75
+theme_override_constants/separation = 25
 
 [node name="NewCrawl" parent="BgPanel/Panel/Panels/RootPanel/VBoxContainer" instance=ExtResource("2_xlsuk")]
 layout_mode = 2
@@ -103,7 +115,7 @@ size_flags_vertical = 3
 script = ExtResource("4_rvnvv")
 GameSaveBtns = [NodePath("VBoxContainer/GameSave1"), NodePath("VBoxContainer/GameSave2"), NodePath("VBoxContainer/GameSave3")]
 BackBtn = NodePath("VBoxContainer/Back")
-NewGameSavePopup = NodePath("NewGameSavePopupMenu")
+NewGameSavePopup = NodePath("../NewGameSavesPanel")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="BgPanel/Panel/Panels/GameSavesPanel"]
 layout_mode = 1
@@ -138,17 +150,27 @@ layout_mode = 2
 [node name="Back" parent="BgPanel/Panel/Panels/GameSavesPanel/VBoxContainer" instance=ExtResource("2_xlsuk")]
 layout_mode = 2
 
-[node name="NewGameSavePopupMenu" type="PopupMenu" parent="BgPanel/Panel/Panels/GameSavesPanel" node_paths=PackedStringArray("TextBox", "SubmitBtn")]
-transparent_bg = true
-title = "New Game Save"
-initial_position = 1
-size = Vector2i(450, 300)
-theme = SubResource("Theme_dhhbn")
+[node name="NewGameSavesPanel" type="Panel" parent="BgPanel/Panel/Panels" node_paths=PackedStringArray("TextBox", "SubmitBtn", "CloseBtn")]
+visible = false
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_vertical = 3
 script = ExtResource("6_0xfhw")
-TextBox = NodePath("PaddingContainer/VBoxContainer/NextGameSaveTextBox")
-SubmitBtn = NodePath("PaddingContainer/VBoxContainer/SubmitButton")
+TextBox = NodePath("NewGameSavePopupMenu/PaddingContainer/VBoxContainer/MarginContainer/VBoxContainer/NextGameSaveTextBox")
+SubmitBtn = NodePath("NewGameSavePopupMenu/PaddingContainer/VBoxContainer/MarginContainer/VBoxContainer/SubmitButton")
+CloseBtn = NodePath("NewGameSavePopupMenu/CloseButton")
 
-[node name="PaddingContainer" type="MarginContainer" parent="BgPanel/Panel/Panels/GameSavesPanel/NewGameSavePopupMenu"]
+[node name="NewGameSavePopupMenu" type="Panel" parent="BgPanel/Panel/Panels/NewGameSavesPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("5_v223c")
+
+[node name="PaddingContainer" type="MarginContainer" parent="BgPanel/Panel/Panels/NewGameSavesPanel/NewGameSavePopupMenu"]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -163,53 +185,103 @@ theme_override_constants/margin_top = 64
 theme_override_constants/margin_right = 172
 theme_override_constants/margin_bottom = 64
 
-[node name="VBoxContainer" type="VBoxContainer" parent="BgPanel/Panel/Panels/GameSavesPanel/NewGameSavePopupMenu/PaddingContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="BgPanel/Panel/Panels/NewGameSavesPanel/NewGameSavePopupMenu/PaddingContainer"]
 layout_mode = 2
 
-[node name="HSeparator5" type="HSeparator" parent="BgPanel/Panel/Panels/GameSavesPanel/NewGameSavePopupMenu/PaddingContainer/VBoxContainer"]
+[node name="HSeparator5" type="HSeparator" parent="BgPanel/Panel/Panels/NewGameSavesPanel/NewGameSavePopupMenu/PaddingContainer/VBoxContainer"]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="BgPanel/Panel/Panels/GameSavesPanel/NewGameSavePopupMenu/PaddingContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="BgPanel/Panel/Panels/NewGameSavesPanel/NewGameSavePopupMenu/PaddingContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_4ld7y")
 theme_override_font_sizes/font_size = 64
 text = "NEW GAMER"
 horizontal_alignment = 1
 
-[node name="NewGameSaveSeparator" type="HSeparator" parent="BgPanel/Panel/Panels/GameSavesPanel/NewGameSavePopupMenu/PaddingContainer/VBoxContainer"]
+[node name="NewGameSaveSeparator" type="HSeparator" parent="BgPanel/Panel/Panels/NewGameSavesPanel/NewGameSavePopupMenu/PaddingContainer/VBoxContainer"]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="NextGameSaveTextBox" type="TextEdit" parent="BgPanel/Panel/Panels/GameSavesPanel/NewGameSavePopupMenu/PaddingContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="BgPanel/Panel/Panels/NewGameSavesPanel/NewGameSavePopupMenu/PaddingContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/margin_bottom = 160
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BgPanel/Panel/Panels/NewGameSavesPanel/NewGameSavePopupMenu/PaddingContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="NextGameSaveTextBox" type="TextEdit" parent="BgPanel/Panel/Panels/NewGameSavesPanel/NewGameSavePopupMenu/PaddingContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+focus_neighbor_left = NodePath("../../../../../CloseButton")
+focus_neighbor_top = NodePath("../../../../../CloseButton")
+focus_neighbor_right = NodePath("../SubmitButton")
+focus_neighbor_bottom = NodePath("../SubmitButton")
+focus_next = NodePath("../SubmitButton")
+focus_previous = NodePath("../../../../../CloseButton")
 theme_override_font_sizes/font_size = 20
 placeholder_text = "Type in gamertag"
 
-[node name="SubmitButtonSeparator" type="HSeparator" parent="BgPanel/Panel/Panels/GameSavesPanel/NewGameSavePopupMenu/PaddingContainer/VBoxContainer"]
+[node name="SubmitButtonSeparator" type="HSeparator" parent="BgPanel/Panel/Panels/NewGameSavesPanel/NewGameSavePopupMenu/PaddingContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="SubmitButton" type="Button" parent="BgPanel/Panel/Panels/GameSavesPanel/NewGameSavePopupMenu/PaddingContainer/VBoxContainer"]
+[node name="SubmitButton" type="Button" parent="BgPanel/Panel/Panels/NewGameSavesPanel/NewGameSavePopupMenu/PaddingContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_left = NodePath("../NextGameSaveTextBox")
+focus_neighbor_top = NodePath("../NextGameSaveTextBox")
+focus_neighbor_right = NodePath("../../../../../CloseButton")
+focus_neighbor_bottom = NodePath("../../../../../CloseButton")
+focus_next = NodePath("../../../../../CloseButton")
+focus_previous = NodePath("../NextGameSaveTextBox")
+mouse_default_cursor_shape = 2
 theme = ExtResource("6_kbqx5")
 text = "ADD GAMER"
 
-[node name="HSeparator4" type="HSeparator" parent="BgPanel/Panel/Panels/GameSavesPanel/NewGameSavePopupMenu/PaddingContainer/VBoxContainer"]
+[node name="HSeparator4" type="HSeparator" parent="BgPanel/Panel/Panels/NewGameSavesPanel/NewGameSavePopupMenu/PaddingContainer/VBoxContainer"]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="Label2" type="Label" parent="BgPanel/Panel/Panels/GameSavesPanel/NewGameSavePopupMenu/PaddingContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="BgPanel/Panel/Panels/NewGameSavesPanel/NewGameSavePopupMenu/PaddingContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("7_gn0o4")
 theme_override_font_sizes/font_size = 40
 text = "Version 0.0.1"
 horizontal_alignment = 1
+
+[node name="CloseButton" type="Button" parent="BgPanel/Panel/Panels/NewGameSavesPanel/NewGameSavePopupMenu"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -36.0
+offset_bottom = 36.0
+grow_horizontal = 0
+focus_neighbor_left = NodePath("../PaddingContainer/VBoxContainer/MarginContainer/VBoxContainer/SubmitButton")
+focus_neighbor_top = NodePath("../PaddingContainer/VBoxContainer/MarginContainer/VBoxContainer/SubmitButton")
+focus_neighbor_right = NodePath("../PaddingContainer/VBoxContainer/MarginContainer/VBoxContainer/NextGameSaveTextBox")
+focus_neighbor_bottom = NodePath("../PaddingContainer/VBoxContainer/MarginContainer/VBoxContainer/NextGameSaveTextBox")
+focus_next = NodePath("../PaddingContainer/VBoxContainer/MarginContainer/VBoxContainer/NextGameSaveTextBox")
+focus_previous = NodePath("../PaddingContainer/VBoxContainer/MarginContainer/VBoxContainer/SubmitButton")
+mouse_default_cursor_shape = 2
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 1, 1)
+theme_override_colors/font_hover_color = Color(0.666667, 0.666667, 0.666667, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 1, 1)
+theme_override_colors/font_focus_color = Color(0.666667, 0.666667, 0.666667, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("7_gn0o4")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = ExtResource("11_k1oao")
+theme_override_styles/hover_pressed = ExtResource("11_k1oao")
+theme_override_styles/hover = ExtResource("11_k1oao")
+theme_override_styles/pressed = ExtResource("11_k1oao")
+theme_override_styles/normal = ExtResource("11_k1oao")
+text = "x"
 
 [node name="MenuBusiness" type="Node" parent="."]
 script = ExtResource("3_caavc")
