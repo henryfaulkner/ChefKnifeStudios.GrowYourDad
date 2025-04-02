@@ -27,21 +27,54 @@ public static class ItemHelper
 			WriteIndented = true
 		};
 		IEnumerable<ItemBase>? result = JsonSerializer.Deserialize<IEnumerable<ItemBase>>(jsonContent, options);
+		
+		if (result == null) throw new JsonException("item-schemas.json did not deserialize into an item list.");
+		PopulateItemRarityProperty(result);
 
-		if (result == null) throw new JsonException("schemas.json did not deserialize into an item list.");
+		return result;
+	}
 
+	public static IEnumerable<ItemRarity> GetItemRarities()
+	{
+		string filePath = "res://Core/Items/item-rarity-schemas.json";
+		using var file = FileAccess.Open(filePath, FileAccess.ModeFlags.Read);
+		string jsonContent = file.GetAsText();
+		var options = new JsonSerializerOptions
+		{
+			PropertyNameCaseInsensitive = true,  // Ensures case-insensitive matching
+			TypeInfoResolver = new DefaultJsonTypeInfoResolver(), // Required for polymorphic deserialization
+			WriteIndented = true
+		};
+		var result = JsonSerializer.Deserialize<IEnumerable<ItemRarity>>(jsonContent, options);
+		if (result == null) throw new JsonException("item-rarity-schemas.json did not deserialize into an item list.");
 		return result;
 	}
 
 	// method: get random item
 	public static ItemBase GetRandomItem()
-	{
-		var itemList = GetItems().ToList();
-		var rand = new Random();
+    {
+        var itemList = GetItems().ToList();
+        var rand = new Random();
 
-		int randIndex = rand.Next(itemList.Count());
-		return itemList[randIndex];
-	}
+        // Step 1: Compute total weight
+        int totalWeight = itemList.Sum(item => item.Rarity!.Chance);
+
+        // Step 2: Generate random number within total weight range
+        int randomValue = rand.Next(totalWeight);
+
+        // Step 3: Select item using cumulative probability
+        int cumulative = 0;
+        foreach (var item in itemList)
+        {
+            cumulative += item.Rarity!.Chance;
+            if (randomValue < cumulative)
+            {
+                return item;
+            }
+        }
+
+        return itemList[0]; // Fallback (should never be reached)
+    }
 
 	// method: get random n items
 	public static IEnumerable<ItemBase> GetRandomNItems(int n)
@@ -62,14 +95,10 @@ public static class ItemHelper
 			// Get n unique random items
 			while (result.Count < n)
 			{
-				var randIndex = rand.Next(itemList.Count);
-				var randomItem = itemList[randIndex];
-
-				// Add the item to the result
-				result.Add(randomItem);
-
-				// Remove the selected item from the list to avoid duplicates
-				itemList.RemoveAt(randIndex);
+				var randItem = GetRandomItem();
+				if (result.Where(x => x.Id == randItem.Id).Any())
+					continue;
+				result.Add(randItem);
 			}
 		}
 
@@ -99,5 +128,14 @@ public static class ItemHelper
 		{
 			GD.Print(item);
 		}
+	}
+
+	static void PopulateItemRarityProperty(IEnumerable<ItemBase> items)
+	{
+		var itemRarities = GetItemRarities();
+		var rarityDict = itemRarities.ToDictionary(x => x.Tier);
+
+		foreach (var item in items)
+			item.Rarity = rarityDict[item.RarityTier];
 	}
 }

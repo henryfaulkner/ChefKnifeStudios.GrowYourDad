@@ -18,8 +18,13 @@ public class ItemBase
 	[JsonPropertyName("description")]
 	public string? Description { get; set; }
 	
-	[JsonPropertyName("Price")]
+	[JsonPropertyName("price")]
 	public int Price { get; set; }
+
+	[JsonPropertyName("rarity-tier")]
+	public required string RarityTier { get; set; }
+
+	public ItemRarity? Rarity { get; set; }
 
 	public override string ToString()
 	{
@@ -74,4 +79,16 @@ public class ItemWithPassiveEffect : ItemBase
 		return $"{base.ToString()}, BaseHpBenefit: {BaseHpBenefit}, BaseSpBenefit: {BaseSpBenefit}, " +
 			   $"DamageBenefit: {DamageBenefit}, MagnetRadiusBenefit: {MagnetRadiusBenefit}";
 	}
+}
+
+public class ItemRarity
+{
+	[JsonPropertyName("tier")]
+	public required string Tier { get; set; }
+
+	[JsonPropertyName("chance")]
+	public int Chance { get; set; }
+
+	[JsonPropertyName("color")]
+	public required string Color { get; set; }
 }

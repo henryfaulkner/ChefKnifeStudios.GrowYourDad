@@ -46,6 +46,7 @@ public partial class PreActionScene : Node2D
 			DamageBase = 1,
 			AmmoConsumed = 1,
 			BlasterType = Enumerations.BlasterTypes.SingleShotBlaster,
+			RarityTier = "common",
 		});
 
 		// Use call_deferred to safely change the scene

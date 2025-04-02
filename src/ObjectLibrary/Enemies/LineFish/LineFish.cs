@@ -133,7 +133,7 @@ public partial class LineFish : Path2D, IEnemy
 	void TakeDamage()
 	{
 		_hp -= _pcInventoryService.GetPcDamage();
-		if (_hp == 0)
+		if (_hp <= 0)
 		{
 			HandleDeath();
 		}
