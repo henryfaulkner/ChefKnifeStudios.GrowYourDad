@@ -26,15 +26,28 @@ public class AppDbContext : DbContext
 	#region Tables
 	public DbSet<GameSave> GameSaves { get; set; }
 	public DbSet<CrawlStats> CrawlStats { get; set; }
+	public DbSet<XpLevel> XpLevels { get; set; }
 	#endregion
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
+		modelBuilder.Entity<PcLevel>(entity =>
+		{
+			entity.HasNoKey(); 
+			entity.ToView("PcLevel"); 
+		});
 	}
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 	{
 		var connectionString = Constants.Config.ConnectionString;
 		optionsBuilder.UseSqlite(connectionString);
+	}
+
+	public void DropAndRecreateXpLevelTable()
+	{
+		this.Database.ExecuteSqlRaw(
+			XpLevel.SqlScript
+		);
 	}
 }

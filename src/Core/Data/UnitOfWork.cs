@@ -6,6 +6,7 @@ public interface IUnitOfWork : IDisposable
 {
 	IRepository<GameSave> GameSaveRepository { get; }
 	IRepository<CrawlStats> CrawlStatsRepository { get; }
+	IRepository<XpLevel> XpLevelRepository { get; }
 
 	bool SaveChanges();
 }
@@ -16,6 +17,7 @@ public partial class UnitOfWork : Node, IUnitOfWork
 
 	public IRepository<GameSave> GameSaveRepository { get; private set; } = null!;
 	public IRepository<CrawlStats> CrawlStatsRepository { get; private set; } = null!;
+	public IRepository<XpLevel> XpLevelRepository { get; private set; } = null!;
 
 	public UnitOfWork()
 	{
@@ -46,5 +48,6 @@ public partial class UnitOfWork : Node, IUnitOfWork
 	{
 		GameSaveRepository = new Repository<GameSave>(_context);
 		CrawlStatsRepository = new Repository<CrawlStats>(_context);
+		XpLevelRepository = new Repository<XpLevel>(_context);
 	}
 }
