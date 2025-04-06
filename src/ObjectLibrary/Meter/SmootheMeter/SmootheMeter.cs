@@ -26,10 +26,10 @@ public partial class SmootheMeter : MarginContainer
 		if (Icon != null && IconTexture != null) Icon.Texture = IconTexture;
 	}
 
-	public void UpdateMaxAndValue(int max, int value)
+	public void UpdateMaxAndValue(int max, int value, bool withTween = true)
 	{
 		ProgressBar.UpdateMax(max);
-		ProgressBar.UpdateValue(value);
+		ProgressBar.UpdateValue(value, withTween: withTween);
 		RightLabel.Text = ProgressBar.ToString();
 	}
 
@@ -39,9 +39,9 @@ public partial class SmootheMeter : MarginContainer
 		RightLabel.Text = ProgressBar.ToString();
 	}
 
-	public void UpdateValue(int value)
+	public void UpdateValue(int value, bool withTween = true)
 	{
-		ProgressBar.UpdateValue(value);
+		ProgressBar.UpdateValue(value, withTween: withTween);
 		RightLabel.Text = ProgressBar.ToString();
 	}
 	

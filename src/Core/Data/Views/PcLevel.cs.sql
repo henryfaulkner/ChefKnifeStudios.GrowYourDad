@@ -4,18 +4,18 @@ create view PcLevel as
 with Banked as (
     select 
         ifnull(GameSaveId, -1) as GameSaveId,
-        sum(ProteinsBanked) as TotalProteinsBanked
+        sum(ProteinsBanked) as TotalProteinBanked
     from CrawlStats
     group by ifnull(GameSaveId, -1)
 ),
 Leveled as (
     select 
         b.GameSaveId,
-        b.TotalProteinsBanked,
+        b.TotalProteinBanked,
         max(x.Level) as Level
     from Banked b
-    join XpLevel x on x.XP <= b.TotalProteinsBanked
-    group by b.GameSaveId, b.TotalProteinsBanked
+    join XpLevel x on x.XP <= b.TotalProteinBanked
+    group by b.GameSaveId, b.TotalProteinBanked
 ),
 Result as (
     select 
@@ -26,16 +26,19 @@ Result as (
             else gs.Username
         end as GameSaveUsername,
         l.Level,
-        l.TotalProteinsBanked,
-        xNext.XP - l.TotalProteinsBanked as TotalProteinNeededForNextLevel
+        l.TotalProteinBanked,
+        xNext.XP as TotalProteinNeededForNextLevel,
+        xCurrent.XP as TotalProteinNeededForCurrentLevel
     from Leveled l
     left join GameSaves gs on l.GameSaveId = gs.Id
     left join XpLevel xNext on xNext.Level = l.Level + 1
+    left join XpLevel xCurrent on xCurrent.Level = l.Level
 )
 select 
     GameSaveId,
     GameSaveUsername,
     Level,
-    TotalProteinsBanked,
-    TotalProteinNeededForNextLevel
+    TotalProteinBanked,
+    TotalProteinNeededForNextLevel,
+    TotalProteinNeededForCurrentLevel
 from Result;

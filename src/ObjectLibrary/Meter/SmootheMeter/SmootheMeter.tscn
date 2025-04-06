@@ -11,12 +11,14 @@ bg_color = Color(1, 0.347681, 0.232992, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vaiu7"]
 bg_color = Color(0.174171, 0.721662, 1.92523e-07, 1)
 
-[node name="SmootheMeter" type="MarginContainer" node_paths=PackedStringArray("ProgressBar")]
+[node name="SmootheMeter" type="MarginContainer" node_paths=PackedStringArray("ProgressBar", "LeftLabel", "RightLabel")]
 offset_right = 795.0
 offset_bottom = 25.0
 size_flags_vertical = 3
 script = ExtResource("1_6jyxp")
 ProgressBar = NodePath("VBoxContainer/HBoxContainer/SmootheProgressBar")
+LeftLabel = NodePath("VBoxContainer/HBoxContainer2/LeftLabel")
+RightLabel = NodePath("VBoxContainer/HBoxContainer2/RightLabel")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2

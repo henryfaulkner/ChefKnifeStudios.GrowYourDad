@@ -14,8 +14,6 @@ public partial class HUD : CanvasLayer
 	public RichTextLabel CrawlDepthLabel { get; set; } = null!;
 	[Export]
 	public RichTextLabel ProteinLabel { get; set; } = null!;
-	
-	
 
 	Observables _observables = null!;
 	ILoggerService _logger = null!;
@@ -70,6 +68,7 @@ public partial class HUD : CanvasLayer
 
 	void HandleRefreshCrawlInfo()
 	{
+		if (CrawlDepthLabel == null) return;
 		CrawlDepthLabel.Text = string.Format(
 			CRAWL_DEPTH_LABEL_TEXT, 
 			_crawlStatsService.CrawlStats?.CrawlDepth_ToString() ?? string.Empty, 
@@ -79,6 +78,7 @@ public partial class HUD : CanvasLayer
 	
 	void HandleRefreshWalletUI()
 	{
+		if (ProteinLabel == null) return;
 		ProteinLabel.Text = string.Format(
 			PROTEIN_LABEL_TEXT, 
 			_pcWalletService.ProteinInWallet.ToString()

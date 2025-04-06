@@ -19,7 +19,7 @@ public partial class RootPanel : TextButtonMenuPanel
 	public override int Id => (int)Enumerations.DeathMenuPanels.Root;
 
 	const string GAMER_LEVEL_TEMPLATE = """
-		Label {0}
+		Level {0}
 	""";
 
 	const string OPTION_TEMPLATE = """
@@ -56,7 +56,7 @@ public partial class RootPanel : TextButtonMenuPanel
 		}
 
 		MoveFocusTarget(0);
-		RefreshGamerLevelUi();
+		RefreshGamerLevelUi(false);
 
 		base._Ready();
 	}
@@ -65,14 +65,28 @@ public partial class RootPanel : TextButtonMenuPanel
 	{
 		MenuBusiness = menuBusiness;
 	}
-	
-	public void RefreshGamerLevelUi()
-	{
-		int gameSaveId = _crawlStatsService.GameSave.Id;
-		PcLevel pcLevel = _pcRepo.GetLevelData(gameSaveId);
 
+	// TODO: make this tween between old xp level and new xp level
+	// bool _firstRender = true;
+	// public override void _PhysicsProcess(double _delta)
+	// {
+	// 	if (_firstRender)
+	// 	{
+	// 		RefreshGamerLevelUi(true);
+	// 	}
+	// 	_firstRender = false;
+	// }
+	
+	public void RefreshGamerLevelUi(bool withTween)
+	{
+		int gameSaveId = _crawlStatsService.GameSave?.Id ?? -1;
+		PcLevel pcLevel = _pcRepo.GetLevelData(gameSaveId);
 		GamerLevelProgress.SetLeftLabel(string.Format(GAMER_LEVEL_TEMPLATE, pcLevel.Level.ToString()));
-		GamerLevelProgress.UpdateMaxAndValue(pcLevel.TotalProteinNeededForNextLevel, pcLevel.TotalProteinBanked);
+		GamerLevelProgress.UpdateMaxAndValue(
+			pcLevel.TotalProteinNeededForNextLevel - pcLevel.TotalProteinNeededForCurrentLevel, 
+			pcLevel.TotalProteinBanked - pcLevel.TotalProteinNeededForCurrentLevel, 
+			withTween: withTween
+		);
 	}
 
 	void HandleNewCrawlSelect() 

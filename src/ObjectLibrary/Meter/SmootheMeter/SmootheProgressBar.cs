@@ -3,14 +3,12 @@ using System;
 
 public partial class SmootheProgressBar : ProgressBar
 {
-	const int LINE_INTERVAL = 1;
-
 	public bool IsAtMax()
 	{
 		return Value >= MaxValue;
 	}
 
-	public void AddToMeter(float amount)
+	public void AddToMeter(float amount, bool withTween = true)
 	{
 		if (Value + amount < 0)
 		{
@@ -24,46 +22,30 @@ public partial class SmootheProgressBar : ProgressBar
 		{
 			Value = MaxValue;
 		}
-
-		QueueRedraw(); // Trigger redraw
+		if (withTween) TweenCurrentValue();
 	}
 
-	public void UpdateValue(float value)
+	public void UpdateValue(float value, bool withTween = true)
 	{
 		Value = Math.Clamp(value, 0, MaxValue);
-		QueueRedraw();
+		if (withTween) TweenCurrentValue();
 	}
 
 	public void UpdateMax(float max)
 	{
 		MaxValue = max;
-		QueueRedraw();
-	}
-
-	public override void _Draw()
-	{
-		base._Draw();
-
-		// Custom drawing logic for interval lines
-		var barWidth = GetRect().Size.X;
-		var lineSpacing = barWidth / MaxValue * LINE_INTERVAL; 
-
-		for (int i = 0; i <= MaxValue; i += LINE_INTERVAL)
-		{
-			float xPos = (float)(i * barWidth / MaxValue);
-
-			// Draw vertical lines for intervals
-			DrawLine(
-				new Vector2(xPos, 0),
-				new Vector2(xPos, GetRect().Size.Y),
-				Colors.White,
-				1
-			);
-		}
 	}
 
 	public override string ToString()
 	{
-		return $"{Value}/{MaxValue}";
+		return $"{Value}/{MaxValue} protein";
+	}
+
+	// https://www.youtube.com/watch?v=fpBOEJXZeYs&t=5s
+	private void TweenCurrentValue()
+	{
+		var progressBar = this;
+		var tween = progressBar.GetTree().CreateTween();
+		tween.TweenProperty(this, "value", progressBar.Value, 1).SetTrans(Tween.TransitionType.Linear);
 	}
 }

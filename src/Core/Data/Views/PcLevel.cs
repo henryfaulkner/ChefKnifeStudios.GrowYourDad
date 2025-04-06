@@ -5,4 +5,5 @@ public class PcLevel
     public int Level { get; set; }
     public int TotalProteinBanked { get; set; }
     public int TotalProteinNeededForNextLevel { get; set; }
+    public int TotalProteinNeededForCurrentLevel { get; set; }
 }
