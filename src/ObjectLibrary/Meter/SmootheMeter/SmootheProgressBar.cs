@@ -22,13 +22,14 @@ public partial class SmootheProgressBar : ProgressBar
 		{
 			Value = MaxValue;
 		}
-		if (withTween) TweenCurrentValue();
+		if (withTween) TweenCurrentValue(Value);
+		else Value = Value;
 	}
 
 	public void UpdateValue(float value, bool withTween = true)
 	{
-		Value = Math.Clamp(value, 0, MaxValue);
-		if (withTween) TweenCurrentValue();
+		if (withTween) TweenCurrentValue(Math.Clamp(value, 0, MaxValue));
+		else Value = Math.Clamp(value, 0, MaxValue);
 	}
 
 	public void UpdateMax(float max)
@@ -42,10 +43,16 @@ public partial class SmootheProgressBar : ProgressBar
 	}
 
 	// https://www.youtube.com/watch?v=fpBOEJXZeYs&t=5s
-	private void TweenCurrentValue()
+	void TweenCurrentValue(double value)
 	{
 		var progressBar = this;
 		var tween = progressBar.GetTree().CreateTween();
-		tween.TweenProperty(this, "value", progressBar.Value, 1).SetTrans(Tween.TransitionType.Linear);
+		var propTweener = tween.TweenProperty(progressBar, "value", value, 1).SetTrans(Tween.TransitionType.Linear);
+		propTweener.Finished += HandleTweenFinished;
+	}
+
+	void HandleTweenFinished()
+	{
+		return;
 	}
 }

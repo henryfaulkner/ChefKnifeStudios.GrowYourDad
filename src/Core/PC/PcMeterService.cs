@@ -84,6 +84,8 @@ public partial class PcMeterService : GameStateSingletonBase, IPcMeterService
 		_pcWalletService = GetNode<IPcWalletService>(Constants.SingletonNodes.PcWalletService);
 		_crawlStatsService = GetNode<ICrawlStatsService>(Constants.SingletonNodes.CrawlStatsService);
 		_navigationAuthority = GetNode<NavigationAuthority>(Constants.SingletonNodes.NavigationAuthority);
+
+		base._Ready();
 	}
 
     public override void Clear()
@@ -117,11 +119,6 @@ public partial class PcMeterService : GameStateSingletonBase, IPcMeterService
 
 	void HandleDeath()
 	{
-		GD.Print("HandleDeath");
-		_crawlStatsService.CrawlStats.ProteinsBanked = _pcWalletService.ProteinInWallet;
-		_crawlStatsService.CrawlStats.ItemsCollected = _pcInventoryService.CountInventory();
-		_crawlStatsService.PersistCrawlStats();
-
 		// Use call_deferred to safely change the scene
 		_navigationAuthority.CallDeferred("ChangeToDeathMenu");
 	}

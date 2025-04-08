@@ -35,6 +35,8 @@ public partial class RootPanel : TextButtonMenuPanel
 	NavigationAuthority _navigationAuthority = null!;
 	ICrawlStatsService _crawlStatsService = null!;
 	Observables _observables = null!;
+	IPcInventoryService _pcInventoryService = null!;
+	IPcWalletService _pcWalletService = null!;
 	IPcRepo _pcRepo = new PcRepo();
 
 	public override void _Ready()
@@ -42,6 +44,8 @@ public partial class RootPanel : TextButtonMenuPanel
 		_navigationAuthority = GetNode<NavigationAuthority>(Constants.SingletonNodes.NavigationAuthority);
 		_crawlStatsService = GetNode<ICrawlStatsService>(Constants.SingletonNodes.CrawlStatsService);
 		_observables = GetNode<Observables>(Constants.SingletonNodes.Observables);
+		_pcInventoryService = GetNode<IPcInventoryService>(Constants.SingletonNodes.PcInventoryService);
+		_pcWalletService = GetNode<IPcWalletService>(Constants.SingletonNodes.PcWalletService);
 
 		Controls = [ NewCrawlBtn, GameSavesBtn, ReturnToSurfaceBtn ];
 		SelectHandlers = [ HandleNewCrawlSelect, HandleGameSaveSelect, HandleReturnToSurfaceSelect ];
@@ -60,6 +64,11 @@ public partial class RootPanel : TextButtonMenuPanel
 		MoveFocusTarget(0);
 		RefreshGamerLevelUi(false);
 
+		_crawlStatsService.CrawlStats.ProteinsBanked = _pcWalletService.ProteinInWallet;
+		_crawlStatsService.CrawlStats.ItemsCollected = _pcInventoryService.CountInventory();
+		_crawlStatsService.PersistCrawlStats();
+		_observables.EmitRestartCrawl();
+
 		base._Ready();
 	}
 
@@ -68,16 +77,16 @@ public partial class RootPanel : TextButtonMenuPanel
 		MenuBusiness = menuBusiness;
 	}
 
-	// TODO: make this tween between old xp level and new xp level
-	// bool _firstRender = true;
-	// public override void _PhysicsProcess(double _delta)
-	// {
-	// 	if (_firstRender)
-	// 	{
-	// 		RefreshGamerLevelUi(true);
-	// 	}
-	// 	_firstRender = false;
-	// }
+	//TODO: make this tween between old xp level and new xp level
+	bool _firstRender = true;
+	public override void _PhysicsProcess(double _delta)
+	{
+		if (_firstRender)
+		{
+			RefreshGamerLevelUi(true);
+		}
+		_firstRender = false;
+	}
 	
 	public void RefreshGamerLevelUi(bool withTween)
 	{
@@ -86,14 +95,13 @@ public partial class RootPanel : TextButtonMenuPanel
 		GamerLevelProgress.SetLeftLabel(string.Format(GAMER_LEVEL_TEMPLATE, pcLevel.Level.ToString()));
 		GamerLevelProgress.UpdateMaxAndValue(
 			pcLevel.TotalProteinNeededForNextLevel - pcLevel.TotalProteinNeededForCurrentLevel, 
-			pcLevel.TotalProteinBanked - pcLevel.TotalProteinNeededForCurrentLevel, 
+			withTween ? pcLevel.TotalProteinBanked - pcLevel.TotalProteinNeededForCurrentLevel : 0, 
 			withTween: withTween
 		);
 	}
 
 	void HandleNewCrawlSelect() 
 	{
-		_observables.EmitRestartCrawl();
 		_navigationAuthority.CallDeferred("ChangeToActionLevel");
 	}
 
@@ -105,7 +113,6 @@ public partial class RootPanel : TextButtonMenuPanel
 	
 	void HandleReturnToSurfaceSelect() 
 	{
-		_observables.EmitRestartCrawl();
 		_navigationAuthority.CallDeferred("ChangeToPreActionLevel");
 	}
 }

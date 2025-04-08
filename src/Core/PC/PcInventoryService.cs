@@ -29,6 +29,8 @@ public partial class PcInventoryService : GameStateSingletonBase, IPcInventorySe
 	{
 		_pcMeterService = GetNode<IPcMeterService>(Constants.SingletonNodes.PcMeterService);
 		_crawlStatsService = GetNode<ICrawlStatsService>(Constants.SingletonNodes.CrawlStatsService);
+
+		base._Ready();
 	}
 
 	public void AddToInventory(ItemBase item)

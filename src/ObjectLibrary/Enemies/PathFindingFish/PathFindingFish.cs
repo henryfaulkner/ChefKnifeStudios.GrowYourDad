@@ -194,7 +194,7 @@ public partial class PathFindingFish : Agent, IEnemy
 	void TakeDamage()
 	{
 		_hp -= _pcInventoryService.GetPcDamage();
-		if (_hp < 0)
+		if (_hp <= 0)
 		{
 			HandleDeath();
 		}
