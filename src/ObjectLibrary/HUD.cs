@@ -68,7 +68,7 @@ public partial class HUD : CanvasLayer
 
 	void HandleRefreshCrawlInfo()
 	{
-		if (CrawlDepthLabel == null) return;
+		if (CrawlDepthLabel == null || !IsInstanceValid(CrawlDepthLabel)) return;
 		CrawlDepthLabel.Text = string.Format(
 			CRAWL_DEPTH_LABEL_TEXT, 
 			_crawlStatsService.CrawlStats?.CrawlDepth_ToString() ?? string.Empty, 
@@ -78,7 +78,7 @@ public partial class HUD : CanvasLayer
 	
 	void HandleRefreshWalletUI()
 	{
-		if (ProteinLabel == null) return;
+		if (ProteinLabel == null || !IsInstanceValid(ProteinLabel)) return;
 		ProteinLabel.Text = string.Format(
 			PROTEIN_LABEL_TEXT, 
 			_pcWalletService.ProteinInWallet.ToString()

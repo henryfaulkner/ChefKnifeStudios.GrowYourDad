@@ -18,6 +18,8 @@ public partial class PauseMenu : CanvasLayer
 	[Export]
 	GameSavePanel GameSavePanel { get; set; } = null!;
 	[Export]
+	CrawlStatsHistoryPanel CrawlStatsHistoryPanel { get; set; } = null!;
+	[Export]
 	OpenClosePauseMenuListener PauseListener { get; set; } = null!;
 	[Export]
 	public MenuBusiness MenuBusiness { get; set; } = null!;
@@ -30,13 +32,15 @@ public partial class PauseMenu : CanvasLayer
 		MainPanel.Init(MenuBusiness);
 		ShopKeeperPanel.Init(MenuBusiness);
 		GameSavePanel.Init(MenuBusiness);
+		CrawlStatsHistoryPanel.Init(MenuBusiness);
 		PauseListener.Init(MenuBusiness);
 
 		_panelList = new List<BaseMenuPanel>
 		{
 			MainPanel,
 			ShopKeeperPanel,
-			GameSavePanel
+			GameSavePanel,
+			CrawlStatsHistoryPanel,
 		};
 
 		MenuBusiness.OpenMenu += HandleOpenMenu;
@@ -45,6 +49,7 @@ public partial class PauseMenu : CanvasLayer
 		MainPanel.Open += OpenPanel;
 		ShopKeeperPanel.Open += OpenPanel;
 		GameSavePanel.Open += OpenPanel;
+		CrawlStatsHistoryPanel.Open += OpenPanel;
 
 		MenuBusiness.EmitCloseMenu();
 	}
@@ -60,6 +65,7 @@ public partial class PauseMenu : CanvasLayer
 		MainPanel.Open -= OpenPanel;
 		ShopKeeperPanel.Open -= OpenPanel;
 		GameSavePanel.Open -= OpenPanel;
+		CrawlStatsHistoryPanel.Open -= OpenPanel;
 	}
 
 	public void OpenPanel(int openPanelId)

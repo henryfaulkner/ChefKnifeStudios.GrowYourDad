@@ -34,12 +34,14 @@ public partial class RootPanel : TextButtonMenuPanel
 
 	NavigationAuthority _navigationAuthority = null!;
 	ICrawlStatsService _crawlStatsService = null!;
+	Observables _observables = null!;
 	IPcRepo _pcRepo = new PcRepo();
 
 	public override void _Ready()
 	{
 		_navigationAuthority = GetNode<NavigationAuthority>(Constants.SingletonNodes.NavigationAuthority);
 		_crawlStatsService = GetNode<ICrawlStatsService>(Constants.SingletonNodes.CrawlStatsService);
+		_observables = GetNode<Observables>(Constants.SingletonNodes.Observables);
 
 		Controls = [ NewCrawlBtn, GameSavesBtn, ReturnToSurfaceBtn ];
 		SelectHandlers = [ HandleNewCrawlSelect, HandleGameSaveSelect, HandleReturnToSurfaceSelect ];
@@ -91,6 +93,7 @@ public partial class RootPanel : TextButtonMenuPanel
 
 	void HandleNewCrawlSelect() 
 	{
+		_observables.EmitRestartCrawl();
 		_navigationAuthority.CallDeferred("ChangeToActionLevel");
 	}
 
@@ -102,6 +105,7 @@ public partial class RootPanel : TextButtonMenuPanel
 	
 	void HandleReturnToSurfaceSelect() 
 	{
+		_observables.EmitRestartCrawl();
 		_navigationAuthority.CallDeferred("ChangeToPreActionLevel");
 	}
 }

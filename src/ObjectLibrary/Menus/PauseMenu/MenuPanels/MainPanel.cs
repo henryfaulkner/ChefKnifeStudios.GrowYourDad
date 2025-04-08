@@ -12,6 +12,8 @@ public partial class MainPanel : BaseMenuPanel
 	[Export]
 	BaseButton GameSaveBtn { get; set; } = null!;
 	[Export]
+	BaseButton CrawlStatsHistoryBtn { get; set; } = null!;
+	[Export]
 	BaseButton MainMenuBtn { get; set; } = null!;
 
 	public override int Id => (int)Enumerations.PauseMenuPanels.Main;
@@ -36,6 +38,7 @@ public partial class MainPanel : BaseMenuPanel
 		ResumeBtn.Pressed += HandleResumeBtnClick;
 		ShopKeeperBtn.Pressed += HandleShopKeeperBtnClick;
 		GameSaveBtn.Pressed += HandleGameSaveBtnClick;
+		CrawlStatsHistoryBtn.Pressed += HandleCrawlStatsHistoryBtnClick;
 		MainMenuBtn.Pressed += HandleMainMenuBtnClick;
 	}
 
@@ -54,6 +57,11 @@ public partial class MainPanel : BaseMenuPanel
 		if (GameSaveBtn != null)
 		{
 			GameSaveBtn.Pressed -= HandleGameSaveBtnClick;
+		}
+		
+		if (CrawlStatsHistoryBtn != null)
+		{
+			CrawlStatsHistoryBtn.Pressed -= HandleCrawlStatsHistoryBtnClick;
 		}
 
 		if (MainMenuBtn != null)
@@ -77,6 +85,12 @@ public partial class MainPanel : BaseMenuPanel
 	{
 		MenuBusiness.PushPanel(this);
 		EmitSignal(SignalName.Open, (int)Enumerations.PauseMenuPanels.GameSave);
+	}
+
+	void HandleCrawlStatsHistoryBtnClick()
+	{
+		MenuBusiness.PushPanel(this);
+		EmitSignal(SignalName.Open, (int)Enumerations.PauseMenuPanels.CrawlStatsHistory);
 	}
 
 	void HandleMainMenuBtnClick()

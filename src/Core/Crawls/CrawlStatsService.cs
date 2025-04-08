@@ -1,6 +1,9 @@
 using Godot;
 using System;
+using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 public interface ICrawlStatsService
 {
@@ -8,6 +11,7 @@ public interface ICrawlStatsService
 	CrawlStats CrawlStats { get; }
 
 	void PersistCrawlStats();
+	IEnumerable<CrawlStatsHistory> GetCrawlStatsHistory();
 } 
 
 public partial class CrawlStatsService : Node, ICrawlStatsService
@@ -65,6 +69,24 @@ public partial class CrawlStatsService : Node, ICrawlStatsService
 			_logger.LogError($"Inner exception: {innerException.Message}");
 			throw;
 		}
+	}
+
+	public IEnumerable<CrawlStatsHistory> GetCrawlStatsHistory()
+	{
+		var includeFunc = new Func<IQueryable<CrawlStats>, IQueryable<CrawlStats>>[]
+		{
+			query => query.Include(e => e.GameSave)
+		};
+		return _unitOfWork.CrawlStatsRepository
+			.GetAllIncludes(includeFunc)
+			.OrderByDescending(x => x.Id)
+			.Select(x => new CrawlStatsHistory()
+			{
+				Gamer = x.GameSave?.Username ?? "Anonymous",
+				FloorDepth = x.CrawlDepth_ToString(),
+				ProteinCollected = x.ProteinsCollected.ToString(),
+				FoesDefeated = x.FoesDefeated.ToString(),	
+			});
 	}
 
 	void ClearCrawlStats()

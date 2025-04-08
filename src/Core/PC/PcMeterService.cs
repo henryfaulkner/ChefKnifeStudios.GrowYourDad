@@ -88,6 +88,7 @@ public partial class PcMeterService : GameStateSingletonBase, IPcMeterService
 
     public override void Clear()
     {
+		GD.Print("PcMeterService Clear");
         HpValue = INITIAL_HP;
         HpMax = INITIAL_HP;
         SpValue = INITIAL_SP;
@@ -116,11 +117,10 @@ public partial class PcMeterService : GameStateSingletonBase, IPcMeterService
 
 	void HandleDeath()
 	{
+		GD.Print("HandleDeath");
 		_crawlStatsService.CrawlStats.ProteinsBanked = _pcWalletService.ProteinInWallet;
 		_crawlStatsService.CrawlStats.ItemsCollected = _pcInventoryService.CountInventory();
 		_crawlStatsService.PersistCrawlStats();
-
-		_observables.EmitRestartCrawl();
 
 		// Use call_deferred to safely change the scene
 		_navigationAuthority.CallDeferred("ChangeToDeathMenu");

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dwlmfdqio1b4g"]
+[gd_scene load_steps=13 format=3 uid="uid://dwlmfdqio1b4g"]
 
 [ext_resource type="Script" path="res://ObjectLibrary/Menus/PauseMenu/PauseMenu.cs" id="1_u6non"]
 [ext_resource type="FontFile" uid="uid://dpfxhw7kcgm36" path="res://Assets/Fonts/Born2bSportyV2.ttf" id="2_2uhv5"]
@@ -8,16 +8,18 @@
 [ext_resource type="Theme" uid="uid://cew4a71d1h5c8" path="res://ObjectLibrary/Menus/PauseMenu/Styles/PauseMenuOptionButtonTheme.tres" id="4_n6aq3"]
 [ext_resource type="Script" path="res://ObjectLibrary/Menus/PauseMenu/MenuPanels/ShopKeeperPanel.cs" id="7_kid54"]
 [ext_resource type="Script" path="res://ObjectLibrary/Menus/PauseMenu/MenuPanels/GameSavePanel.cs" id="8_le7e0"]
+[ext_resource type="Script" path="res://ObjectLibrary/Menus/PauseMenu/MenuPanels/CrawlStatsHistoryPanel.cs" id="9_mdbib"]
 [ext_resource type="Script" path="res://ObjectLibrary/Menus/PauseMenu/OpenClosePauseMenuListener.cs" id="9_tt8pv"]
 [ext_resource type="Script" path="res://ObjectLibrary/Menus/MenuBusiness.cs" id="10_tihpc"]
 
 [sub_resource type="Theme" id="Theme_whrd5"]
 
-[node name="PauseMenu" type="CanvasLayer" node_paths=PackedStringArray("MainPanel", "ShopKeeperPanel", "GameSavePanel", "PauseListener", "MenuBusiness")]
+[node name="PauseMenu" type="CanvasLayer" node_paths=PackedStringArray("MainPanel", "ShopKeeperPanel", "GameSavePanel", "CrawlStatsHistoryPanel", "PauseListener", "MenuBusiness")]
 script = ExtResource("1_u6non")
 MainPanel = NodePath("MarginContainer/MainPanel")
 ShopKeeperPanel = NodePath("MarginContainer/ShopKeeperPanel")
 GameSavePanel = NodePath("MarginContainer/GameSavePanel")
+CrawlStatsHistoryPanel = NodePath("MarginContainer/HistoryPanel")
 PauseListener = NodePath("OpenCloseMenuListener")
 MenuBusiness = NodePath("MenuBusiness")
 
@@ -32,7 +34,7 @@ theme_override_constants/margin_top = 80
 theme_override_constants/margin_right = 160
 theme_override_constants/margin_bottom = 80
 
-[node name="MainPanel" type="Panel" parent="MarginContainer" node_paths=PackedStringArray("ResumeBtn", "ShopKeeperBtn", "GameSaveBtn", "MainMenuBtn")]
+[node name="MainPanel" type="Panel" parent="MarginContainer" node_paths=PackedStringArray("ResumeBtn", "ShopKeeperBtn", "GameSaveBtn", "CrawlStatsHistoryBtn", "MainMenuBtn")]
 visible = false
 layout_mode = 2
 theme = SubResource("Theme_whrd5")
@@ -41,6 +43,7 @@ script = ExtResource("3_vflnm")
 ResumeBtn = NodePath("PaddingContainer/VBoxContainer/ResumeButton")
 ShopKeeperBtn = NodePath("PaddingContainer/VBoxContainer/ShopKeeperButton")
 GameSaveBtn = NodePath("PaddingContainer/VBoxContainer/GameSaveButton")
+CrawlStatsHistoryBtn = NodePath("PaddingContainer/VBoxContainer/HistoryButton")
 MainMenuBtn = NodePath("PaddingContainer/VBoxContainer/MainMenuButton")
 
 [node name="PaddingContainer" type="MarginContainer" parent="MarginContainer/MainPanel"]
@@ -82,7 +85,7 @@ theme_override_constants/separation = 12
 [node name="ResumeButton" type="Button" parent="MarginContainer/MainPanel/PaddingContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("4_n6aq3")
-text = "Resume"
+text = "RESUME"
 
 [node name="HSeparator6" type="HSeparator" parent="MarginContainer/MainPanel/PaddingContainer/VBoxContainer"]
 self_modulate = Color(1, 1, 1, 0)
@@ -92,8 +95,7 @@ theme_override_constants/separation = 20
 [node name="ShopKeeperButton" type="Button" parent="MarginContainer/MainPanel/PaddingContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("4_n6aq3")
-text = "Shop
-"
+text = "SHOP"
 
 [node name="HSeparator7" type="HSeparator" parent="MarginContainer/MainPanel/PaddingContainer/VBoxContainer"]
 self_modulate = Color(1, 1, 1, 0)
@@ -103,9 +105,19 @@ theme_override_constants/separation = 20
 [node name="GameSaveButton" type="Button" parent="MarginContainer/MainPanel/PaddingContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("4_n6aq3")
-text = "Game Saves"
+text = "GAME SAVES"
 
 [node name="HSeparator2" type="HSeparator" parent="MarginContainer/MainPanel/PaddingContainer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="HistoryButton" type="Button" parent="MarginContainer/MainPanel/PaddingContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("4_n6aq3")
+text = "HISTORY"
+
+[node name="HSeparator3" type="HSeparator" parent="MarginContainer/MainPanel/PaddingContainer/VBoxContainer"]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 theme_override_constants/separation = 20
@@ -113,8 +125,7 @@ theme_override_constants/separation = 20
 [node name="MainMenuButton" type="Button" parent="MarginContainer/MainPanel/PaddingContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("4_n6aq3")
-text = "Restart
-"
+text = "RESTART"
 
 [node name="HSeparator4" type="HSeparator" parent="MarginContainer/MainPanel/PaddingContainer/VBoxContainer"]
 self_modulate = Color(1, 1, 1, 0)
@@ -127,6 +138,11 @@ theme_override_fonts/font = ExtResource("3_gawf8")
 theme_override_font_sizes/font_size = 40
 text = "Version 0.0.1"
 horizontal_alignment = 1
+
+[node name="HSeparator8" type="HSeparator" parent="MarginContainer/MainPanel/PaddingContainer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 24
 
 [node name="ShopKeeperPanel" type="Panel" parent="MarginContainer" node_paths=PackedStringArray("BackBtn", "ItemOptionBtn", "BuyBtn")]
 visible = false
@@ -175,7 +191,7 @@ theme_override_constants/separation = 12
 [node name="BackButton" type="Button" parent="MarginContainer/ShopKeeperPanel/PaddingContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("4_n6aq3")
-text = "Back"
+text = "BACK"
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/ShopKeeperPanel/PaddingContainer/VBoxContainer"]
 self_modulate = Color(1, 1, 1, 0)
@@ -193,12 +209,12 @@ theme_override_constants/separation = 12
 [node name="BuyButton" type="Button" parent="MarginContainer/ShopKeeperPanel/PaddingContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("4_n6aq3")
-text = "Buy"
+text = "BUY"
 
 [node name="HSeparator3" type="HSeparator" parent="MarginContainer/ShopKeeperPanel/PaddingContainer/VBoxContainer"]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
-theme_override_constants/separation = 108
+theme_override_constants/separation = 162
 
 [node name="Label2" type="Label" parent="MarginContainer/ShopKeeperPanel/PaddingContainer/VBoxContainer"]
 layout_mode = 2
@@ -207,7 +223,13 @@ theme_override_font_sizes/font_size = 40
 text = "Version 0.0.1"
 horizontal_alignment = 1
 
+[node name="HSeparator6" type="HSeparator" parent="MarginContainer/ShopKeeperPanel/PaddingContainer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 24
+
 [node name="GameSavePanel" type="Panel" parent="MarginContainer" node_paths=PackedStringArray("BackBtn", "GameSaveOptionsSeparator", "GameSaveOptions", "UsernameBtns", "NewGameSaveSeparator", "NewGameSaveTextBox", "SubmitBtnSeparator", "SubmitBtn")]
+visible = false
 layout_mode = 2
 theme = SubResource("Theme_whrd5")
 theme_override_styles/panel = ExtResource("2_4lxy2")
@@ -260,7 +282,7 @@ theme_override_constants/separation = 12
 [node name="BackButton" type="Button" parent="MarginContainer/GameSavePanel/PaddingContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("4_n6aq3")
-text = "Back"
+text = "BACK"
 
 [node name="GameSaveOptionsSeparator" type="HSeparator" parent="MarginContainer/GameSavePanel/PaddingContainer/VBoxContainer"]
 self_modulate = Color(1, 1, 1, 0)
@@ -297,7 +319,7 @@ theme_override_constants/separation = 20
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 20
-placeholder_text = "Type new username"
+placeholder_text = "TYPE NEW USERNAME"
 
 [node name="SubmitButtonSeparator" type="HSeparator" parent="MarginContainer/GameSavePanel/PaddingContainer/VBoxContainer"]
 self_modulate = Color(1, 1, 1, 0)
@@ -307,7 +329,7 @@ theme_override_constants/separation = 20
 [node name="SubmitButton" type="Button" parent="MarginContainer/GameSavePanel/PaddingContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("4_n6aq3")
-text = "Create New Save"
+text = "CREATE NEW SAVE"
 
 [node name="HSeparator4" type="HSeparator" parent="MarginContainer/GameSavePanel/PaddingContainer/VBoxContainer"]
 self_modulate = Color(1, 1, 1, 0)
@@ -320,6 +342,88 @@ theme_override_fonts/font = ExtResource("3_gawf8")
 theme_override_font_sizes/font_size = 40
 text = "Version 0.0.1"
 horizontal_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/GameSavePanel/PaddingContainer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="HistoryPanel" type="Panel" parent="MarginContainer" node_paths=PackedStringArray("BackBtn", "Table")]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_whrd5")
+theme_override_styles/panel = ExtResource("2_4lxy2")
+script = ExtResource("9_mdbib")
+BackBtn = NodePath("PaddingContainer/VBoxContainer/BackButton")
+Table = NodePath("PaddingContainer/VBoxContainer/TableLabel")
+
+[node name="PaddingContainer" type="MarginContainer" parent="MarginContainer/HistoryPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -26.5
+offset_top = -57.0
+offset_right = 26.5
+offset_bottom = 57.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 172
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 172
+theme_override_constants/margin_bottom = 64
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HistoryPanel/PaddingContainer"]
+layout_mode = 2
+
+[node name="HSeparator5" type="HSeparator" parent="MarginContainer/HistoryPanel/PaddingContainer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="MarginContainer/HistoryPanel/PaddingContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_2uhv5")
+theme_override_font_sizes/font_size = 64
+text = "DIVE HISTORY"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/HistoryPanel/PaddingContainer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="BackButton" type="Button" parent="MarginContainer/HistoryPanel/PaddingContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("4_n6aq3")
+text = "BACK"
+
+[node name="HSeparator6" type="HSeparator" parent="MarginContainer/HistoryPanel/PaddingContainer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="TableLabel" type="RichTextLabel" parent="MarginContainer/HistoryPanel/PaddingContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+
+[node name="HSeparator4" type="HSeparator" parent="MarginContainer/HistoryPanel/PaddingContainer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 48
+
+[node name="Label2" type="Label" parent="MarginContainer/HistoryPanel/PaddingContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_gawf8")
+theme_override_font_sizes/font_size = 40
+text = "Version 0.0.1"
+horizontal_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/HistoryPanel/PaddingContainer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 16
 
 [node name="OpenCloseMenuListener" type="Node2D" parent="." node_paths=PackedStringArray("BaseMenuPanels")]
 script = ExtResource("9_tt8pv")

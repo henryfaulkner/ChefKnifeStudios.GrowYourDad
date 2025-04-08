@@ -32,6 +32,7 @@ public partial class Enumerations
 		Main,
 		ShopKeeper,
 		GameSave,
+		CrawlStatsHistory,
 	}
 
 	public enum DeathMenuPanels
