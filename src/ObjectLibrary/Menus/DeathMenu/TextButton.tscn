@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://vq783ucm887h"]
 
-[ext_resource type="Script" path="res://ObjectLibrary/Menus/DeathMenu/TextButton.cs" id="1_sk2gs"]
+[ext_resource type="Script" uid="uid://b1hjatnhk11b3" path="res://ObjectLibrary/Menus/DeathMenu/TextButton.cs" id="1_sk2gs"]
 [ext_resource type="FontFile" uid="uid://v3uifgysr27" path="res://Assets/Fonts/Union-Clan-Down-Shadow-Regular.otf" id="2_msnm7"]
 [ext_resource type="FontFile" uid="uid://btq44k635c25e" path="res://Assets/Fonts/Union-Clan-Regular.otf" id="3_nwkku"]
 

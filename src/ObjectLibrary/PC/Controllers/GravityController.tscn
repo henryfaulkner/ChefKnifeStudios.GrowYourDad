@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cpwrvs0vtdn42"]
 
-[ext_resource type="Script" path="res://ObjectLibrary/PC/Controllers/GravityController.cs" id="2_usead"]
+[ext_resource type="Script" uid="uid://dq1d3vqqp2vqf" path="res://ObjectLibrary/PC/Controllers/GravityController.cs" id="2_usead"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_cm2lw"]
 size = Vector3(20, 20, 20)

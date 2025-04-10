@@ -1,9 +1,9 @@
 [gd_scene load_steps=10 format=3 uid="uid://le4gk130r5ja"]
 
-[ext_resource type="Script" path="res://Pages/UpgradeScene/UpgradeScene.cs" id="1_4ubml"]
+[ext_resource type="Script" uid="uid://dj733th3c8knr" path="res://Pages/UpgradeScene/UpgradeScene.cs" id="1_4ubml"]
 [ext_resource type="Theme" uid="uid://dqm10m7yom243" path="res://Pages/UpgradeScene/FontTheme.tres" id="1_s3die"]
-[ext_resource type="Script" path="res://Pages/UpgradeScene/UpgradeMenu.cs" id="2_hc4tl"]
-[ext_resource type="Script" path="res://ObjectLibrary/PC/Areas/PcHurtBoxArea.cs" id="3_n684s"]
+[ext_resource type="Script" uid="uid://d0oommha35do5" path="res://Pages/UpgradeScene/UpgradeMenu.cs" id="2_hc4tl"]
+[ext_resource type="Script" uid="uid://crgrehp4nwo2n" path="res://ObjectLibrary/PC/Areas/PcHurtBoxArea.cs" id="3_n684s"]
 [ext_resource type="PackedScene" uid="uid://wi8ise1buq1l" path="res://Pages/UpgradeScene/UpgradeMenuOption.tscn" id="4_ip5bv"]
 [ext_resource type="PackedScene" uid="uid://dkjy2we3u0jan" path="res://ObjectLibrary/PC/Controllers/FreeFallController.tscn" id="6_s0df4"]
 

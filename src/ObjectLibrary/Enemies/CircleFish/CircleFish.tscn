@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://d0osaprvdux47"]
 
-[ext_resource type="Script" path="res://ObjectLibrary/Enemies/CircleFish/CircleFish.cs" id="1_i5e5b"]
-[ext_resource type="Script" path="res://ObjectLibrary/Enemies/EnemyHurtBoxArea.cs" id="2_mffms"]
-[ext_resource type="Script" path="res://ObjectLibrary/Enemies/EnemyHitBoxArea.cs" id="3_oumoc"]
+[ext_resource type="Script" uid="uid://dku7agwqnf0w6" path="res://ObjectLibrary/Enemies/CircleFish/CircleFish.cs" id="1_i5e5b"]
+[ext_resource type="Script" uid="uid://c7vuf2fia118j" path="res://ObjectLibrary/Enemies/EnemyHurtBoxArea.cs" id="2_mffms"]
+[ext_resource type="Script" uid="uid://c026htflqxcop" path="res://ObjectLibrary/Enemies/EnemyHitBoxArea.cs" id="3_oumoc"]
 
 [sub_resource type="Curve2D" id="Curve2D_mt744"]
 

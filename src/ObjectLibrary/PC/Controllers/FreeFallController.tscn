@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dkjy2we3u0jan"]
 
-[ext_resource type="Script" path="res://ObjectLibrary/PC/Controllers/FreeFallController.cs" id="1_0rip1"]
+[ext_resource type="Script" uid="uid://cjwbi7unkesv" path="res://ObjectLibrary/PC/Controllers/FreeFallController.cs" id="1_0rip1"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_w7gas"]
 size = Vector3(20, 20, 20)

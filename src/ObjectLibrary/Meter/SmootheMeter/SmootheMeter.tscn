@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://cakhfohqamd3e"]
 
-[ext_resource type="Script" path="res://ObjectLibrary/Meter/SmootheMeter/SmootheMeter.cs" id="1_6jyxp"]
-[ext_resource type="Script" path="res://ObjectLibrary/Meter/SmootheMeter/SmootheProgressBar.cs" id="2_6au4d"]
+[ext_resource type="Script" uid="uid://d4c52hby4hryc" path="res://ObjectLibrary/Meter/SmootheMeter/SmootheMeter.cs" id="1_6jyxp"]
+[ext_resource type="Script" uid="uid://bfarjjed2b051" path="res://ObjectLibrary/Meter/SmootheMeter/SmootheProgressBar.cs" id="2_6au4d"]
 
 [sub_resource type="Theme" id="Theme_u1ejt"]
 

@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://cg25j8fnd1th6"]
 
-[ext_resource type="Script" path="res://ObjectLibrary/Enemies/LineFish/LineFish.cs" id="1_w1shf"]
-[ext_resource type="Script" path="res://ObjectLibrary/Enemies/EnemyHurtBoxArea.cs" id="2_3uv40"]
-[ext_resource type="Script" path="res://ObjectLibrary/Enemies/EnemyHitBoxArea.cs" id="3_dhrf1"]
+[ext_resource type="Script" uid="uid://c2ubul1bsufdu" path="res://ObjectLibrary/Enemies/LineFish/LineFish.cs" id="1_w1shf"]
+[ext_resource type="Script" uid="uid://c7vuf2fia118j" path="res://ObjectLibrary/Enemies/EnemyHurtBoxArea.cs" id="2_3uv40"]
+[ext_resource type="Script" uid="uid://c026htflqxcop" path="res://ObjectLibrary/Enemies/EnemyHitBoxArea.cs" id="3_dhrf1"]
 
 [sub_resource type="Curve2D" id="Curve2D_ra2vn"]
 _data = {

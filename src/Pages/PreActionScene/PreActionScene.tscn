@@ -1,13 +1,13 @@
 [gd_scene load_steps=13 format=4 uid="uid://b352txws2d6q"]
 
-[ext_resource type="Script" path="res://Pages/PreActionScene/PreActionScene.cs" id="1_bb6b4"]
+[ext_resource type="Script" uid="uid://te1k1wubrrtx" path="res://Pages/PreActionScene/PreActionScene.cs" id="1_bb6b4"]
 [ext_resource type="PackedScene" uid="uid://bg8l4v4jd010p" path="res://ObjectLibrary/PC/PC.tscn" id="1_ec0l0"]
 [ext_resource type="PackedScene" uid="uid://cpwrvs0vtdn42" path="res://ObjectLibrary/PC/Controllers/GravityController.tscn" id="2_sii2s"]
 [ext_resource type="PackedScene" uid="uid://dwlmfdqio1b4g" path="res://ObjectLibrary/Menus/PauseMenu/PauseMenu.tscn" id="3_l3csv"]
-[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_v3wyx"]
-[ext_resource type="Script" path="res://ObjectLibrary/PC/Areas/PcHurtBoxArea.cs" id="4_vu6po"]
-[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="5_pls7o"]
-[ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="6_bj4e1"]
+[ext_resource type="Script" uid="uid://cnjogvu06tcht" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_v3wyx"]
+[ext_resource type="Script" uid="uid://crgrehp4nwo2n" path="res://ObjectLibrary/PC/Areas/PcHurtBoxArea.cs" id="4_vu6po"]
+[ext_resource type="Script" uid="uid://dofm38bqnkqrm" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="5_pls7o"]
+[ext_resource type="Script" uid="uid://lkfbfle5r1cg" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="6_bj4e1"]
 [ext_resource type="TileSet" uid="uid://2tk1djwsligw" path="res://Pages/TileSet.tres" id="7_o580k"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bliku"]

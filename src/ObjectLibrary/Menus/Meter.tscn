@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://v5sccupxhj7q"]
 
-[ext_resource type="Script" path="res://ObjectLibrary/Meter/StaggeredMeter/Meter.cs" id="1_u2tal"]
-[ext_resource type="Script" path="res://ObjectLibrary/Meter/StaggeredMeter/StaggeredProgressBar.cs" id="2_p7sev"]
+[ext_resource type="Script" uid="uid://c4g7v03h7c7gf" path="res://ObjectLibrary/Meter/StaggeredMeter/Meter.cs" id="1_u2tal"]
+[ext_resource type="Script" uid="uid://dt2wlvad71ghg" path="res://ObjectLibrary/Meter/StaggeredMeter/StaggeredProgressBar.cs" id="2_p7sev"]
 
 [sub_resource type="Theme" id="Theme_u1ejt"]
 

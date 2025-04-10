@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://b0gp17n3v2hac"]
 
-[ext_resource type="Script" path="res://ObjectLibrary/PC/Controllers/ArrowController.cs" id="1_tb367"]
+[ext_resource type="Script" uid="uid://bnxkivkh54oaw" path="res://ObjectLibrary/PC/Controllers/ArrowController.cs" id="1_tb367"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_v2uod"]
 size = Vector3(20, 20, 20)

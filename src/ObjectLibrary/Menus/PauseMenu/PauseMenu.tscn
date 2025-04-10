@@ -1,16 +1,16 @@
 [gd_scene load_steps=13 format=3 uid="uid://dwlmfdqio1b4g"]
 
-[ext_resource type="Script" path="res://ObjectLibrary/Menus/PauseMenu/PauseMenu.cs" id="1_u6non"]
+[ext_resource type="Script" uid="uid://cjq6x1j75c2b2" path="res://ObjectLibrary/Menus/PauseMenu/PauseMenu.cs" id="1_u6non"]
 [ext_resource type="FontFile" uid="uid://dpfxhw7kcgm36" path="res://Assets/Fonts/Born2bSportyV2.ttf" id="2_2uhv5"]
 [ext_resource type="StyleBox" uid="uid://bavjolk3k0jyo" path="res://ObjectLibrary/Menus/PauseMenu/Styles/PauseMenuPanelStyles.tres" id="2_4lxy2"]
 [ext_resource type="FontFile" uid="uid://d4jmdiojkdhmx" path="res://Assets/Fonts/HelvetiPixel.ttf" id="3_gawf8"]
-[ext_resource type="Script" path="res://ObjectLibrary/Menus/PauseMenu/MenuPanels/MainPanel.cs" id="3_vflnm"]
+[ext_resource type="Script" uid="uid://caje35y5yte8s" path="res://ObjectLibrary/Menus/PauseMenu/MenuPanels/MainPanel.cs" id="3_vflnm"]
 [ext_resource type="Theme" uid="uid://cew4a71d1h5c8" path="res://ObjectLibrary/Menus/PauseMenu/Styles/PauseMenuOptionButtonTheme.tres" id="4_n6aq3"]
-[ext_resource type="Script" path="res://ObjectLibrary/Menus/PauseMenu/MenuPanels/ShopKeeperPanel.cs" id="7_kid54"]
-[ext_resource type="Script" path="res://ObjectLibrary/Menus/PauseMenu/MenuPanels/GameSavePanel.cs" id="8_le7e0"]
-[ext_resource type="Script" path="res://ObjectLibrary/Menus/PauseMenu/MenuPanels/CrawlStatsHistoryPanel.cs" id="9_mdbib"]
-[ext_resource type="Script" path="res://ObjectLibrary/Menus/PauseMenu/OpenClosePauseMenuListener.cs" id="9_tt8pv"]
-[ext_resource type="Script" path="res://ObjectLibrary/Menus/MenuBusiness.cs" id="10_tihpc"]
+[ext_resource type="Script" uid="uid://ctwnij8rful8n" path="res://ObjectLibrary/Menus/PauseMenu/MenuPanels/ShopKeeperPanel.cs" id="7_kid54"]
+[ext_resource type="Script" uid="uid://cms2qsy5r7w1i" path="res://ObjectLibrary/Menus/PauseMenu/MenuPanels/GameSavePanel.cs" id="8_le7e0"]
+[ext_resource type="Script" uid="uid://u5ctlgeqq1cb" path="res://ObjectLibrary/Menus/PauseMenu/MenuPanels/CrawlStatsHistoryPanel.cs" id="9_mdbib"]
+[ext_resource type="Script" uid="uid://6n2odu3nm455" path="res://ObjectLibrary/Menus/PauseMenu/OpenClosePauseMenuListener.cs" id="9_tt8pv"]
+[ext_resource type="Script" uid="uid://ckiu6lmf111tk" path="res://ObjectLibrary/Menus/MenuBusiness.cs" id="10_tihpc"]
 
 [sub_resource type="Theme" id="Theme_whrd5"]
 

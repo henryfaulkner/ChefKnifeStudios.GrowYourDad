@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://b5t40qvodmj2w"]
 
-[ext_resource type="Script" path="res://ObjectLibrary/PC/Blasters/Blast.cs" id="1_wacyb"]
+[ext_resource type="Script" uid="uid://yrlvq7pf0urt" path="res://ObjectLibrary/PC/Blasters/Blast.cs" id="1_wacyb"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_2dpbk"]
 radius = 10.0

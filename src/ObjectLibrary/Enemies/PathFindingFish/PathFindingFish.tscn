@@ -1,9 +1,9 @@
 [gd_scene load_steps=9 format=3 uid="uid://corraw2a7g40l"]
 
-[ext_resource type="Script" path="res://ObjectLibrary/Enemies/PathFindingFish/PathFindingFish.cs" id="1_jkpf0"]
-[ext_resource type="Script" path="res://ObjectLibrary/BaseAgent/AgentController.cs" id="2_rjby4"]
-[ext_resource type="Script" path="res://ObjectLibrary/Enemies/EnemyHurtBoxArea.cs" id="3_e5cig"]
-[ext_resource type="Script" path="res://ObjectLibrary/Enemies/EnemyHitBoxArea.cs" id="4_t6671"]
+[ext_resource type="Script" uid="uid://bu76ug5fpelbu" path="res://ObjectLibrary/Enemies/PathFindingFish/PathFindingFish.cs" id="1_jkpf0"]
+[ext_resource type="Script" uid="uid://dewa4vrfm7j5n" path="res://ObjectLibrary/BaseAgent/AgentController.cs" id="2_rjby4"]
+[ext_resource type="Script" uid="uid://c7vuf2fia118j" path="res://ObjectLibrary/Enemies/EnemyHurtBoxArea.cs" id="3_e5cig"]
+[ext_resource type="Script" uid="uid://c026htflqxcop" path="res://ObjectLibrary/Enemies/EnemyHitBoxArea.cs" id="4_t6671"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_51y17"]
 radius = 8.0

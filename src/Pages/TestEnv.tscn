@@ -1,13 +1,13 @@
 [gd_scene load_steps=12 format=4 uid="uid://b0gi7xrpjig2o"]
 
-[ext_resource type="Script" path="res://ObjectLibrary/PC/PC.cs" id="1_verpc"]
+[ext_resource type="Script" uid="uid://ddj3j3s5t1hfa" path="res://ObjectLibrary/PC/PC.cs" id="1_verpc"]
 [ext_resource type="PackedScene" uid="uid://d0osaprvdux47" path="res://ObjectLibrary/Enemies/CircleFish/CircleFish.tscn" id="2_v0k5s"]
 [ext_resource type="PackedScene" uid="uid://cg25j8fnd1th6" path="res://ObjectLibrary/Enemies/LineFish/LineFish.tscn" id="3_bf875"]
 [ext_resource type="PackedScene" uid="uid://corraw2a7g40l" path="res://ObjectLibrary/Enemies/PathFindingFish/PathFindingFish.tscn" id="4_q03q7"]
-[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="5_5c1dw"]
+[ext_resource type="Script" uid="uid://cnjogvu06tcht" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="5_5c1dw"]
 [ext_resource type="PackedScene" uid="uid://cpwrvs0vtdn42" path="res://ObjectLibrary/PC/Controllers/GravityController.tscn" id="5_v47ad"]
-[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="6_x4r3s"]
-[ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="7_lfcvb"]
+[ext_resource type="Script" uid="uid://dofm38bqnkqrm" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="6_x4r3s"]
+[ext_resource type="Script" uid="uid://lkfbfle5r1cg" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="7_lfcvb"]
 [ext_resource type="TileSet" uid="uid://2tk1djwsligw" path="res://Pages/TileSet.tres" id="9_kg6bg"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_3jih6"]

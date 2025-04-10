@@ -55,7 +55,7 @@ public partial class LevelGenerator : Node2D
 		var lowestWidth = -WIDTH/2;
 		var highestWidth = WIDTH/2;
 
-		var lowestHeight = 0;
+		var lowestHeight = -30;
 		var highestHeight = HEIGHT;
 
 		List<float> noiseValuePlatformList = new();

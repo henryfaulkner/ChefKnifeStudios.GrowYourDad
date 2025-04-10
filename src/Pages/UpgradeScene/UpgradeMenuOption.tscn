@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://wi8ise1buq1l"]
 
-[ext_resource type="Script" path="res://Pages/UpgradeScene/UpgradeMenuOption.cs" id="1_1roqp"]
+[ext_resource type="Script" uid="uid://yxytac0wmm5h" path="res://Pages/UpgradeScene/UpgradeMenuOption.cs" id="1_1roqp"]
 [ext_resource type="StyleBox" uid="uid://2svys3lktopn" path="res://Pages/UpgradeScene/Inactive_UpgradeMenuOption.tres" id="1_ubnok"]
 [ext_resource type="Texture2D" uid="uid://dxpsc3qva0a40" path="res://icon.svg" id="2_if4oc"]
 
