@@ -37,6 +37,3 @@ public partial class TextureButton : Godot.TextureButton
 	// 	//GD.Print($"context.UserSettings.FxMuted: {context.UserSettings.FxMuted}");
 	// }
 }
-
-
-

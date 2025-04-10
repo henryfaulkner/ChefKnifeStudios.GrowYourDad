@@ -68,6 +68,17 @@ public partial class PcInventoryService : GameStateSingletonBase, IPcInventorySe
 	public override void Clear()
 	{
 		_itemInventory.Clear();
+		AddToInventory(new ItemWithBlastingEffect()
+		{
+			Id = "SINGLE_SHOT_BLASTER",
+			Name = "Single Shot Blaster",
+			Description = "A blaster that fires one shot at a time.",
+			Price = 1,
+			DamageBase = 1,
+			AmmoConsumed = 1,
+			BlasterType = Enumerations.BlasterTypes.SingleShotBlaster,
+			RarityTier = "common",
+		});
 	}
 
 	public IEnumerable<ItemWithHealingEffect> GetInvItemsWithHealingEffect()

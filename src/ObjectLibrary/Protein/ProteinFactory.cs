@@ -73,7 +73,7 @@ public partial class ProteinFactory : Node, IProteinFactory
 		
 		// Create a Timer node to despawn the Blast
 		double lifeTime = 1.0;
-		Timer despawnTimer = new Timer
+		Timer despawnTimer = new Timer  
 		{
 			WaitTime = lifeTime,
 			OneShot = true

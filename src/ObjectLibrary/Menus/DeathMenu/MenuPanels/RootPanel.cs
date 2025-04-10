@@ -79,13 +79,15 @@ public partial class RootPanel : TextButtonMenuPanel
 
 	//TODO: make this tween between old xp level and new xp level
 	bool _firstRender = true;
-	public override void _PhysicsProcess(double _delta)
+	public override void _PhysicsProcess(double delta)
 	{
 		if (_firstRender)
 		{
 			RefreshGamerLevelUi(true);
 		}
 		_firstRender = false;
+
+		base._PhysicsProcess(delta);
 	}
 	
 	public void RefreshGamerLevelUi(bool withTween)
