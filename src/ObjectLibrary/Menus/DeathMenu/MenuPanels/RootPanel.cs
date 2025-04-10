@@ -62,12 +62,21 @@ public partial class RootPanel : TextButtonMenuPanel
 		}
 
 		MoveFocusTarget(0);
-		RefreshGamerLevelUi(false);
+		
+		int gameSaveId = _crawlStatsService.GameSave?.Id ?? -1;
+		PcLevel level = _pcRepo.GetLevelData(gameSaveId);
+		LevelXpProgressMarker previousLevelMarker = new(level);
 
 		_crawlStatsService.CrawlStats.ProteinsBanked = _pcWalletService.ProteinInWallet;
 		_crawlStatsService.CrawlStats.ItemsCollected = _pcInventoryService.CountInventory();
 		_crawlStatsService.PersistCrawlStats();
 		_observables.EmitRestartCrawl();
+
+		level = _pcRepo.GetLevelData(gameSaveId);
+		LevelXpProgressMarker nextLevelMarker = new(level);
+
+		
+
 
 		base._Ready();
 	}
@@ -77,30 +86,35 @@ public partial class RootPanel : TextButtonMenuPanel
 		MenuBusiness = menuBusiness;
 	}
 
-	//TODO: make this tween between old xp level and new xp level
-	bool _firstRender = true;
-	public override void _PhysicsProcess(double delta)
+	void TweenGamerBetweenLevels(LevelXpProgressMarker previousLevelMarker, LevelXpProgressMarker nextLevelMarker)
 	{
-		if (_firstRender)
-		{
-			RefreshGamerLevelUi(true);
-		}
-		_firstRender = false;
+		// pass previousLevelMarker and nextLevelMarker to GamerLevelProgress
+	}
 
-		base._PhysicsProcess(delta);
-	}
+	//TODO: make this tween between old xp level and new xp level
+	// bool _firstRender = true;
+	// public override void _PhysicsProcess(double delta)
+	// {
+	// 	if (_firstRender)
+	// 	{
+	// 		RefreshGamerLevelUi(true);
+	// 	}
+	// 	_firstRender = false;
+
+	// 	base._PhysicsProcess(delta);
+	// }
 	
-	public void RefreshGamerLevelUi(bool withTween)
-	{
-		int gameSaveId = _crawlStatsService.GameSave?.Id ?? -1;
-		PcLevel pcLevel = _pcRepo.GetLevelData(gameSaveId);
-		GamerLevelProgress.SetLeftLabel(string.Format(GAMER_LEVEL_TEMPLATE, pcLevel.Level.ToString()));
-		GamerLevelProgress.UpdateMaxAndValue(
-			pcLevel.TotalProteinNeededForNextLevel - pcLevel.TotalProteinNeededForCurrentLevel, 
-			withTween ? pcLevel.TotalProteinBanked - pcLevel.TotalProteinNeededForCurrentLevel : 0, 
-			withTween: withTween
-		);
-	}
+	// public void RefreshGamerLevelUi(bool withTween)
+	// {
+	// 	int gameSaveId = _crawlStatsService.GameSave?.Id ?? -1;
+	// 	PcLevel pcLevel = _pcRepo.GetLevelData(gameSaveId);
+	// 	GamerLevelProgress.SetLeftLabel(string.Format(GAMER_LEVEL_TEMPLATE, pcLevel.Level.ToString()));
+	// 	GamerLevelProgress.UpdateMaxAndValue(
+	// 		pcLevel.TotalProteinNeededForNextLevel - pcLevel.TotalProteinNeededForCurrentLevel, 
+	// 		withTween ? pcLevel.TotalProteinBanked - pcLevel.TotalProteinNeededForCurrentLevel : 0, 
+	// 		withTween: withTween
+	// 	);
+	// }
 
 	void HandleNewCrawlSelect() 
 	{
@@ -117,4 +131,20 @@ public partial class RootPanel : TextButtonMenuPanel
 	{
 		_navigationAuthority.CallDeferred("ChangeToPreActionLevel");
 	}
+}
+
+public class LevelXpProgressMarker
+{
+	public LevelXpProgressMarker(PcLevel pcLevel)
+	{
+		// int level, int proteinNeededForNextLevel, int proteinNeededForCurrentLevel, int proteinBanked
+		Level = pcLevel.Level;
+		XpRatio = (pcLevel.TotalProteinBanked-pcLevel.TotalProteinNeededForCurrentLevel) 
+			/ (pcLevel.TotalProteinNeededForNextLevel-pcLevel.TotalProteinNeededForCurrentLevel);
+	}
+
+	// Full levels
+	public int Level { get; init; }
+	// Amount 0-100 accomplished to reaching next Level
+	public int XpRatio { get; init; }
 }
