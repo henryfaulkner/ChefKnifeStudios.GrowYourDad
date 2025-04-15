@@ -50,4 +50,11 @@ public class AppDbContext : DbContext
 			XpLevel.SqlScript
 		);
 	}
+
+	public void DropAndRecreatePcLevelView()
+	{
+		this.Database.ExecuteSqlRaw(
+			PcLevel.SqlScript
+		);
+	}
 }

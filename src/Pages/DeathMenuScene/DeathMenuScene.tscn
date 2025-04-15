@@ -1,6 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://d05t3e02xa576"]
+[gd_scene load_steps=5 format=3 uid="uid://d05t3e02xa576"]
 
 [ext_resource type="PackedScene" uid="uid://gj2bwugoogxn" path="res://ObjectLibrary/Menus/DeathMenu/DeathMenu.tscn" id="1_5n4r6"]
+[ext_resource type="Script" uid="uid://bb5cl0sqiw507" path="res://Pages/DeathMenuScene/DeathMenuHud.cs" id="2_osg8o"]
+
+[sub_resource type="Theme" id="Theme_osg8o"]
+
+[sub_resource type="Theme" id="Theme_yjfef"]
 
 [node name="DeathMenuScene" type="Control"]
 layout_mode = 3
@@ -11,3 +16,67 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="DeathMenu" parent="." instance=ExtResource("1_5n4r6")]
+
+[node name="HUD" type="CanvasLayer" parent="." node_paths=PackedStringArray("CrawlDepthLabel", "ProteinLabel")]
+script = ExtResource("2_osg8o")
+CrawlDepthLabel = NodePath("MarginContainer/VBoxContainer/HBoxContainer/CrawlDepthContainer/MarginContainer/CrawlDepthLabel")
+ProteinLabel = NodePath("MarginContainer/VBoxContainer/HBoxContainer/ProteinContainer/MarginContainer/ProteinLabel")
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 87.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/MarginContainer"]
+layout_mode = 2
+theme = SubResource("Theme_osg8o")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CrawlDepthContainer" type="HBoxContainer" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer/CrawlDepthContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 25
+
+[node name="CrawlDepthLabel" type="RichTextLabel" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer/CrawlDepthContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+bbcode_enabled = true
+text = "[font_size=24][left]Level ####[/left][/font_size]
+[font_size=20][i][left]Gamertag[/left][/i][/font_size] "
+fit_content = true
+
+[node name="MetersContainer" type="MarginContainer" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="ProteinContainer" type="HBoxContainer" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer/ProteinContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_right = 20
+
+[node name="ProteinLabel" type="RichTextLabel" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer/ProteinContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+theme = SubResource("Theme_yjfef")
+bbcode_enabled = true
+text = "[font_size=24][right]#### proteins[/right][/font_size]"
+fit_content = true

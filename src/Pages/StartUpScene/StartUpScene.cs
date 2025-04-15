@@ -10,6 +10,7 @@ public partial class StartUpScene : Node
 		using (var dbContext = new AppDbContext())
 		{
 			dbContext.DropAndRecreateXpLevelTable();
+			dbContext.DropAndRecreatePcLevelView();
 		}
 
 		_navigationAuthority = GetNode<NavigationAuthority>(Constants.SingletonNodes.NavigationAuthority);

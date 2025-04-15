@@ -104,6 +104,16 @@ public partial class GameSavesPanel : TextButtonMenuPanel
 		{
 			GameSave entity = _gameSaveEntityList[index];
 			_crawlStatsService.GameSave = entity;
+			_crawlStatsService.EmitRefreshUI();
+
+			// give the recently selected gamer credit for the last crawl
+			// var mostRecentCrawlStats = _unitOfWork.CrawlStatsRepository
+			// 	.QueryScalar(dbSet => dbSet.OrderByDescending(record => record.Id).FirstOrDefault());
+			// if (mostRecentCrawlStats != null)
+			// {
+			// 	mostRecentCrawlStats.GameSaveId = entity.Id;
+			// 	_unitOfWork.CrawlStatsRepository.SaveRepository();
+			// }	
 		}
 		else
 		{

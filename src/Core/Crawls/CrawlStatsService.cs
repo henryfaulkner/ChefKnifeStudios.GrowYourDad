@@ -9,6 +9,7 @@ public interface ICrawlStatsService
 {
 	GameSave GameSave { get; set; }
 	CrawlStats CrawlStats { get; }
+	void EmitRefreshUI();
 
 	void PersistCrawlStats();
 	IEnumerable<CrawlStatsHistory> GetCrawlStatsHistory();
@@ -49,6 +50,11 @@ public partial class CrawlStatsService : Node, ICrawlStatsService
 			_crawlStats = value;
 			EmitSignal(SignalName.RefreshUI);
 		}
+	}
+
+	public void EmitRefreshUI()
+	{
+		EmitSignal(SignalName.RefreshUI);
 	}
 
 	public void PersistCrawlStats()

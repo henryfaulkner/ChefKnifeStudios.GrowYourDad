@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://b352txws2d6q"]
+[gd_scene load_steps=15 format=4 uid="uid://b352txws2d6q"]
 
 [ext_resource type="Script" uid="uid://te1k1wubrrtx" path="res://Pages/PreActionScene/PreActionScene.cs" id="1_bb6b4"]
 [ext_resource type="PackedScene" uid="uid://bg8l4v4jd010p" path="res://ObjectLibrary/PC/PC.tscn" id="1_ec0l0"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://dofm38bqnkqrm" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="5_pls7o"]
 [ext_resource type="Script" uid="uid://lkfbfle5r1cg" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="6_bj4e1"]
 [ext_resource type="TileSet" uid="uid://2tk1djwsligw" path="res://Pages/TileSet.tres" id="7_o580k"]
+[ext_resource type="Script" uid="uid://4k8xmppxue16" path="res://Pages/PreActionScene/PreActionHud.cs" id="10_ccdj8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bliku"]
 
@@ -20,6 +21,8 @@ ease = 2
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vkmmg"]
 size = Vector2(260, 20)
+
+[sub_resource type="Theme" id="Theme_oc52x"]
 
 [node name="PreActionScene" type="Node2D" node_paths=PackedStringArray("DoorArea")]
 script = ExtResource("1_bb6b4")
@@ -65,5 +68,52 @@ position = Vector2(560, 200)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DoorArea"]
 shape = SubResource("RectangleShape2D_vkmmg")
+
+[node name="HUD" type="CanvasLayer" parent="." node_paths=PackedStringArray("CrawlDepthLabel")]
+script = ExtResource("10_ccdj8")
+CrawlDepthLabel = NodePath("MarginContainer/VBoxContainer/HBoxContainer/CrawlDepthContainer/MarginContainer/CrawlDepthLabel")
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/MarginContainer"]
+layout_mode = 2
+theme = SubResource("Theme_oc52x")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CrawlDepthContainer" type="HBoxContainer" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer/CrawlDepthContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 25
+
+[node name="CrawlDepthLabel" type="RichTextLabel" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer/CrawlDepthContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+bbcode_enabled = true
+text = "[font_size=24][left]Level ####[/left][/font_size]
+[font_size=20][i][left]Gamertag[/left][/i][/font_size] "
+fit_content = true
+
+[node name="MetersContainer" type="MarginContainer" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="ProteinContainer" type="HBoxContainer" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
 
 [node name="PauseMenu" parent="." instance=ExtResource("3_l3csv")]

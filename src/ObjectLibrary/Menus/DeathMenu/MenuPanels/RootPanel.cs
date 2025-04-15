@@ -1,5 +1,9 @@
 using Godot;
 using System;
+using System.Collections;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 public partial class RootPanel : TextButtonMenuPanel
 {
@@ -37,7 +41,13 @@ public partial class RootPanel : TextButtonMenuPanel
 	Observables _observables = null!;
 	IPcInventoryService _pcInventoryService = null!;
 	IPcWalletService _pcWalletService = null!;
+	ILoggerService _logger = null!;
 	IPcRepo _pcRepo = new PcRepo();
+
+	Queue<Action> _meterActionQueue = [];
+
+	LevelXpProgressMarker? _previousLevelMarker;
+	LevelXpProgressMarker? _nextLevelMarker;
 
 	public override void _Ready()
 	{
@@ -46,6 +56,7 @@ public partial class RootPanel : TextButtonMenuPanel
 		_observables = GetNode<Observables>(Constants.SingletonNodes.Observables);
 		_pcInventoryService = GetNode<IPcInventoryService>(Constants.SingletonNodes.PcInventoryService);
 		_pcWalletService = GetNode<IPcWalletService>(Constants.SingletonNodes.PcWalletService);
+		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 
 		Controls = [ NewCrawlBtn, GameSavesBtn, ReturnToSurfaceBtn ];
 		SelectHandlers = [ HandleNewCrawlSelect, HandleGameSaveSelect, HandleReturnToSurfaceSelect ];
@@ -64,19 +75,23 @@ public partial class RootPanel : TextButtonMenuPanel
 		MoveFocusTarget(0);
 		
 		int gameSaveId = _crawlStatsService.GameSave?.Id ?? -1;
-		PcLevel level = _pcRepo.GetLevelData(gameSaveId);
-		LevelXpProgressMarker previousLevelMarker = new(level);
+		PcLevel pcLevel = _pcRepo.GetLevelData(gameSaveId);
+		_previousLevelMarker = new(pcLevel);
 
 		_crawlStatsService.CrawlStats.ProteinsBanked = _pcWalletService.ProteinInWallet;
 		_crawlStatsService.CrawlStats.ItemsCollected = _pcInventoryService.CountInventory();
 		_crawlStatsService.PersistCrawlStats();
 		_observables.EmitRestartCrawl();
 
-		level = _pcRepo.GetLevelData(gameSaveId);
-		LevelXpProgressMarker nextLevelMarker = new(level);
+		pcLevel = _pcRepo.GetLevelData(gameSaveId);
+		_nextLevelMarker = new(pcLevel);
 
-		
-
+		GamerLevelProgress.TweenFinishedCallback = HandleTweenFinished;
+	 	GamerLevelProgress.SetLeftLabel(string.Format(GAMER_LEVEL_TEMPLATE, pcLevel.Level.ToString()));
+		GamerLevelProgress.UpdateMaxAndValueLabels(
+			pcLevel.TotalProteinNeededForNextLevel - pcLevel.TotalProteinNeededForCurrentLevel, 
+			pcLevel.TotalProteinBanked - pcLevel.TotalProteinNeededForCurrentLevel
+		);
 
 		base._Ready();
 	}
@@ -86,35 +101,59 @@ public partial class RootPanel : TextButtonMenuPanel
 		MenuBusiness = menuBusiness;
 	}
 
-	void TweenGamerBetweenLevels(LevelXpProgressMarker previousLevelMarker, LevelXpProgressMarker nextLevelMarker)
+	bool _firstRender = true;
+	public override void _PhysicsProcess(double delta)
 	{
-		// pass previousLevelMarker and nextLevelMarker to GamerLevelProgress
+		if (_firstRender)
+		{
+			GD.Print("_firstRender");
+			if (_previousLevelMarker == null ) _logger.LogError("_previousLevelMarker is null");
+			if (_nextLevelMarker == null ) _logger.LogError("_nextLevelMarker is null");
+			TweenGamerBetweenLevels(_previousLevelMarker!, _nextLevelMarker!);
+		}
+		_firstRender = false;
+
+		base._PhysicsProcess(delta);
 	}
 
-	//TODO: make this tween between old xp level and new xp level
-	// bool _firstRender = true;
-	// public override void _PhysicsProcess(double delta)
-	// {
-	// 	if (_firstRender)
-	// 	{
-	// 		RefreshGamerLevelUi(true);
-	// 	}
-	// 	_firstRender = false;
+	void TweenGamerBetweenLevels(LevelXpProgressMarker previousLevelMarker, LevelXpProgressMarker nextLevelMarker)
+	{
+		GD.Print($"previousLevelMarker: {previousLevelMarker}");
+		GD.Print($"nextLevelMarker: {nextLevelMarker}");
 
-	// 	base._PhysicsProcess(delta);
-	// }
-	
-	// public void RefreshGamerLevelUi(bool withTween)
-	// {
-	// 	int gameSaveId = _crawlStatsService.GameSave?.Id ?? -1;
-	// 	PcLevel pcLevel = _pcRepo.GetLevelData(gameSaveId);
-	// 	GamerLevelProgress.SetLeftLabel(string.Format(GAMER_LEVEL_TEMPLATE, pcLevel.Level.ToString()));
-	// 	GamerLevelProgress.UpdateMaxAndValue(
-	// 		pcLevel.TotalProteinNeededForNextLevel - pcLevel.TotalProteinNeededForCurrentLevel, 
-	// 		withTween ? pcLevel.TotalProteinBanked - pcLevel.TotalProteinNeededForCurrentLevel : 0, 
-	// 		withTween: withTween
-	// 	);
-	// }
+		// pass previousLevelMarker and nextLevelMarker to GamerLevelProgress
+		for (int i = previousLevelMarker.Level; i <= nextLevelMarker.Level; i += 1)
+		{
+			int index = i;
+			_meterActionQueue.Enqueue(() => 
+				{
+					GD.Print($"start action {index}");
+	 				GamerLevelProgress.SetLeftLabel(string.Format(GAMER_LEVEL_TEMPLATE, i.ToString()));
+					GamerLevelProgress.UpdateMaxAndValue(100, 0, withTween: false, updateLabels: false);
+					if (index == nextLevelMarker.Level)
+					{
+						GD.Print("if nextLevelMarker.Level");
+						GamerLevelProgress.UpdateMaxAndValue(100, nextLevelMarker.XpRatio, withTween: true, updateLabels: false);
+					}
+					else if (i == previousLevelMarker.Level)
+					{
+						GamerLevelProgress.UpdateMaxAndValue(100, previousLevelMarker.XpRatio, withTween: true, updateLabels: false);
+					}
+					else
+					{
+						GamerLevelProgress.UpdateMaxAndValue(100, 0, withTween: true, updateLabels: false);
+					}
+					GD.Print("end action");
+				}
+			);
+		}
+		GD.Print($"_meterActionQueue.Count {_meterActionQueue.Count()}");
+		if (_meterActionQueue.TryDequeue(out var action))
+		{
+			GD.Print("invoke action");
+			action.Invoke(); 
+		} 
+	}
 
 	void HandleNewCrawlSelect() 
 	{
@@ -131,20 +170,37 @@ public partial class RootPanel : TextButtonMenuPanel
 	{
 		_navigationAuthority.CallDeferred("ChangeToPreActionLevel");
 	}
+
+	void HandleTweenFinished()
+	{
+		GD.Print("Call HandleTweenFinished");
+		if (_meterActionQueue.TryDequeue(out var action))
+		{
+			GD.Print("invoke HandleTweenFinished action");
+			action.Invoke(); 
+		} 
+	}
 }
 
 public class LevelXpProgressMarker
 {
 	public LevelXpProgressMarker(PcLevel pcLevel)
 	{
-		// int level, int proteinNeededForNextLevel, int proteinNeededForCurrentLevel, int proteinBanked
 		Level = pcLevel.Level;
-		XpRatio = (pcLevel.TotalProteinBanked-pcLevel.TotalProteinNeededForCurrentLevel) 
-			/ (pcLevel.TotalProteinNeededForNextLevel-pcLevel.TotalProteinNeededForCurrentLevel);
+		if (pcLevel.Level > 0)
+			XpRatio = (int)((double)pcLevel.TotalProteinBanked / (double)pcLevel.TotalProteinNeededForNextLevel * 100);
+		else 
+			XpRatio = 0;
 	}
 
 	// Full levels
 	public int Level { get; init; }
 	// Amount 0-100 accomplished to reaching next Level
 	public int XpRatio { get; init; }
+
+	public override string ToString()
+	{
+		return $"Level: {Level}; XpRatio: {XpRatio};";
+	}
+
 }

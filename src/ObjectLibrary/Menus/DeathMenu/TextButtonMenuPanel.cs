@@ -31,15 +31,19 @@ public partial class TextButtonMenuPanel : Panel, IMenuPanel
 		if (!Visible) return;
 		if (Input.IsActionJustPressed(_SELECT_INPUT))
  		{
+			GD.Print("Space pressed");
 			if (Controls[FocusIndex]?.HandleSelectCallback == null)
 				GD.Print($"Controls[FocusIndex]?.HandleSelectCallback is null at {FocusIndex}");
 			Controls[FocusIndex].HandleSelectCallback.Invoke();	
  		}
+
+		base._PhysicsProcess(_delta);
 	}
 
 	public override void _GuiInput(InputEvent @event)
 	{
 		if (!Visible) return;
+
 		if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
 		{
 			if (mouseEvent.ButtonIndex == MouseButton.Left)

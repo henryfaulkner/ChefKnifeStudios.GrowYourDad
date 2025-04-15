@@ -20,17 +20,25 @@ public partial class SmootheMeter : MarginContainer
 
 	ILoggerService _logger = null!;
 
+	public Action? TweenFinishedCallback;
+
 	public override void _Ready()
 	{
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 		if (Icon != null && IconTexture != null) Icon.Texture = IconTexture;
+		ProgressBar.TweenFinishedCallback = HandleTweenFinshed;	
 	}
 
-	public void UpdateMaxAndValue(int max, int value, bool withTween = true)
+	public void UpdateMaxAndValueLabels(int max, int value)
+	{
+		RightLabel.Text = $"{value}/{max}";
+	}
+
+	public void UpdateMaxAndValue(int max, int value, bool withTween = true, bool updateLabels = true)
 	{
 		ProgressBar.UpdateMax(max);
 		ProgressBar.UpdateValue(value, withTween: withTween);
-		RightLabel.Text = $"{value}/{max}";
+		if (updateLabels) RightLabel.Text = $"{value}/{max}";
 	}
 
 	public void UpdateMax(int max)
@@ -48,5 +56,15 @@ public partial class SmootheMeter : MarginContainer
 	public void SetLeftLabel(string text)
 	{
 		LeftLabel.Text = text;
+	}
+
+	void HandleTweenFinshed()
+	{
+		GD.Print("SmootheMeter HandleTweenFinshed");
+		if (TweenFinishedCallback != null)
+		{
+			GD.Print("SmootheMeter TweenFinishedCallback Invoke");
+			TweenFinishedCallback.Invoke();
+		}
 	}
 }
