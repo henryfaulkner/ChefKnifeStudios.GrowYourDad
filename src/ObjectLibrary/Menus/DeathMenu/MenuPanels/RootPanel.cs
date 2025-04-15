@@ -87,10 +87,9 @@ public partial class RootPanel : TextButtonMenuPanel
 		_nextLevelMarker = new(pcLevel);
 
 		GamerLevelProgress.TweenFinishedCallback = HandleTweenFinished;
-	 	GamerLevelProgress.SetLeftLabel(string.Format(GAMER_LEVEL_TEMPLATE, pcLevel.Level.ToString()));
 		GamerLevelProgress.UpdateMaxAndValueLabels(
-			pcLevel.TotalProteinNeededForNextLevel - pcLevel.TotalProteinNeededForCurrentLevel, 
-			pcLevel.TotalProteinBanked - pcLevel.TotalProteinNeededForCurrentLevel
+			pcLevel.TotalProteinNeededForNextLevel, 
+			pcLevel.TotalProteinBanked
 		);
 
 		base._Ready();
@@ -124,11 +123,14 @@ public partial class RootPanel : TextButtonMenuPanel
 		// pass previousLevelMarker and nextLevelMarker to GamerLevelProgress
 		for (int i = previousLevelMarker.Level; i <= nextLevelMarker.Level; i += 1)
 		{
+			if (i == 0) continue;
 			int index = i;
 			_meterActionQueue.Enqueue(() => 
 				{
 					GD.Print($"start action {index}");
-	 				GamerLevelProgress.SetLeftLabel(string.Format(GAMER_LEVEL_TEMPLATE, i.ToString()));
+	 				GamerLevelProgress.SetLeftLabel(string.Format(GAMER_LEVEL_TEMPLATE, index.ToString()));
+
+
 					GamerLevelProgress.UpdateMaxAndValue(100, 0, withTween: false, updateLabels: false);
 					if (index == nextLevelMarker.Level)
 					{
@@ -141,7 +143,7 @@ public partial class RootPanel : TextButtonMenuPanel
 					}
 					else
 					{
-						GamerLevelProgress.UpdateMaxAndValue(100, 0, withTween: true, updateLabels: false);
+						GamerLevelProgress.UpdateMaxAndValue(100, 100, withTween: true, updateLabels: false);
 					}
 					GD.Print("end action");
 				}
