@@ -55,10 +55,8 @@ public partial class SmootheProgressBar : ProgressBar
 
 	void HandleTweenFinished()
 	{
-		GD.Print("SmootheProgressBar HandleTweenFinshed");
 		if (TweenFinishedCallback != null)
 		{
-			GD.Print("SmootheProgressBar TweenFinishedCallback Invoke");
 			TweenFinishedCallback.Invoke();
 		}
 	}

@@ -64,8 +64,7 @@ public partial class CrawlStatsHistoryPanel : BaseMenuPanel
 
 	void HandleBack()
 	{
-		var resultPanel = MenuBusiness.PopPanel();
-		GD.Print($"HandleBack {resultPanel.Id}");	
+		var resultPanel = MenuBusiness.PopPanel();	
 		EmitSignal(SignalName.Open, (int)resultPanel.Id);
 	}
 

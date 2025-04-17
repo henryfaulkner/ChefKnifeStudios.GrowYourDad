@@ -90,7 +90,6 @@ public partial class PcMeterService : GameStateSingletonBase, IPcMeterService
 
     public override void Clear()
     {
-		GD.Print("PcMeterService Clear");
         HpValue = INITIAL_HP;
         HpMax = INITIAL_HP;
         SpValue = INITIAL_SP;

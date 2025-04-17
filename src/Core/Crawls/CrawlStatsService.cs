@@ -36,12 +36,13 @@ public partial class CrawlStatsService : Node, ICrawlStatsService
 		set
 		{
 			_gameSave = value;
-			CrawlStats.GameSaveId = _gameSave?.Id;
+			CrawlStats.GameSaveId = value?.Id;
+			CrawlStats.GameSave = value;
 			EmitSignal(SignalName.RefreshUI);
 		}
 	}
 
-	CrawlStats _crawlStats = new();
+	CrawlStats _crawlStats = new(null);
 	public CrawlStats CrawlStats
 	{
 		get => _crawlStats;
@@ -97,6 +98,6 @@ public partial class CrawlStatsService : Node, ICrawlStatsService
 
 	void ClearCrawlStats()
 	{
-		_crawlStats = new();
+		CrawlStats = new(GameSave);
 	}
 }

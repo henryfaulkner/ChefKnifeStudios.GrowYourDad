@@ -105,7 +105,6 @@ public partial class RootPanel : TextButtonMenuPanel
 	{
 		if (_firstRender)
 		{
-			GD.Print("_firstRender");
 			if (_previousLevelMarker == null ) _logger.LogError("_previousLevelMarker is null");
 			if (_nextLevelMarker == null ) _logger.LogError("_nextLevelMarker is null");
 			TweenGamerBetweenLevels(_previousLevelMarker!, _nextLevelMarker!);
@@ -117,9 +116,6 @@ public partial class RootPanel : TextButtonMenuPanel
 
 	void TweenGamerBetweenLevels(LevelXpProgressMarker previousLevelMarker, LevelXpProgressMarker nextLevelMarker)
 	{
-		GD.Print($"previousLevelMarker: {previousLevelMarker}");
-		GD.Print($"nextLevelMarker: {nextLevelMarker}");
-
 		// pass previousLevelMarker and nextLevelMarker to GamerLevelProgress
 		for (int i = previousLevelMarker.Level; i <= nextLevelMarker.Level; i += 1)
 		{
@@ -127,14 +123,10 @@ public partial class RootPanel : TextButtonMenuPanel
 			int index = i;
 			_meterActionQueue.Enqueue(() => 
 				{
-					GD.Print($"start action {index}");
 	 				GamerLevelProgress.SetLeftLabel(string.Format(GAMER_LEVEL_TEMPLATE, index.ToString()));
-
-
 					GamerLevelProgress.UpdateMaxAndValue(100, 0, withTween: false, updateLabels: false);
 					if (index == nextLevelMarker.Level)
 					{
-						GD.Print("if nextLevelMarker.Level");
 						GamerLevelProgress.UpdateMaxAndValue(100, nextLevelMarker.XpRatio, withTween: true, updateLabels: false);
 					}
 					else if (i == previousLevelMarker.Level)
@@ -145,14 +137,11 @@ public partial class RootPanel : TextButtonMenuPanel
 					{
 						GamerLevelProgress.UpdateMaxAndValue(100, 100, withTween: true, updateLabels: false);
 					}
-					GD.Print("end action");
 				}
 			);
 		}
-		GD.Print($"_meterActionQueue.Count {_meterActionQueue.Count()}");
 		if (_meterActionQueue.TryDequeue(out var action))
 		{
-			GD.Print("invoke action");
 			action.Invoke(); 
 		} 
 	}
@@ -175,10 +164,8 @@ public partial class RootPanel : TextButtonMenuPanel
 
 	void HandleTweenFinished()
 	{
-		GD.Print("Call HandleTweenFinished");
 		if (_meterActionQueue.TryDequeue(out var action))
 		{
-			GD.Print("invoke HandleTweenFinished action");
 			action.Invoke(); 
 		} 
 	}

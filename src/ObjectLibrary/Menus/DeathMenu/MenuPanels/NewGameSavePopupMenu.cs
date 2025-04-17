@@ -39,7 +39,6 @@ public partial class NewGameSavePopupMenu : Panel
 
 	public void Open()
 	{
-		GD.Print("NewGameSavePopupMenu Open");
 		Visible = true;
 		GetTree().Paused = true;
 		TextBox.GrabFocus();
@@ -47,7 +46,6 @@ public partial class NewGameSavePopupMenu : Panel
 
 	public void Close()
 	{
-		GD.Print("NewGameSavePopupMenu Close");
 		TextBox.Text = string.Empty;
 		Visible = false;
 		GetTree().Paused = false;
@@ -79,6 +77,7 @@ public partial class NewGameSavePopupMenu : Panel
 		_unitOfWork.GameSaveRepository.Add(newGameSave);
 		_unitOfWork.SaveChanges();
 		_crawlStatsService.GameSave = newGameSave;
+		GD.Print("NewGameSavePopupMenu: change game save");
 
 		EmitSignal(SignalName.Submitted);
 		this.Close();
@@ -86,7 +85,6 @@ public partial class NewGameSavePopupMenu : Panel
 
 	void HandleCloseBtnClicked()
 	{
-		GD.Print("HandleCloseCtrlInput");
 		this.Close();
 	}
 }

@@ -60,10 +60,8 @@ public partial class SmootheMeter : MarginContainer
 
 	void HandleTweenFinshed()
 	{
-		GD.Print("SmootheMeter HandleTweenFinshed");
 		if (TweenFinishedCallback != null)
 		{
-			GD.Print("SmootheMeter TweenFinishedCallback Invoke");
 			TweenFinishedCallback.Invoke();
 		}
 	}

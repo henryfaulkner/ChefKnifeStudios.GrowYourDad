@@ -3,6 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public partial class CrawlStats
 {
+	public CrawlStats() {}
+
 	[Key]
 	public int Id { get; set; }
 	public int? GameSaveId { get; set; } = null!;

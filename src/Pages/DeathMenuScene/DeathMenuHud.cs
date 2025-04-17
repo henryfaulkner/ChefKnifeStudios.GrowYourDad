@@ -38,7 +38,6 @@ public partial class DeathMenuHud : CanvasLayer
 			
 			if (CrawlDepthLabel != null && IsInstanceValid(CrawlDepthLabel)) 
 			{
-				GD.Print("CrawlDepthLabel != null");
 				CrawlDepthLabel.Text = string.Format(
 					CRAWL_DEPTH_LABEL_TEXT, 
 					_mostRecentCrawlStats?.CrawlDepth_ToString() ?? string.Empty, 

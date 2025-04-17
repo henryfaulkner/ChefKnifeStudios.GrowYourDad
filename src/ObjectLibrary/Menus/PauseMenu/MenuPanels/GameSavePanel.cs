@@ -103,7 +103,6 @@ public partial class GameSavePanel : BaseMenuPanel
 			var btn = UsernameBtns[i];
 			var gameSave = gameSaveList[i];
 	
-			GD.Print($"Add {gameSave.Username}");
 			btn.Text = gameSave.Username;
 			btn.Pressed += () => HandleExistingGameSavePressed(btn);
 			Controls.Add(btn);
@@ -170,6 +169,7 @@ public partial class GameSavePanel : BaseMenuPanel
 		}
 
 		_crawlStatsService.GameSave = gameSave;
+		GD.Print("GameSavePanel: change game save, gameSave");
 	}
 
 	void HandleSubmit()
@@ -201,6 +201,7 @@ public partial class GameSavePanel : BaseMenuPanel
 		_unitOfWork.GameSaveRepository.Add(newGameSave);
 		_unitOfWork.SaveChanges();
 		_crawlStatsService.GameSave = newGameSave;
+		GD.Print("GameSavePanel: change game save, newGameSave");
 		
 		NewGameSaveTextBox.Text = string.Empty;
 		HandleBack();

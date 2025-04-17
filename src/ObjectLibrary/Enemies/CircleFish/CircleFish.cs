@@ -175,7 +175,6 @@ public partial class CircleFish : Path2D, IEnemy
 		var result = false;
 		if (pathFollow == null)
 		{
-			GD.PrintErr("PathFollow2D is not assigned.");
 			return result;
 		}
 		

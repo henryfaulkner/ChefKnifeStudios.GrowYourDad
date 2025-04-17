@@ -1,5 +1,11 @@
 public partial class CrawlStats
 {
+	public CrawlStats(GameSave? gameSave)
+	{
+		GameSave = gameSave;
+		GameSaveId = gameSave?.Id;
+	}
+
 	const int DEPTH_PER_FLOOR = 15; 
 
 	public void IncrementCrawlDepth()
