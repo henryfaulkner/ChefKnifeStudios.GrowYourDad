@@ -65,8 +65,8 @@ public partial class DeathMenuHud : CanvasLayer
 		CrawlDepthLabel.Text = string.Format(
 			CRAWL_DEPTH_LABEL_TEXT, 
 			_mostRecentCrawlStats?.CrawlDepth_ToString() ?? string.Empty, 
-			_mostRecentCrawlStats?.GameSave?.Username ?? string.Empty,
-			_crawlStatsService.GameSave?.Username ?? string.Empty
+			$"Displayed Gamer: {_mostRecentCrawlStats?.GameSave?.Username ?? string.Empty}",
+			$"Selected Gamer: {_crawlStatsService.GameSave?.Username ?? string.Empty}"
 		);
 	}
 }
