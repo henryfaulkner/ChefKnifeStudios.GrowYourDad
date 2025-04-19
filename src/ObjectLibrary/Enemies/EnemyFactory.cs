@@ -45,7 +45,6 @@ public partial class EnemyFactory : Node, IEnemyFactory
 
 	public LineFish SpawnLineFish(Node parent, Vector2 globalPosition, Vector2 pointOnePos, Vector2 pointTwoPos, float? speed = null)
 	{
-		_logger.LogInfo("Call SpawnLineFish");
 		try
 		{
 			var result = _lineFishScene.Instantiate<LineFish>();

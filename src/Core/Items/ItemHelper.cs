@@ -26,17 +26,17 @@ public static class ItemHelper
 			TypeInfoResolver = new DefaultJsonTypeInfoResolver(), // Required for polymorphic deserialization
 			WriteIndented = true
 		};
-		IEnumerable<ItemBase>? result = JsonSerializer.Deserialize<IEnumerable<ItemBase>>(jsonContent, options);
-		
-		if (result == null) throw new JsonException("item-schemas.json did not deserialize into an item list.");
-		PopulateItemRarityProperty(result);
 
+		IEnumerable<ItemBase>? result = JsonSerializer.Deserialize<IEnumerable<ItemBase>>(jsonContent, options);
+		if (result == null) throw new JsonException("item-schemas.json did not deserialize into an item list.");
+		
+		PopulateRarityProperty(result);
 		return result;
 	}
 
-	public static IEnumerable<ItemRarity> GetItemRarities()
+	public static IEnumerable<SpawnRarity> GetSpawnRarities()
 	{
-		string filePath = "res://Core/Items/item-rarity-schemas.json";
+		string filePath = "res://Core/Items/rarity-schemas.json";
 		using var file = FileAccess.Open(filePath, FileAccess.ModeFlags.Read);
 		string jsonContent = file.GetAsText();
 		var options = new JsonSerializerOptions
@@ -45,8 +45,8 @@ public static class ItemHelper
 			TypeInfoResolver = new DefaultJsonTypeInfoResolver(), // Required for polymorphic deserialization
 			WriteIndented = true
 		};
-		var result = JsonSerializer.Deserialize<IEnumerable<ItemRarity>>(jsonContent, options);
-		if (result == null) throw new JsonException("item-rarity-schemas.json did not deserialize into an item list.");
+		var result = JsonSerializer.Deserialize<IEnumerable<SpawnRarity>>(jsonContent, options);
+		if (result == null) throw new JsonException("rarity-schemas.json did not deserialize into an item list.");
 		return result;
 	}
 
@@ -130,9 +130,9 @@ public static class ItemHelper
 		}
 	}
 
-	static void PopulateItemRarityProperty(IEnumerable<ItemBase> items)
+	static void PopulateRarityProperty(IEnumerable<ItemBase> items)
 	{
-		var itemRarities = GetItemRarities();
+		var itemRarities = GetSpawnRarities();
 		var rarityDict = itemRarities.ToDictionary(x => x.Tier);
 
 		foreach (var item in items)

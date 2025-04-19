@@ -1,0 +1,27 @@
+[
+    {
+        "tier": "common",
+        "chance": 60,
+        "color": "white"      
+    },
+    {
+        "tier": "uncommon",
+        "chance": 25,
+        "color": "green"      
+    },
+    {
+        "tier": "rare",
+        "chance": 10,
+        "color": "blue"      
+    },
+    {
+        "tier": "epic",
+        "chance": 4,
+        "color": "purple"      
+    },
+    {
+        "tier": "legendary",
+        "chance": 1,
+        "color": "gold"      
+    }
+]
