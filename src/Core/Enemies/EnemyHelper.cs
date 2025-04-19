@@ -46,8 +46,8 @@ public static class EnemyHelper
 		return result;
 	}
     
-    // method: get random item
-	public static EnemyBase GetRandomItem()
+    // method: get random enemy
+	public static EnemyBase GetRandomEnemy()
     {
         var enemyList = GetEnemies().ToList();
         var rand = new Random();
@@ -72,31 +72,16 @@ public static class EnemyHelper
         return enemyList[0]; // Fallback (should never be reached)
     }
 
-	// method: get random n items
-	public static IEnumerable<EnemyBase> GetRandomNItems(int n)
+	// method: get random n enemies
+	public static IEnumerable<EnemyBase> GetRandomNEnemies(int n)
 	{
-		var enemyList = GetEnemies().ToList();
-		var rand = new Random();
 		List<EnemyBase> result = new();
 
-		// If n is greater than or equal to the number of items, shuffle and take all unique items
-		if (n >= enemyList.Count)
-		{
-			// Shuffle the list to get a random order of items
-			enemyList = enemyList.OrderBy(x => rand.Next()).ToList();
-			return enemyList;
-		}
-		else
-		{
-			// Get n unique random items
-			while (result.Count < n)
-			{
-				var randItem = GetRandomItem();
-				if (result.Where(x => x.Id == randItem.Id).Any())
-					continue;
-				result.Add(randItem);
-			}
-		}
+		for (int i = 0; i < n; i += 1)
+        {
+            var randItem = GetRandomEnemy();
+            result.Add(randItem);
+        }
 
 		return result;
 	}

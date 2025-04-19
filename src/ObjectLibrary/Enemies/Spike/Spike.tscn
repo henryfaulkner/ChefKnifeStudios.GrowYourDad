@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://dsougcfhd1kmc"]
+
+[ext_resource type="Script" uid="uid://doo3yue0f3jsv" path="res://ObjectLibrary/Enemies/Spike/Spike.cs" id="1_diwti"]
+[ext_resource type="Script" uid="uid://c7vuf2fia118j" path="res://ObjectLibrary/Enemies/EnemyHurtBoxArea.cs" id="1_w2axv"]
+[ext_resource type="Script" uid="uid://c026htflqxcop" path="res://ObjectLibrary/Enemies/EnemyHitBoxArea.cs" id="2_diwti"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_8oy7a"]
+size = Vector3(25, 25, 25)
+
+[node name="Spike" type="StaticBody2D"]
+collision_layer = 6
+collision_mask = 6
+script = ExtResource("1_diwti")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(0, -12.5, 12.5, 12.5, -12.5, 12.5)
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+rotation = 3.14159
+mesh = SubResource("PrismMesh_8oy7a")
+
+[node name="HurtBox" type="Area2D" parent="."]
+script = ExtResource("1_w2axv")
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="HurtBox"]
+polygon = PackedVector2Array(0, -15, 15, 15, -15, 15)
+
+[node name="HitBox" type="Area2D" parent="."]
+script = ExtResource("2_diwti")
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="HitBox"]
+polygon = PackedVector2Array(0, -12.5, 12.5, 12.5, -12.5, 12.5)

@@ -22,4 +22,10 @@ public partial class Constants
 		public const string UnitOfWork = "/root/UnitOfWork";
 		public const string NavigationAuthority = "/root/NavigationAuthority";
 	}
+
+	public partial class Invulnerability
+	{
+		public const float Duration = 1.0f;
+		public const float Interval = 0.2f;
+	}
 }
