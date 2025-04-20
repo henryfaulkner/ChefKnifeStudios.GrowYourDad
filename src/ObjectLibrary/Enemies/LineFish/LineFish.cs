@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 public partial class LineFish : Path2D, IEnemy
 {
@@ -38,9 +39,10 @@ public partial class LineFish : Path2D, IEnemy
 		_hitBox.AreaHit += HandleHit;
 	}
 
-	public override void _Process(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
 		ProcessPathFollow(_pathFollow, Speed, delta);
+		SyncChildPositions(_pathFollow);
 	}
 
 	public override void _ExitTree()
@@ -99,24 +101,7 @@ public partial class LineFish : Path2D, IEnemy
 		}
 	}
 
-	void ReactToPcHit()
-	{
-		int damageConstant = 1;
-		_observables.EmitPcHit(damageConstant);
-	}
-	
-	void ReactToBlastHurt()
-	{
-		if (!_isFlashing) StartFlashing();
-		TakeDamage();
-	}
-
-	void ReactToBootsHurt()
-	{
-		HandleDeath();
-	}
-
-	async void StartFlashing()
+	public async Task StartFlashing()
 	{
 		_isFlashing = true;
 		var originalColor = Modulate;
@@ -133,6 +118,27 @@ public partial class LineFish : Path2D, IEnemy
 		// Ensure color is reset to the original after flashing
 		Modulate = originalColor;
 		_isFlashing = false;
+	}
+
+	void ReactToPcHit()
+	{
+		int damageConstant = 1;
+		_observables.EmitPcHit(damageConstant);
+	}
+	
+	void ReactToBlastHurt()
+	{
+		if (!_isFlashing) 
+		{
+			StartFlashing();
+			if (Spike is not null) Spike.StartFlashing();
+		}
+		TakeDamage();
+	}
+
+	void ReactToBootsHurt()
+	{
+		HandleDeath();
 	}
 
 	void HandleDeath()
@@ -168,5 +174,17 @@ public partial class LineFish : Path2D, IEnemy
 			pathFollow.ProgressRatio += (speed * _directionSign) * (float)delta;
 		}
 		return result;
+	}
+
+	void SyncChildPositions(PathFollow2D pathFollow)
+	{
+		Vector2 position = pathFollow.GlobalPosition;
+		if (Spike is not null) 
+		{
+			Spike.GlobalPosition = new Vector2(
+				position.X, 
+				position.Y - 20
+			);
+		}
 	}
 }

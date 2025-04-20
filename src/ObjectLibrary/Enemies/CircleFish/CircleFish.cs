@@ -1,7 +1,9 @@
 using Godot;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Reflection.Metadata;
+using System.Threading.Tasks;
 
 public partial class CircleFish : Path2D, IEnemy
 {
@@ -56,6 +58,7 @@ public partial class CircleFish : Path2D, IEnemy
 	public override void _PhysicsProcess(double delta)
 	{
 		ProcessPathFollow(_pathFollow, Speed, delta);
+		SyncChildPositions(_pathFollow);
 	}
 
 	public override void _ExitTree()
@@ -114,24 +117,7 @@ public partial class CircleFish : Path2D, IEnemy
 		}
 	}
 
-	void ReactToPcHit()
-	{
-		int damageConstant = 1;
-		_observables.EmitPcHit(damageConstant);
-	}
-	
-	void ReactToBlastHurt()
-	{
-		if (!_isFlashing) StartFlashing();
-		TakeDamage();
-	}
-
-	void ReactToBootsHurt()
-	{
-		HandleDeath();
-	}
-
-	async void StartFlashing()
+	public async Task StartFlashing()
 	{
 		_isFlashing = true;
 		var originalColor = Modulate;
@@ -148,6 +134,27 @@ public partial class CircleFish : Path2D, IEnemy
 		// Ensure color is reset to the original after flashing
 		Modulate = originalColor;
 		_isFlashing = false;
+	}
+
+	void ReactToPcHit()
+	{
+		int damageConstant = 1;
+		_observables.EmitPcHit(damageConstant);
+	}
+	
+	void ReactToBlastHurt()
+	{
+		if (!_isFlashing) 
+		{
+			StartFlashing();
+			if (Spike is not null) Spike.StartFlashing();
+		}
+		TakeDamage();
+	}
+
+	void ReactToBootsHurt()
+	{
+		HandleDeath();
 	}
 
 	void HandleDeath()
@@ -178,5 +185,17 @@ public partial class CircleFish : Path2D, IEnemy
 		
 		pathFollow.ProgressRatio += speed * (float)delta;
 		return result;
+	}
+
+	void SyncChildPositions(PathFollow2D pathFollow)
+	{
+		Vector2 position = pathFollow.GlobalPosition;
+		if (Spike is not null) 
+		{
+			Spike.GlobalPosition = new Vector2(
+				position.X, 
+				position.Y - 20
+			);
+		}
 	}
 }

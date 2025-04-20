@@ -284,17 +284,18 @@ public partial class LevelGenerator : Node2D
 					if (spawnChance > rand.NextDouble())
 					{
 						Vector2 spawnPos = new Vector2(x*TILE_SQUARE_SIZE, y*TILE_SQUARE_SIZE);
-						var enemyType = default(Enemies).Random();
-						switch (enemyType)
+						//var enemyType = default(Enemies).Random();
+						var enemy = EnemyHelper.GetRandomEnemy(); 
+						switch (enemy.ControllerNode)
 						{
-							case Enemies.CircleFish:
+							case Constants.EnemyControllerNodes.CircleFish:
 								{
 									var speed = (float)rand.NextDouble() * (cfMaxSpeed - cfMinSpeed) + cfMinSpeed;
 									var radius = (float)rand.NextDouble() * (cfMaxRadius - cfMinRadius) + cfMinRadius;
-									_ = _enemyFactory.SpawnCircleFish(this, spawnPos, speed, radius);
+									_ = _enemyFactory.SpawnCircleFish(enemy, this, spawnPos, speed, radius);
 								}
 								break;
-							case Enemies.LineFish:
+							case Constants.EnemyControllerNodes.LineFish:
 								{
 									_logger.LogInfo("Call case Enemies.LineFish");
 									var speed = (float)rand.NextDouble() * (lfMaxSpeed - lfMinSpeed) + lfMinSpeed;
@@ -308,12 +309,12 @@ public partial class LevelGenerator : Node2D
 										lowestHeight, 
 										highestHeight
 									);
-									_ = _enemyFactory.SpawnLineFish(this, spawnPos, pointOnePos, pointTwoPos, speed);
+									_ = _enemyFactory.SpawnLineFish(enemy, this, spawnPos, pointOnePos, pointTwoPos, speed);
 								}
 								break;
-							case Enemies.PathFindingFish:
+							case Constants.EnemyControllerNodes.PathFindingFish:
 								{
-									_ = _enemyFactory.SpawnPathFindingFish(this, spawnPos);
+									_ = _enemyFactory.SpawnPathFindingFish(enemy, this, spawnPos);
 								}
 								break;
 							default:

@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public partial class PathFindingFish : Agent, IEnemy
 {
@@ -160,24 +161,7 @@ public partial class PathFindingFish : Agent, IEnemy
 		}
 	}
 
-	void ReactToPcHit()
-	{
-		int damageConstant = 1;
-		_observables.EmitPcHit(damageConstant);
-	}
-	
-	void ReactToBlastHurt()
-	{
-		if (!_isFlashing) StartFlashing();
-		TakeDamage();
-	}
-
-	void ReactToBootsHurt()
-	{
-		HandleDeath();
-	}
-
-	async void StartFlashing()
+	public async Task StartFlashing()
 	{
 		_isFlashing = true;
 		var originalColor = Modulate;
@@ -197,6 +181,27 @@ public partial class PathFindingFish : Agent, IEnemy
 		_isFlashing = false;
 	}
 
+	void ReactToPcHit()
+	{
+		int damageConstant = 1;
+		_observables.EmitPcHit(damageConstant);
+	}
+	
+	void ReactToBlastHurt()
+	{
+		if (!_isFlashing) 
+		{
+			StartFlashing();
+			if (Spike is not null) Spike.StartFlashing();
+		}
+		TakeDamage();
+	}
+
+	void ReactToBootsHurt()
+	{
+		HandleDeath();
+	}
+
 	void HandleDeath()
 	{
 		_crawlStatsService.CrawlStats.FoesDefeated += 1;
@@ -209,6 +214,13 @@ public partial class PathFindingFish : Agent, IEnemy
 	{
 		Vector2 position = Controller.GlobalPosition;
 		_rayCastContainer.GlobalPosition = position;
+		if (Spike is not null) 
+		{
+			Spike.GlobalPosition = new Vector2(
+				position.X, 
+				position.Y - 20
+			);
+		}
 	}
 
 	static Node2D? DetectPlayerCharacter(List<RayCast2D> rayCastList)

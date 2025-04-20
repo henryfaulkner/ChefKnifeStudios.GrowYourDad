@@ -28,4 +28,11 @@ public partial class Constants
 		public const float Duration = 1.0f;
 		public const float Interval = 0.2f;
 	}
+
+	public partial class EnemyControllerNodes
+	{
+		public const string CircleFish = "CircleFish";
+		public const string LineFish = "LineFish";
+		public const string PathFindingFish = "PathFindingFish";
+	}
 }

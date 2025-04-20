@@ -16,6 +16,9 @@ public class EnemyBase
 	[JsonPropertyName("description")]
 	public string? Description { get; set; }
 
+    [JsonPropertyName("controllerNode")]
+    public required string ControllerNode { get; set; }
+
     [JsonPropertyName("hp")]
     public int Hp { get; set; }
 

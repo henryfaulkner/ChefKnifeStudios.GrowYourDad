@@ -8,25 +8,26 @@ public partial class Spike : StaticBody2D
 	[Export]
 	EnemyHitBoxArea _hitBox = null!;
 
-    public IEnemy? Enemy { get; set; } = null!;
+	public IEnemy? Enemy { get; set; } = null!;
 
 	ILoggerService _logger = null!;
 	Observables _observables = null!;
 
-    bool _isFlashing = false;
+	bool _isFlashing = false;
+	const int DAMAGE = 1;
 
-    public override void _Ready()
-    {
-        _logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
+	public override void _Ready()
+	{
+		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
 		_observables = GetNode<Observables>(Constants.SingletonNodes.Observables);
 
-        _hurtBox.AreaHurt += HandleHurt;
+		_hurtBox.AreaHurt += HandleHurt;
 		_hitBox.AreaHit += HandleHit;
 
-        base._Ready();
-    }
+		base._Ready();
+	}
 
-    public override void _ExitTree()
+	public override void _ExitTree()
 	{
 		if (_hurtBox != null)
 		{
@@ -38,10 +39,10 @@ public partial class Spike : StaticBody2D
 			_hitBox.AreaHit -= HandleHit;
 		}
 
-        base._ExitTree();
+		base._ExitTree();
 	}
 
-    public void HandleHit(int pcArea)
+	public void HandleHit(int pcArea)
 	{
 		switch ((Enumerations.PcAreas)pcArea)
 		{
@@ -75,24 +76,7 @@ public partial class Spike : StaticBody2D
 		}
 	}
 
-    void ReactToPcHit()
-	{
-		int damageConstant = 1;
-		_observables.EmitPcHit(damageConstant);
-	}
-	
-	public void ReactToBlastHurt()
-	{
-		if (!_isFlashing) StartFlashing();
-		TakeDamage();
-	}
-
-	public void ReactToBootsHurt()
-	{
-		return;
-	}
-
-    async void StartFlashing()
+	public async void StartFlashing()
 	{
 		_isFlashing = true;
 		var originalColor = Modulate;
@@ -111,9 +95,30 @@ public partial class Spike : StaticBody2D
 		_isFlashing = false;
 	}
 
-    void TakeDamage()
+	void ReactToPcHit()
+	{
+		int damageConstant = 1;
+		_observables.EmitPcHit(damageConstant);
+	}
+	
+	void ReactToBlastHurt()
+	{
+		if (!_isFlashing) 
+		{
+			StartFlashing();
+			if (Enemy is not null) Enemy.StartFlashing();
+		}
+		TakeDamage();
+	}
+
+	void ReactToBootsHurt()
+	{
+		_observables.EmitPcHit(DAMAGE);
+	}
+
+	void TakeDamage()
 	{
 		// pass damage handling to associated enemy
-        if (Enemy != null) Enemy.TakeDamage();
+		if (Enemy != null) Enemy.TakeDamage();
 	}
 }
