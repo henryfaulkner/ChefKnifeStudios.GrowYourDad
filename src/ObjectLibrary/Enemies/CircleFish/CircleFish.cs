@@ -1,7 +1,9 @@
 using Godot;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Reflection.Metadata;
+using System.Threading.Tasks;
 
 public partial class CircleFish : Path2D, IEnemy
 {
@@ -20,14 +22,11 @@ public partial class CircleFish : Path2D, IEnemy
 	public float Radius { get; set; } = 125.0f;
 	[Export]
 	int _numPoints = 100;
-	
-	[Export]
-	float _flashDuration = 1.0f; // Total duration of the flashing effect
-	[Export]
-	float _flashInterval = 0.2f; // Time between flashes
 
 	[Export]
 	int _hp = 1;
+
+	public Spike? Spike { get; set; } = null!; 
 
 	ILoggerService _logger = null!;
 	IPcInventoryService _pcInventoryService = null!;
@@ -59,6 +58,7 @@ public partial class CircleFish : Path2D, IEnemy
 	public override void _PhysicsProcess(double delta)
 	{
 		ProcessPathFollow(_pathFollow, Speed, delta);
+		SyncChildPositions(_pathFollow);
 	}
 
 	public override void _ExitTree()
@@ -108,43 +108,7 @@ public partial class CircleFish : Path2D, IEnemy
 		}
 	}
 
-	void ReactToPcHit()
-	{
-		int damageConstant = 1;
-		_observables.EmitPcHit(damageConstant);
-	}
-	
-	void ReactToBlastHurt()
-	{
-		if (!_isFlashing) StartFlashing();
-		TakeDamage();
-	}
-
-	void ReactToBootsHurt()
-	{
-		HandleDeath();
-	}
-
-	async void StartFlashing()
-	{
-		_isFlashing = true;
-		var originalColor = Modulate;
-
-		float elapsed = 0.0f;
-
-		while (elapsed < _flashDuration)
-		{
-			Modulate = (Modulate == originalColor) ? new Color(1.0f, 0.0f, 0.0f, 1.0f) : originalColor;
-			await ToSignal(GetTree().CreateTimer(_flashInterval), "timeout");
-			elapsed += _flashInterval;
-		}
-
-		// Ensure color is reset to the original after flashing
-		Modulate = originalColor;
-		_isFlashing = false;
-	}
-
-	void TakeDamage()
+	public void TakeDamage()
 	{
 		_hp -= _pcInventoryService.GetPcDamage();
 		if (_hp <= 0)
@@ -153,10 +117,51 @@ public partial class CircleFish : Path2D, IEnemy
 		}
 	}
 
+	public async Task StartFlashing()
+	{
+		_isFlashing = true;
+		var originalColor = Modulate;
+
+		float elapsed = 0.0f;
+
+		while (elapsed < Constants.Invulnerability.Duration)
+		{
+			Modulate = (Modulate == originalColor) ? new Color(1.0f, 0.0f, 0.0f, 1.0f) : originalColor;
+			await ToSignal(GetTree().CreateTimer(Constants.Invulnerability.Interval), "timeout");
+			elapsed += Constants.Invulnerability.Interval;
+		}
+
+		// Ensure color is reset to the original after flashing
+		Modulate = originalColor;
+		_isFlashing = false;
+	}
+
+	void ReactToPcHit()
+	{
+		int damageConstant = 1;
+		_observables.EmitPcHit(damageConstant);
+	}
+	
+	void ReactToBlastHurt()
+	{
+		if (!_isFlashing) 
+		{
+			StartFlashing();
+			if (Spike is not null) Spike.StartFlashing();
+		}
+		TakeDamage();
+	}
+
+	void ReactToBootsHurt()
+	{
+		HandleDeath();
+	}
+
 	void HandleDeath()
 	{
 		_crawlStatsService.CrawlStats.FoesDefeated += 1;
 		_proteinFactory.SpawnMultiProtein(GetNode(".."), _pathFollow.GlobalPosition);
+		if (Spike != null) Spike.QueueFree();
 		QueueFree();
 	}
 
@@ -180,5 +185,17 @@ public partial class CircleFish : Path2D, IEnemy
 		
 		pathFollow.ProgressRatio += speed * (float)delta;
 		return result;
+	}
+
+	void SyncChildPositions(PathFollow2D pathFollow)
+	{
+		Vector2 position = pathFollow.GlobalPosition;
+		if (Spike is not null) 
+		{
+			Spike.GlobalPosition = new Vector2(
+				position.X, 
+				position.Y - 20
+			);
+		}
 	}
 }

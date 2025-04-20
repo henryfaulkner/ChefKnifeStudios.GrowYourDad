@@ -1,0 +1,63 @@
+[
+    {
+        "$type": "base",
+        "id": "CIRCLE_FISH",
+        "name": "Circle Fish",
+        "description": "This fish swims in a circle.",
+        "controllerNode": "CircleFish",
+        "hp": 1,
+        "contactDamage": 1,
+        "rarityTier": "common",
+        "spawnsAfterWhatDepth": 0
+    },
+    {
+        "$type": "base",
+        "id": "LINE_FISH",
+        "name": "Line Fish",
+        "description": "This fish swims in a line.",
+        "controllerNode": "LineFish",
+        "hp": 1,
+        "contactDamage": 1,
+        "rarityTier": "common",
+        "spawnsAfterWhatDepth": 0
+    },
+    {
+        "$type": "base",
+        "id": "PATH_FINDING_FISH",
+        "name": "Path Finding Fish",
+        "description": "This fish swims towards you.",
+        "controllerNode": "PathFindingFish",
+        "hp": 2,
+        "contactDamage": 1,
+        "rarityTier": "common",
+        "spawnsAfterWhatDepth": 0
+    },
+    {
+        "$type": "withSpike",
+        "id": "SPIKED_CIRCLE_FISH",
+        "name": "Spiked Circle Fish",
+        "description": "This fish swims in a circle and has a spike on its head.",
+        "controllerNode": "CircleFish",
+        "hp": 1,
+        "contactDamage": 1,
+        "rarityTier": "uncommon",
+        "spawnsAfterWhatDepth": 0,
+        "spikeContactDamage": 1,
+        "spikeHeight": 15,
+        "spikeWidth": 15
+    },
+    {
+        "$type": "withSpike",
+        "id": "SPIKED_LINE_FISH",
+        "name": "Spiked Line Fish",
+        "description": "This fish swims in a line and has a spike on its head.",
+        "controllerNode": "LineFish",
+        "hp": 1,
+        "contactDamage": 1,
+        "rarityTier": "uncommon",
+        "spawnsAfterWhatDepth": 0,
+        "spikeContactDamage": 1,
+        "spikeHeight": 15,
+        "spikeWidth": 15
+    }
+]

@@ -8,7 +8,6 @@ using Newtonsoft.Json;
 [JsonDerivedType(typeof(ItemWithPassiveEffect), typeDiscriminator: "withPassiveEffect")]
 public class ItemBase
 {
-
 	[JsonPropertyName("id")]
 	public required string Id { get; set; }
 	
@@ -21,10 +20,10 @@ public class ItemBase
 	[JsonPropertyName("price")]
 	public int Price { get; set; }
 
-	[JsonPropertyName("rarity-tier")]
+	[JsonPropertyName("rarityTier")]
 	public required string RarityTier { get; set; }
 
-	public ItemRarity? Rarity { get; set; }
+	public SpawnRarity? Rarity { get; set; }
 
 	public override string ToString()
 	{
@@ -79,16 +78,4 @@ public class ItemWithPassiveEffect : ItemBase
 		return $"{base.ToString()}, BaseHpBenefit: {BaseHpBenefit}, BaseSpBenefit: {BaseSpBenefit}, " +
 			   $"DamageBenefit: {DamageBenefit}, MagnetRadiusBenefit: {MagnetRadiusBenefit}";
 	}
-}
-
-public class ItemRarity
-{
-	[JsonPropertyName("tier")]
-	public required string Tier { get; set; }
-
-	[JsonPropertyName("chance")]
-	public int Chance { get; set; }
-
-	[JsonPropertyName("color")]
-	public required string Color { get; set; }
 }
