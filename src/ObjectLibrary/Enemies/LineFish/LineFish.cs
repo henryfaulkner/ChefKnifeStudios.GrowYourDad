@@ -130,7 +130,7 @@ public partial class LineFish : Path2D, IEnemy
 	{
 		if (!_isFlashing) 
 		{
-			StartFlashing();
+			_ = StartFlashing();
 			if (Spike is not null) Spike.StartFlashing();
 		}
 		TakeDamage();
@@ -183,7 +183,7 @@ public partial class LineFish : Path2D, IEnemy
 		{
 			Spike.GlobalPosition = new Vector2(
 				position.X, 
-				position.Y - 20
+				position.Y - 15
 			);
 		}
 	}

@@ -191,7 +191,7 @@ public partial class PathFindingFish : Agent, IEnemy
 	{
 		if (!_isFlashing) 
 		{
-			StartFlashing();
+			_ = StartFlashing();
 			if (Spike is not null) Spike.StartFlashing();
 		}
 		TakeDamage();
@@ -218,7 +218,7 @@ public partial class PathFindingFish : Agent, IEnemy
 		{
 			Spike.GlobalPosition = new Vector2(
 				position.X, 
-				position.Y - 20
+				position.Y - 10
 			);
 		}
 	}

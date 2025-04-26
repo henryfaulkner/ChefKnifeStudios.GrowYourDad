@@ -53,7 +53,7 @@ public partial class EnemyFactory : Node, IEnemyFactory
 			result.AddChild(spike);
 			spike.Position = new Vector2(
 				spike.Position.X,
-				spike.Position.Y - 20
+				spike.Position.Y - 10
 			);
 		}
 
@@ -80,7 +80,7 @@ public partial class EnemyFactory : Node, IEnemyFactory
 				result.AddChild(spike);
 				spike.Position = new Vector2(
 					spike.Position.X,
-					spike.Position.Y - 20
+					spike.Position.Y - 10
 				);
 			}
 
@@ -112,7 +112,7 @@ public partial class EnemyFactory : Node, IEnemyFactory
 			result.AddChild(spike);
 			spike.Position = new Vector2(
 				spike.Position.X,
-				spike.Position.Y - 20
+				spike.Position.Y - 10
 			);
 		}
 

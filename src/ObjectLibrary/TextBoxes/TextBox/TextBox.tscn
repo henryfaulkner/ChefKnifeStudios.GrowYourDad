@@ -1,0 +1,64 @@
+[gd_scene load_steps=4 format=3 uid="uid://c3sju2uq24or1"]
+
+[ext_resource type="Script" uid="uid://dge8o3o6com7a" path="res://ObjectLibrary/TextBoxes/TextBox/TextBox.cs" id="1_funlx"]
+[ext_resource type="StyleBox" uid="uid://dkokxgyyj0dbb" path="res://ObjectLibrary/TextBoxes/Styles/TextBoxPanelStyles.tres" id="2_247aw"]
+[ext_resource type="Theme" uid="uid://btduqyobpjak6" path="res://ObjectLibrary/TextBoxes/Styles/TextBoxTextTheme.tres" id="3_4pnf0"]
+
+[node name="TextBox" type="CanvasLayer"]
+script = ExtResource("1_funlx")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 128
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 128
+theme_override_constants/margin_bottom = 64
+
+[node name="Panel" type="Panel" parent="MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_247aw")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="Panel" type="Panel" parent="MarginContainer/Panel/MarginContainer"]
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Panel/MarginContainer"]
+layout_mode = 2
+
+[node name="Start" type="Label" parent="MarginContainer/Panel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme = ExtResource("3_4pnf0")
+text = "*"
+
+[node name="Dialogue" type="RichTextLabel" parent="MarginContainer/Panel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("3_4pnf0")
+bbcode_enabled = true
+text = "bkjncjkfjnkfdnjvnfjvnd"
+
+[node name="End" type="Label" parent="MarginContainer/Panel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Panel/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "Press Space to Continue"

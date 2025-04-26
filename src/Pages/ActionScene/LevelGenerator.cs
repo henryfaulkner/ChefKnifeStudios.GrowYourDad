@@ -263,14 +263,14 @@ public partial class LevelGenerator : Node2D
 		Random rand = new();
 
 		float lfMinSpeed = 0.3f;
-		float lfMaxSpeed = 1.2f;
+		float lfMaxSpeed = 0.6f;
 		float lfMinLength = 0.75f;
-		float lfMaxLength = 4.0f; 
+		float lfMaxLength = 2.5f; 
 
 		float cfMinSpeed = 0.3f;
-		float cfMaxSpeed = 1.2f;
+		float cfMaxSpeed = 0.6f;
 		float cfMinRadius = 0.5f;
-		float cfMaxRadius = 3.5f;
+		float cfMaxRadius = 2f;
 
 		for (int y = lowestHeight; y < highestHeight; y += 1)
 		{ 

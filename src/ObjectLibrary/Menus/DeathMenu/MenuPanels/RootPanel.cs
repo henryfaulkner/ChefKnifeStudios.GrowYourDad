@@ -177,7 +177,11 @@ public class LevelXpProgressMarker
 	{
 		Level = pcLevel.Level;
 		if (pcLevel.Level > 0)
-			XpRatio = (int)((double)pcLevel.TotalProteinBanked / (double)pcLevel.TotalProteinNeededForNextLevel * 100);
+			XpRatio = (int)(
+				(double)(pcLevel.TotalProteinBanked - pcLevel.TotalProteinNeededForCurrentLevel) 
+				/ (double)(pcLevel.TotalProteinNeededForNextLevel - pcLevel.TotalProteinNeededForCurrentLevel)
+				* 100
+			);
 		else 
 			XpRatio = 0;
 	}

@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://c026htflqxcop" path="res://ObjectLibrary/Enemies/EnemyHitBoxArea.cs" id="2_diwti"]
 
 [sub_resource type="PrismMesh" id="PrismMesh_8oy7a"]
-size = Vector3(25, 25, 25)
+size = Vector3(12.5, 12.5, 12.5)
 
 [node name="Spike" type="StaticBody2D" node_paths=PackedStringArray("_hurtBox", "_hitBox")]
 physics_interpolation_mode = 2
@@ -16,7 +16,7 @@ _hurtBox = NodePath("HurtBox")
 _hitBox = NodePath("HitBox")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(0, -12.5, 12.5, 12.5, -12.5, 12.5)
+polygon = PackedVector2Array(0, -6.25, 6.25, 6.25, -6.25, 6.25)
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="."]
 rotation = 3.14159
@@ -26,10 +26,10 @@ mesh = SubResource("PrismMesh_8oy7a")
 script = ExtResource("1_w2axv")
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="HurtBox"]
-polygon = PackedVector2Array(0, -15, 15, 15, -15, 15)
+polygon = PackedVector2Array(0, -10, 10, 10, -10, 10)
 
 [node name="HitBox" type="Area2D" parent="."]
 script = ExtResource("2_diwti")
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="HitBox"]
-polygon = PackedVector2Array(0, -12.5, 12.5, 12.5, -12.5, 12.5)
+polygon = PackedVector2Array(0, -6.25, 6.25, 6.25, -6.25, 6.25)
