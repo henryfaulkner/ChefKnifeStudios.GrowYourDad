@@ -15,6 +15,6 @@ public partial class StartUpScene : Node
 
 		_navigationAuthority = GetNode<NavigationAuthority>(Constants.SingletonNodes.NavigationAuthority);
 		// Use call_deferred to safely change the scene
-		_navigationAuthority.CallDeferred("ChangeToPreActionLevel");
+		_navigationAuthority.CallDeferred("ChangeToIntro");
 	}
 }

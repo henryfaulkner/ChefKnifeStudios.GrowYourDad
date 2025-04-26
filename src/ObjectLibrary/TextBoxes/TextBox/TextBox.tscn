@@ -4,8 +4,9 @@
 [ext_resource type="StyleBox" uid="uid://dkokxgyyj0dbb" path="res://ObjectLibrary/TextBoxes/Styles/TextBoxPanelStyles.tres" id="2_247aw"]
 [ext_resource type="Theme" uid="uid://btduqyobpjak6" path="res://ObjectLibrary/TextBoxes/Styles/TextBoxTextTheme.tres" id="3_4pnf0"]
 
-[node name="TextBox" type="CanvasLayer"]
+[node name="TextBox" type="CanvasLayer" node_paths=PackedStringArray("DialogueLabel")]
 script = ExtResource("1_funlx")
+DialogueLabel = NodePath("MarginContainer/Panel/MarginContainer/HBoxContainer/Dialogue")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchors_preset = 15
