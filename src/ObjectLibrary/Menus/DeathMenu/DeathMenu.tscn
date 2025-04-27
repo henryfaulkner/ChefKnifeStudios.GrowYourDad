@@ -54,6 +54,7 @@ theme_override_constants/margin_bottom = 75
 layout_mode = 2
 
 [node name="RootPanel" type="Panel" parent="BgPanel/Panel/Panels" node_paths=PackedStringArray("GamerLevelPanel", "GamerLevelProgress", "NewCrawlBtn", "GameSavesBtn", "ReturnToSurfaceBtn")]
+visible = false
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 size_flags_vertical = 3
@@ -151,7 +152,6 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="NewGameSavesPanel" type="Panel" parent="BgPanel/Panel/Panels" node_paths=PackedStringArray("TextBox", "SubmitBtn", "CloseBtn")]
-visible = false
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 size_flags_vertical = 3

@@ -1,0 +1,125 @@
+[gd_scene load_steps=6 format=3 uid="uid://doo0n2702hwwq"]
+
+[ext_resource type="Script" uid="uid://dc5rbeychnaao" path="res://ObjectLibrary/TextBoxes/IntroTextBox/IntroTextBox.cs" id="1_2dkbo"]
+[ext_resource type="StyleBox" uid="uid://dkokxgyyj0dbb" path="res://ObjectLibrary/TextBoxes/Styles/TextBoxPanelStyles.tres" id="2_lvhsn"]
+[ext_resource type="Theme" uid="uid://btduqyobpjak6" path="res://ObjectLibrary/TextBoxes/Styles/TextBoxTextTheme.tres" id="3_4qwdu"]
+[ext_resource type="FontFile" uid="uid://dpfxhw7kcgm36" path="res://Assets/Fonts/Born2bSportyV2.ttf" id="4_4qwdu"]
+[ext_resource type="Theme" uid="uid://cew4a71d1h5c8" path="res://ObjectLibrary/Menus/PauseMenu/Styles/PauseMenuOptionButtonTheme.tres" id="4_lvhsn"]
+
+[node name="IntroTextBox" type="CanvasLayer" node_paths=PackedStringArray("IntroTextBoxContainer", "CreateProfileContainer", "DialogueLabel", "TextBox", "SubmitBtn")]
+script = ExtResource("1_2dkbo")
+IntroTextBoxContainer = NodePath("MarginContainer/Panel/IntroTextContainer")
+CreateProfileContainer = NodePath("MarginContainer/Panel/CreateProfileContainer")
+DialogueLabel = NodePath("MarginContainer/Panel/IntroTextContainer/HBoxContainer/Dialogue")
+TextBox = NodePath("MarginContainer/Panel/CreateProfileContainer/VBoxContainer/NextGameSaveTextBox")
+SubmitBtn = NodePath("MarginContainer/Panel/CreateProfileContainer/VBoxContainer/SubmitButton")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 128
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 128
+theme_override_constants/margin_bottom = 64
+
+[node name="Panel" type="Panel" parent="MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_lvhsn")
+
+[node name="IntroTextContainer" type="MarginContainer" parent="MarginContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Panel/IntroTextContainer"]
+layout_mode = 2
+
+[node name="Start" type="Label" parent="MarginContainer/Panel/IntroTextContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme = ExtResource("3_4qwdu")
+text = "*"
+
+[node name="Dialogue" type="RichTextLabel" parent="MarginContainer/Panel/IntroTextContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("3_4qwdu")
+bbcode_enabled = true
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+
+[node name="End" type="Label" parent="MarginContainer/Panel/IntroTextContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Panel/IntroTextContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "Press Space to Continue"
+
+[node name="CreateProfileContainer" type="MarginContainer" parent="MarginContainer/Panel"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 128
+theme_override_constants/margin_top = 96
+theme_override_constants/margin_right = 128
+theme_override_constants/margin_bottom = 224
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Panel/CreateProfileContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Panel/CreateProfileContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_4qwdu")
+theme_override_font_sizes/font_size = 64
+text = "What is your name?"
+horizontal_alignment = 1
+
+[node name="NewGameSaveSeparator" type="HSeparator" parent="MarginContainer/Panel/CreateProfileContainer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="NextGameSaveTextBox" type="TextEdit" parent="MarginContainer/Panel/CreateProfileContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+focus_neighbor_left = NodePath("../../../../../CloseButton")
+focus_neighbor_top = NodePath("../../../../../CloseButton")
+focus_neighbor_right = NodePath("../SubmitButton")
+focus_neighbor_bottom = NodePath("../SubmitButton")
+focus_next = NodePath("../SubmitButton")
+focus_previous = NodePath("../../../../../CloseButton")
+theme_override_font_sizes/font_size = 20
+placeholder_text = "Type in your name"
+
+[node name="SubmitButtonSeparator" type="HSeparator" parent="MarginContainer/Panel/CreateProfileContainer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SubmitButton" type="Button" parent="MarginContainer/Panel/CreateProfileContainer/VBoxContainer"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../NextGameSaveTextBox")
+focus_neighbor_top = NodePath("../NextGameSaveTextBox")
+focus_neighbor_right = NodePath("../../../../../CloseButton")
+focus_neighbor_bottom = NodePath("../../../../../CloseButton")
+focus_next = NodePath("../../../../../CloseButton")
+focus_previous = NodePath("../NextGameSaveTextBox")
+mouse_default_cursor_shape = 2
+theme = ExtResource("4_lvhsn")
+text = "ADD GAMER"

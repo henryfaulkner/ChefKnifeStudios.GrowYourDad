@@ -30,14 +30,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 32
+theme_override_constants/margin_left = 24
 theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
-
-[node name="Panel" type="Panel" parent="MarginContainer/Panel/MarginContainer"]
-visible = false
-layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Panel/MarginContainer"]
 layout_mode = 2
@@ -53,9 +49,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("3_4pnf0")
 bbcode_enabled = true
-text = "bkjncjkfjnkfdnjvnfjvnd"
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 
 [node name="End" type="Label" parent="MarginContainer/Panel/MarginContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/Panel/MarginContainer"]

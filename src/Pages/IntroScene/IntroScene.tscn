@@ -1,10 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://vdnj2wismg5g"]
 
 [ext_resource type="Script" uid="uid://bx7k405b2lbe4" path="res://Pages/IntroScene/IntroScene.cs" id="1_lprr2"]
-[ext_resource type="PackedScene" uid="uid://c3sju2uq24or1" path="res://ObjectLibrary/TextBoxes/TextBox/TextBox.tscn" id="1_wj2ry"]
+[ext_resource type="PackedScene" uid="uid://doo0n2702hwwq" path="res://ObjectLibrary/TextBoxes/IntroTextBox/IntroTextBox.tscn" id="2_lprr2"]
 
-[node name="IntroScene" type="Node2D" node_paths=PackedStringArray("TextBox")]
+[node name="IntroScene" type="Node2D" node_paths=PackedStringArray("IntroTextBox")]
 script = ExtResource("1_lprr2")
-TextBox = NodePath("TextBox")
+IntroTextBox = NodePath("IntroTextBox")
 
-[node name="TextBox" parent="." instance=ExtResource("1_wj2ry")]
+[node name="IntroTextBox" parent="." instance=ExtResource("2_lprr2")]
