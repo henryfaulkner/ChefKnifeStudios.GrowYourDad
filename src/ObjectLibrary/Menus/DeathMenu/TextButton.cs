@@ -27,7 +27,7 @@ public partial class TextButton : Control
 
 	public void HandleFocus() 
 	{
-		BackgroundLabel.Visible = false;
+		BackgroundLabel.Visible = true;
 		
 		//if (ForegroundLabel.HasThemeColorOverride("font_outline_color"))
 		//{
@@ -41,7 +41,7 @@ public partial class TextButton : Control
 	
 	public void HandleLoseFocus() 
 	{
-		BackgroundLabel.Visible = true;
+		BackgroundLabel.Visible = false;
 		
 		//if (ForegroundLabel.HasThemeColorOverride("font_outline_color"))
 		//{

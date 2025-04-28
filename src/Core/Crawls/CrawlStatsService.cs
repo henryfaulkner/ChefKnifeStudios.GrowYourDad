@@ -39,6 +39,21 @@ public partial class CrawlStatsService : Node, ICrawlStatsService
 			CrawlStats.GameSaveId = value?.Id;
 			CrawlStats.GameSave = value;
 			EmitSignal(SignalName.RefreshUI);
+			
+			if (value != null)
+			{
+				var entities = _unitOfWork.GameSaveRepository.GetAll();
+				GD.Print($"Value Id : {value.Id}");
+				foreach (var entity in entities)
+				{
+					GD.Print($"entity Id : {entity.Id}");
+					if (entity != null && entity.Id == value.Id)
+					{
+						entity.IsCurrent = true;
+					}
+				}
+				_ = _unitOfWork.SaveChanges();
+			}
 		}
 	}
 

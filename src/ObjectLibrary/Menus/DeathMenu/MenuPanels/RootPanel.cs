@@ -60,7 +60,7 @@ public partial class RootPanel : TextButtonMenuPanel
 
 		Controls = [ NewCrawlBtn, GameSavesBtn, ReturnToSurfaceBtn ];
 		SelectHandlers = [ HandleNewCrawlSelect, HandleGameSaveSelect, HandleReturnToSurfaceSelect ];
-		Texts = [ "TAKE ANOTHER DIVE", "SAVE GAME", "RETURN TO SURFACE" ];
+		Texts = [ "TAKE ANOTHER DIVE", "MANAGE PROFILES", "RETURN TO SURFACE" ];
 
 		for (int i = 0; i < Controls.Count; i += 1)
 		{

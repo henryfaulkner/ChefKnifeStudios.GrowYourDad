@@ -13,6 +13,7 @@ public partial class GameSave
 	[Key]
 	public int Id { get; set; }
 	public required string Username { get; set; } 
+	public bool IsCurrent { get; set; }
 
 	public HashSet<CrawlStats>? CrawlStatsCollection { get; set; }
 }
