@@ -20,6 +20,9 @@ namespace ChefKnifeStudios.GrowYourDad.GoalDesigner.Controllers
             _logger = logger;
             _httpService = httpService;
             _config = config;
+
+            string key = _config["OpenAI:Key"] ?? string.Empty;
+            _httpService.SetBearerAuthentication(key);
         }
 
         public IActionResult Index()
@@ -38,31 +41,25 @@ namespace ChefKnifeStudios.GrowYourDad.GoalDesigner.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public async Task<ApiResponse<ChatGPTResponse?>> SendChatGPTRequest(ChatGPTRequest request)
+        [HttpGet("generate-goal")]
+        public async Task<IActionResult> GenerateGoalAsync()
         {
-            try
+            string prompt = "Prewritten prompt";
+            string endpoint = _config["OpenAI:Endpoint"] ?? string.Empty;
+            var request = new ChatGPTRequest
             {
-                string endpoint = _config["OpenAI:Endpoint"] ?? string.Empty;
-                string key = _config["OpenAI:Key"] ?? string.Empty;
-
-                _httpService.PostAsync<ChatGPTResponse?>("https://api.openai.com/v1/chat/completions", );
-
-                var response = await client.PostAsync(endpoint, jsonContent);
-
-                if (!response.IsSuccessStatusCode)
+                Model = "gpt-4",
+                Messages = new List<ChatGPTMessage>
                 {
-                    return await CreateErrorCodeResponse<ChatGPTResponse>(response);
-                }
+                    new ChatGPTMessage { Role = "system", Content = "You are a helpful assistant. I can put the robot in a certain frame of mind here." },
+                    new ChatGPTMessage { Role = "user", Content = prompt }
+                },
+                Temperature = 0.7f
+            };
 
-                var content = await response.Content.ReadAsStringAsync();
-                var chatGPTResponse = JsonSerializer.Deserialize<ChatGPTResponse?>(content, GetJsonSerializerOptions());
+            var res = await _httpService.PostAsync<ChatGPTRequest, ChatGPTResponse?>(endpoint, request);
 
-                return new ApiResponse<ChatGPTResponse?>(chatGPTResponse);
-            }
-            catch (Exception ex)
-            {
-                return CreateFallbackResponse<ChatGPTResponse>(ex);
-            }
+            return Ok(res.Data);
         }
     }
 }
