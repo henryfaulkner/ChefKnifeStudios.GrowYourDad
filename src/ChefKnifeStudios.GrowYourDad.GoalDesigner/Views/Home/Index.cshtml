@@ -1,8 +1,37 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model GoalCreationModel;
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@using System.Text.Json;
+
+<form method="post">
+    <div>
+        @* <label for="Message">Message:</label> *@
+        <textarea id="Message" name="Message" asp-for="Message" rows="5" cols="50"></textarea>
+        <span asp-validation-for="Message" style="color: red;"></span>
+
+        <!-- Hidden input for Goals list -->
+        <input type="hidden" id="Goals" name="GoalsJson"
+        value='@Html.Raw(JsonSerializer.Serialize(Model.Goals))' />
+
+    </div>
+
+    <button id="create-btn" type="submit" formaction="/Home/CreateGoal">Submit</button>
+    <button id="chat-gpt-btn" type="submit" formaction="/Home/GetGptMessage">Use ChatGPT</button>
+</form>
+
+<div class="container">
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        @foreach (var goal in Model.Goals)
+        {
+            <div class="col">
+                <div class="card">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <p>Message: @goal.Message</p>
+                    </div>
+                    <div class="card-footer" style="height: 2.5rem;">
+                        <p class="text-end mb-0"><i>Rating: @goal.Rating</i></p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>

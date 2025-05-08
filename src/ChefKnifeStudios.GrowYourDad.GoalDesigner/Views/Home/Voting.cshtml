@@ -1,0 +1,45 @@
+﻿@model VotingModel
+
+@using System.Text.Json;
+
+<form method="post" asp-action="Voting">
+    <div>
+        <h3>Vote for your favorite goal</h3>
+
+        <div class="row row-cols-1 row-cols-md-6 g-4">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <p>@Model.Goals[Model.FirstIndex].Message</p>
+                    </div>
+                    <div class="card-footer" style="height: 2.5rem;">
+                        <button type="submit" formaction="@Url.Action("Voting", new { choice = nameof(VotingModel.FirstIndex) })">
+                            Vote for First
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <p>@Model.Goals[Model.SecondIndex].Message</p>
+                    </div>
+                    <div class="card-footer" style="height: 2.5rem;">
+                        <button type="submit" formaction="@Url.Action("Voting", new { choice = nameof(VotingModel.SecondIndex) })">
+                            Vote for Second
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" asp-for="RankingIndex" />
+    <input type="hidden" asp-for="FirstIndex" />
+    <input type="hidden" asp-for="SecondIndex" />
+    <input type="hidden" asp-for="NextIndex" />
+    <!-- Hidden input for Goals list -->
+    <input type="hidden" id="Goals" name="GoalsJson"
+            value='@Html.Raw(JsonSerializer.Serialize(Model.Goals))' />
+</form>
