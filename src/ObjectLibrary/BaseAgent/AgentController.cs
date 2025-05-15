@@ -20,7 +20,7 @@ public partial class AgentController : CharacterBody2D
 	[Export]
 	protected NavigationAgent2D NavAgent { get; set; } = null!;
 	[Export]
-	Timer NavTimer { get; set; } = null!;
+	Godot.Timer NavTimer { get; set; } = null!;
 
 	[ExportGroup("Variables")]
 	[Export]

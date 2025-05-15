@@ -5,8 +5,6 @@ VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChefKnifeStudio.GrowYourDad", "ChefKnifeStudio.GrowYourDad.csproj", "{149B9920-25DB-406F-8A7B-378922824C60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChefKnifeStudios.GrowYourDad.GoalDesigner", "Tools\ChefKnifeStudios.GrowYourDad.GoalDesigner\ChefKnifeStudios.GrowYourDad.GoalDesigner.csproj", "{9C1869A0-9CC1-9F76-1176-7E93A3FF4CAE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,12 +18,6 @@ Global
 		{149B9920-25DB-406F-8A7B-378922824C60}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
 		{149B9920-25DB-406F-8A7B-378922824C60}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
 		{149B9920-25DB-406F-8A7B-378922824C60}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
-		{9C1869A0-9CC1-9F76-1176-7E93A3FF4CAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9C1869A0-9CC1-9F76-1176-7E93A3FF4CAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9C1869A0-9CC1-9F76-1176-7E93A3FF4CAE}.ExportDebug|Any CPU.ActiveCfg = Release|Any CPU
-		{9C1869A0-9CC1-9F76-1176-7E93A3FF4CAE}.ExportDebug|Any CPU.Build.0 = Release|Any CPU
-		{9C1869A0-9CC1-9F76-1176-7E93A3FF4CAE}.ExportRelease|Any CPU.ActiveCfg = Release|Any CPU
-		{9C1869A0-9CC1-9F76-1176-7E93A3FF4CAE}.ExportRelease|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
