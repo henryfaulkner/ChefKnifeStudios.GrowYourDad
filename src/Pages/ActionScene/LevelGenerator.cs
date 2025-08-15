@@ -1,5 +1,4 @@
 using Godot;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,13 +15,24 @@ public partial class LevelGenerator : Node2D
 	[Export]
 	NavigationRegion2D _navRegion = null!;
 
-	const int WIDTH = 30;
+	const int WIDTH = 40;
 	const int HEIGHT = 200;
 	const int TILE_SQUARE_SIZE = 16;
+	const int ABYSS_TILE_SET_SOURCE_ID = 0;
 	const int CLIFF_TILE_SET_SOURCE_ID = 1;
+	const int SAND_TILE_SET_SOURCE_ID = 2;
+
+	int[] TileSetSourceIds = new int[]
+	{
+		ABYSS_TILE_SET_SOURCE_ID,
+		CLIFF_TILE_SET_SOURCE_ID,
+		SAND_TILE_SET_SOURCE_ID
+	};
+	int _tileSet;
 
 	IEnemyFactory _enemyFactory = null!;
 	ILoggerService _logger = null!;
+	ICrawlStatsService _crawlStatsService = null!;
 	NavigationAuthority _navigationAuthority = null!;
 
 	// List to store spawned obsticles
@@ -35,8 +45,10 @@ public partial class LevelGenerator : Node2D
 	{
 		_enemyFactory = GetNode<IEnemyFactory>(Constants.SingletonNodes.EnemyFactory);
 		_logger = GetNode<ILoggerService>(Constants.SingletonNodes.LoggerService);
+		_crawlStatsService = GetNode<ICrawlStatsService>(Constants.SingletonNodes.CrawlStatsService);
 		_navigationAuthority = GetNode<NavigationAuthority>(Constants.SingletonNodes.NavigationAuthority);
 
+		_tileSet = TileSetSourceIds[_crawlStatsService.CrawlStats.FloorNumber % TileSetSourceIds.Length]; 
 		_noisePlatform = _noiseTexturePlatform.Noise;
 		_noiseEnemy = _noiseTextureEnemy.Noise;
 		GenerateLevel();
@@ -78,7 +90,7 @@ public partial class LevelGenerator : Node2D
 
 		GenerateWalls(lowestWidth, highestWidth, lowestHeight, highestHeight);
 		GeneratePlatforms(lowestWidth, highestWidth, lowestHeight, highestHeight);
-		GenerateEnemies(lowestWidth, highestWidth, lowestHeight, highestHeight);
+		GenerateEnemies(lowestWidth, highestWidth, lowestHeight + 20, highestHeight);
 		GenerateNavigationRegion(lowestWidth, highestWidth, lowestHeight, highestHeight);
 	}
 
@@ -177,7 +189,7 @@ public partial class LevelGenerator : Node2D
 				if (atlasCoord.HasValue)
 				{
 					// Set Tile Cell
-					TileMapLayer.SetCell(new Vector2I(x, y), CLIFF_TILE_SET_SOURCE_ID, atlasCoord);
+					TileMapLayer.SetCell(new Vector2I(x, y), _tileSet, atlasCoord);
 				}
 			}
 		}
@@ -246,7 +258,7 @@ public partial class LevelGenerator : Node2D
 				// Good video for procedural generation: https://www.youtube.com/watch?v=rlUzizExe2Q&t=356s and https://www.youtube.com/watch?v=dDihRqJZ_-M
 				var noiseVal = _noisePlatform.GetNoise2D(x, y);
 				if (noiseVal > 0.2 || noiseVal < -0.2) 
-					TileMapLayer.SetCell(new Vector2I(x, y), CLIFF_TILE_SET_SOURCE_ID, cliffTileSetCoords.GetRandomPlatformCell());
+					TileMapLayer.SetCell(new Vector2I(x, y), _tileSet, cliffTileSetCoords.GetRandomPlatformCell());
 			}
 		}
 	}

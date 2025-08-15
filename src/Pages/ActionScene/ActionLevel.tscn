@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://crcpx513j57hx"]
+[gd_scene load_steps=28 format=3 uid="uid://crcpx513j57hx"]
 
 [ext_resource type="Script" uid="uid://ddj3j3s5t1hfa" path="res://ObjectLibrary/PC/PC.cs" id="1_7j6ln"]
 [ext_resource type="Script" uid="uid://3qbwnft7w5co" path="res://Pages/ActionScene/ActionLevel.cs" id="1_spdap"]
@@ -17,6 +17,7 @@
 [ext_resource type="Script" uid="uid://dr86och5p7t2j" path="res://ObjectLibrary/PC/Areas/PcMagnetArea.cs" id="7_qgake"]
 [ext_resource type="Texture2D" uid="uid://dw5fvi3uh70tn" path="res://Assets/Images/Icons/StatsIconFA.png" id="8_qos51"]
 [ext_resource type="PackedScene" uid="uid://dwlmfdqio1b4g" path="res://ObjectLibrary/Menus/PauseMenu/PauseMenu.tscn" id="14_1jdno"]
+[ext_resource type="PackedScene" uid="uid://40533hkbdses" path="res://ObjectLibrary/Background/Background.tscn" id="18_yug2j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ae0j7"]
 size = Vector2(21, 21)
@@ -26,13 +27,13 @@ radius = 40.0
 
 [sub_resource type="Theme" id="Theme_phno0"]
 
-[sub_resource type="Theme" id="Theme_fqe4a"]
-
 [sub_resource type="Resource" id="Resource_8nvxf"]
 script = ExtResource("5_nk2bu")
 duration = 1.0
 transition = 0
 ease = 2
+
+[sub_resource type="Theme" id="Theme_fqe4a"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_f37us"]
 noise_type = 3
@@ -50,6 +51,26 @@ noise = SubResource("FastNoiseLite_y7vit")
 [node name="ActionLevel" type="Node2D"]
 script = ExtResource("1_spdap")
 
+[node name="Camera2D" type="Camera2D" parent="."]
+physics_interpolation_mode = 1
+process_callback = 0
+
+[node name="PhantomCameraHost" type="Node" parent="Camera2D"]
+process_priority = 300
+process_physics_priority = 300
+script = ExtResource("3_ked4j")
+
+[node name="Background" parent="Camera2D" instance=ExtResource("18_yug2j")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = -382.0
+offset_top = -650.0
+offset_right = 390.0
+offset_bottom = 633.0
+grow_horizontal = 1
+grow_vertical = 1
+
 [node name="PC" type="Node2D" parent="." node_paths=PackedStringArray("_controller")]
 script = ExtResource("1_7j6ln")
 _controller = NodePath("GravityController")
@@ -65,6 +86,7 @@ position = Vector2(0, 20)
 HitBoxes = []
 
 [node name="HurtBox" type="Area2D" parent="PC/GravityController"]
+position = Vector2(-9, 0)
 script = ExtResource("5_32222")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PC/GravityController/HurtBox"]
@@ -126,6 +148,15 @@ text = "[font_size=24][left]Level ####[/left][/font_size]
 [font_size=20][i][left]Gamertag[/left][/i][/font_size] "
 fit_content = true
 
+[node name="PhantomCamera2D" type="Node2D" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer/CrawlDepthContainer" node_paths=PackedStringArray("follow_target")]
+top_level = true
+script = ExtResource("4_fling")
+follow_mode = 5
+follow_target = NodePath("../../../../../../PC/GravityController")
+tween_resource = SubResource("Resource_8nvxf")
+dead_zone_width = 1.0
+dead_zone_height = 0.25
+
 [node name="MetersContainer" type="MarginContainer" parent="HUD/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -163,29 +194,11 @@ bbcode_enabled = true
 text = "[font_size=24][right]#### proteins[/right][/font_size]"
 fit_content = true
 
-[node name="PhantomCamera2D" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
-top_level = true
-script = ExtResource("4_fling")
-follow_mode = 5
-follow_target = NodePath("../PC/GravityController")
-tween_resource = SubResource("Resource_8nvxf")
-dead_zone_width = 0.35
-dead_zone_height = 0.25
-
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 
 [node name="TileMapLayer" type="TileMapLayer" parent="NavigationRegion2D"]
 tile_set = ExtResource("7_ad0wk")
 navigation_enabled = false
-
-[node name="Camera2D" type="Camera2D" parent="."]
-physics_interpolation_mode = 1
-process_callback = 0
-
-[node name="PhantomCameraHost" type="Node" parent="Camera2D"]
-process_priority = 300
-process_physics_priority = 300
-script = ExtResource("3_ked4j")
 
 [node name="LevelGenerator" type="Node2D" parent="." node_paths=PackedStringArray("TileMapLayer", "_navRegion")]
 script = ExtResource("1_vm1a8")

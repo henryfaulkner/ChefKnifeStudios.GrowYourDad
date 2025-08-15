@@ -20,7 +20,7 @@ FreezeArea = NodePath("UpgradeMenu/VBoxContainer/Freeze/FreezeArea")
 DoorArea = NodePath("UpgradeMenu/VBoxContainer/Door/DoorArea")
 
 [node name="FreeFallController" parent="." instance=ExtResource("6_s0df4")]
-position = Vector2(576, -50)
+position = Vector2(310, 0)
 
 [node name="HurtBox" type="Area2D" parent="FreeFallController"]
 script = ExtResource("3_n684s")
@@ -76,8 +76,8 @@ fit_content = true
 [node name="MarginContainer" type="MarginContainer" parent="UpgradeMenu/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/margin_left = 250
-theme_override_constants/margin_right = 250
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 50
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UpgradeMenu/VBoxContainer/MarginContainer"]
 layout_mode = 2

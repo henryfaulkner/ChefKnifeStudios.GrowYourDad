@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="ChefKnifeStudio.GrowYourDad"
-run/main_scene="uid://dodw5iukmgh2k"
+run/main_scene="uid://le4gk130r5ja"
 config/features=PackedStringArray("4.4", "C#", "Mobile")
 boot_splash/bg_color=Color(1, 1, 1, 1)
 boot_splash/image="res://Assets/Images/Logos/company-logo.png"
@@ -35,6 +35,11 @@ ShopKeeperService="*res://Core/Items/ShopKeeperService.cs"
 CrawlStatsService="*res://Core/Crawls/CrawlStatsService.cs"
 UnitOfWork="*res://Core/Data/UnitOfWork.cs"
 NavigationAuthority="*res://Core/NavigationAuthority.cs"
+
+[display]
+
+window/size/viewport_width=640
+window/size/viewport_height=1136
 
 [dotnet]
 
