@@ -1,6 +1,5 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Newtonsoft.Json;
 
 // NOTE: This could be extended to change spawn rates at certain depths.
 public class SpawnRarity

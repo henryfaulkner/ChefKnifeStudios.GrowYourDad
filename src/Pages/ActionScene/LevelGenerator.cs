@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 public partial class LevelGenerator : Node2D
@@ -14,6 +15,8 @@ public partial class LevelGenerator : Node2D
 	NoiseTexture2D _noiseTextureEnemy = null!;
 	[Export]
 	NavigationRegion2D _navRegion = null!;
+	[Export]
+	Background _background = null!;
 
 	const int WIDTH = 40;
 	const int HEIGHT = 200;
@@ -28,7 +31,7 @@ public partial class LevelGenerator : Node2D
 		CLIFF_TILE_SET_SOURCE_ID,
 		SAND_TILE_SET_SOURCE_ID
 	};
-	int _tileSet;
+	Theme _levelTheme = null!;
 
 	IEnemyFactory _enemyFactory = null!;
 	ILoggerService _logger = null!;
@@ -48,7 +51,10 @@ public partial class LevelGenerator : Node2D
 		_crawlStatsService = GetNode<ICrawlStatsService>(Constants.SingletonNodes.CrawlStatsService);
 		_navigationAuthority = GetNode<NavigationAuthority>(Constants.SingletonNodes.NavigationAuthority);
 
-		_tileSet = TileSetSourceIds[_crawlStatsService.CrawlStats.FloorNumber % TileSetSourceIds.Length]; 
+		int tileSetSourceId = TileSetSourceIds[_crawlStatsService.CrawlStats.FloorNumber % TileSetSourceIds.Length];
+		_levelTheme = ThemeHelper.GetThemeByTileSetSourceId(tileSetSourceId)!;
+		ThemeHelper.SetShaderTheme(_levelTheme, (ShaderMaterial)_background.Material);
+
 		_noisePlatform = _noiseTexturePlatform.Noise;
 		_noiseEnemy = _noiseTextureEnemy.Noise;
 		GenerateLevel();
@@ -189,7 +195,7 @@ public partial class LevelGenerator : Node2D
 				if (atlasCoord.HasValue)
 				{
 					// Set Tile Cell
-					TileMapLayer.SetCell(new Vector2I(x, y), _tileSet, atlasCoord);
+					TileMapLayer.SetCell(new Vector2I(x, y), _levelTheme.TileSetSourceId, atlasCoord);
 				}
 			}
 		}
@@ -258,7 +264,7 @@ public partial class LevelGenerator : Node2D
 				// Good video for procedural generation: https://www.youtube.com/watch?v=rlUzizExe2Q&t=356s and https://www.youtube.com/watch?v=dDihRqJZ_-M
 				var noiseVal = _noisePlatform.GetNoise2D(x, y);
 				if (noiseVal > 0.2 || noiseVal < -0.2) 
-					TileMapLayer.SetCell(new Vector2I(x, y), _tileSet, cliffTileSetCoords.GetRandomPlatformCell());
+					TileMapLayer.SetCell(new Vector2I(x, y), _levelTheme.TileSetSourceId, cliffTileSetCoords.GetRandomPlatformCell());
 			}
 		}
 	}

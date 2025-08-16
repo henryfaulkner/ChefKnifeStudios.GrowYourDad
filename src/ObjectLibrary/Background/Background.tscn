@@ -1,15 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://40533hkbdses"]
+[gd_scene load_steps=5 format=3 uid="uid://40533hkbdses"]
 
 [ext_resource type="Shader" uid="uid://cqr8ga4n7wl4a" path="res://Assets/Backgrounds/background.gdshader" id="1_bdblg"]
+[ext_resource type="Script" uid="uid://bmkkdkixqqd1m" path="res://ObjectLibrary/Background/Background.cs" id="2_nuj12"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nuj12"]
 shader = ExtResource("1_bdblg")
 shader_parameter/spin_rotation_speed = 2.0
 shader_parameter/move_speed = 7.0
 shader_parameter/offset = Vector2(0, 0)
-shader_parameter/colour_1 = Color(0.0928733, 0.00696481, 0.0053527, 1)
-shader_parameter/colour_2 = Color(0, 0.134678, 0.248884, 1)
-shader_parameter/colour_3 = Color(0.086, 0.137, 0.145, 1)
+shader_parameter/colour_1 = Color(0.427213, 0.09427, 0.0787891, 1)
+shader_parameter/colour_2 = Color(0, 0.332178, 0.565299, 1)
+shader_parameter/colour_3 = Color(0.0962048, 0.0962047, 0.0962047, 1)
 shader_parameter/contrast = 3.5
 shader_parameter/lighting = 0.4
 shader_parameter/spin_amount = 0.25
@@ -27,3 +28,4 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("CanvasTexture_68cnk")
 expand_mode = 1
+script = ExtResource("2_nuj12")

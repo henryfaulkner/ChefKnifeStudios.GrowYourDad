@@ -1,3 +1,23 @@
 [
-    
+	{
+		"name": "Abyss",
+		"tileSetSourceId": 0,
+		"shaderHexColor1": "#180201",
+		"shaderHexColor2": "#00223f",
+		"shaderHexColor3": "#000000"
+	},
+	{
+		"name": "Cliff",
+		"tileSetSourceId": 1,
+		"shaderHexColor1": "#6d1814",
+		"shaderHexColor2": "#005590",
+		"shaderHexColor3": "#0f0f0f"
+	},
+	{
+		"name": "Sand",
+		"tileSetSourceId": 2,
+		"shaderHexColor1": "#a42a24",
+		"shaderHexColor2": "#0084dc",
+		"shaderHexColor3": "#191919"
+	}
 ]

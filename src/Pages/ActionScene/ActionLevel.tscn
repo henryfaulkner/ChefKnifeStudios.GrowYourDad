@@ -61,15 +61,10 @@ process_physics_priority = 300
 script = ExtResource("3_ked4j")
 
 [node name="Background" parent="Camera2D" instance=ExtResource("18_yug2j")]
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = -382.0
-offset_top = -650.0
-offset_right = 390.0
-offset_bottom = 633.0
-grow_horizontal = 1
-grow_vertical = 1
+offset_left = -356.0
+offset_top = -583.0
+offset_right = 380.0
+offset_bottom = 601.0
 
 [node name="PC" type="Node2D" parent="." node_paths=PackedStringArray("_controller")]
 script = ExtResource("1_7j6ln")
@@ -200,11 +195,12 @@ fit_content = true
 tile_set = ExtResource("7_ad0wk")
 navigation_enabled = false
 
-[node name="LevelGenerator" type="Node2D" parent="." node_paths=PackedStringArray("TileMapLayer", "_navRegion")]
+[node name="LevelGenerator" type="Node2D" parent="." node_paths=PackedStringArray("TileMapLayer", "_navRegion", "_background")]
 script = ExtResource("1_vm1a8")
 TileMapLayer = NodePath("../NavigationRegion2D/TileMapLayer")
 _noiseTexturePlatform = SubResource("NoiseTexture2D_nruxt")
 _noiseTextureEnemy = SubResource("NoiseTexture2D_hyjks")
 _navRegion = NodePath("../NavigationRegion2D")
+_background = NodePath("../Camera2D/Background")
 
 [node name="PauseMenu" parent="." instance=ExtResource("14_1jdno")]

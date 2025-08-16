@@ -1,7 +1,5 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Newtonsoft.Json;
-
 [JsonDerivedType(typeof(ItemBase), typeDiscriminator: "base")]
 [JsonDerivedType(typeof(ItemWithHealingEffect), typeDiscriminator: "withHealingEffect")]
 [JsonDerivedType(typeof(ItemWithBlastingEffect), typeDiscriminator: "withBlastingEffect")]
